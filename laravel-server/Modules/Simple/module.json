@@ -1,0 +1,11 @@
+{
+    "name": "Simple",
+    "alias": "simple",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Simple\\Providers\\SimpleServiceProvider"
+    ],
+    "files": []
+}

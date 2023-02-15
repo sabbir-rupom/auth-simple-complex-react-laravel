@@ -1,0 +1,7 @@
+{
+    "Auth": true,
+    "User": true,
+    "Simple": true,
+    "Complex": true,
+    "Blog": true
+}

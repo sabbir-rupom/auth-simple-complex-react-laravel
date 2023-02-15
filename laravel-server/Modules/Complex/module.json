@@ -1,0 +1,11 @@
+{
+    "name": "Complex",
+    "alias": "complex",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Complex\\Providers\\ComplexServiceProvider"
+    ],
+    "files": []
+}
