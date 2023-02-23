@@ -254,6 +254,34 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "User-Get-Profile",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "3|vPmu6XBWkSQmD3XZ71S49ujhabBo0Swh6AT4ifY9",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{asc-url}}/user/profile",
+					"host": [
+						"{{asc-url}}"
+					],
+					"path": [
+						"user",
+						"profile"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

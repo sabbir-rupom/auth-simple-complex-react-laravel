@@ -12,8 +12,7 @@
 */
 
 use Illuminate\Support\Facades\Route;
-use Modules\User\Http\Controllers\UserController;
 
 Route::prefix('user')->group(function() {
-    Route::get('/', [UserController::class, 'index']);
+    Route::get('/', fn() => 'User module');
 });

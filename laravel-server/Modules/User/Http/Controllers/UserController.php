@@ -5,6 +5,7 @@ namespace Modules\User\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\User\Transformers\UserResource;
 
 class UserController extends Controller
 {
@@ -12,59 +13,23 @@ class UserController extends Controller
      * Display a listing of the resource.
      * @return Renderable
      */
-    public function index()
+    public function profile(Request $request)
     {
-        return view('user::index');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     * @return Renderable
-     */
-    public function create()
-    {
-        return view('user::create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Renderable
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function show($id)
-    {
-        return view('user::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function edit($id)
-    {
-        return view('user::edit');
+        return response()->json([
+            'message' => 'Profile information retrieved successfully',
+            'profile' => new UserResource($request->user())
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      * @param Request $request
-     * @param int $id
      * @return Renderable
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $user = $request->user();
+        dd($user);
     }
 
     /**
