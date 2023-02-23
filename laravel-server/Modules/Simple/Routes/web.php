@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Support\Facades\Route;
+
 Route::prefix('simple')->group(function() {
-    Route::get('/', 'SimpleController@index');
+    Route::get('/', fn() => 'simple module');
 });

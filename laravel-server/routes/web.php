@@ -16,3 +16,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+// Route::get('{all}', function () {
+//     return response()->json([
+//        'error' => 'Sorry! Requested page unavailable'
+//     ]);
+// })->where('all', '.*');

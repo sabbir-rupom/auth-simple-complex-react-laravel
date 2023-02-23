@@ -9,7 +9,7 @@
 </head>
 
 <body>
-  error! server excecution failed
+    <h1>Sorry! Server excecution failed ...</h1>
 </body>
 
 </html>

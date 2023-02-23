@@ -13,6 +13,11 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/simple', function (Request $request) {
-    return $request->user();
+use Illuminate\Support\Facades\Route;
+use Modules\Simple\Http\Controllers\ItemController;
+
+Route::prefix('simple')->group(function() {
+    Route::apiResource('items', ItemController::class);
+
+    Route::get('heads', [ItemController::class, 'itemHeads']);
 });
