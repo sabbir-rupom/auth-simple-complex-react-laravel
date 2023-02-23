@@ -14,5 +14,5 @@
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('simple')->group(function() {
-    Route::get('/', fn() => 'simple module');
+    Route::get('/', fn() => 'Simple module');
 });

@@ -6,7 +6,9 @@ use Illuminate\Auth\AuthenticationException;
 use Throwable;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -50,7 +52,7 @@ class Handler extends ExceptionHandler
             if ($request->is('api/*')) {
                 return response()->json([
                     'message' => 'Not authenticated',
-                    'status' => false
+                    'error' => true,
                 ], 401);
             }
         });
@@ -61,11 +63,35 @@ class Handler extends ExceptionHandler
 
         if ($request->wantsJson() || strstr($request->url(), '/api/')) {
             if ($e instanceof ModelNotFoundException) {
+                // If route depenedant model parameter is empty or unavailable
                 return response()->json([
                     'error' => true,
-                    'message' => 'Sorry! Data Not Found!'
+                    'message' => 'Sorry! Model data not found!'
                 ], 404);
             } elseif ($e instanceof MethodNotAllowedHttpException) {
+                // If route access method not defined
+
+                return response()->json([
+                    'error' => true,
+                    'message' => $e->getMessage()
+                ], 405);
+            } elseif ($e instanceof ThrottleRequestsException) {
+                // If number of route access request exceeded within given time limit
+
+                return response()->json([
+                    'error' => true,
+                    'message' => $e->getMessage() . ' Please try again after one minute.'
+                ], 400);
+            } elseif ($e instanceof NotFoundHttpException) {
+                // If route not found
+
+                return response()->json([
+                    'error' => true,
+                    'message' => $e->getMessage()
+                ], 404);
+            } elseif ($e instanceof AuthenticationException) {
+                // If session / authentication parameter unavailable
+
                 return response()->json([
                     'error' => true,
                     'message' => $e->getMessage()
@@ -78,7 +104,6 @@ class Handler extends ExceptionHandler
                     'file' => $e->getFile(),
                     'line' => $e->getLine()
                 ], 400);
-
             }
         }
 
