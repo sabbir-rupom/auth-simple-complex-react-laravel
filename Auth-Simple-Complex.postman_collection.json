@@ -1,0 +1,259 @@
+{
+	"info": {
+		"_postman_id": "4412d0fb-7e06-4d09-9162-73df97a2910b",
+		"name": "Auth-Simple-Complex",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1990611"
+	},
+	"item": [
+		{
+			"name": "Simple-Get",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{asc-url}}/simple/items?term=M",
+					"host": [
+						"{{asc-url}}"
+					],
+					"path": [
+						"simple",
+						"items"
+					],
+					"query": [
+						{
+							"key": "term",
+							"value": "M"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Simple-Post",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "My Item",
+							"type": "text"
+						},
+						{
+							"key": "code",
+							"value": "MI1",
+							"type": "text"
+						},
+						{
+							"key": "head",
+							"value": "3",
+							"type": "text"
+						},
+						{
+							"key": "status",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{asc-url}}/simple/items",
+					"host": [
+						"{{asc-url}}"
+					],
+					"path": [
+						"simple",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Simple-Update",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "Raja Mresh",
+							"type": "text"
+						},
+						{
+							"key": "code",
+							"value": "MI1",
+							"type": "text"
+						},
+						{
+							"key": "head",
+							"value": "4",
+							"type": "text"
+						},
+						{
+							"key": "status",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{asc-url}}/simple/items/2",
+					"host": [
+						"{{asc-url}}"
+					],
+					"path": [
+						"simple",
+						"items",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Simple-Get-Heads",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{asc-url}}/simple/heads",
+					"host": [
+						"{{asc-url}}"
+					],
+					"path": [
+						"simple",
+						"heads"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Simple-Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{asc-url}}/simple/items/2",
+					"host": [
+						"{{asc-url}}"
+					],
+					"path": [
+						"simple",
+						"items",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Auth-Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "sabbir@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "11223344",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{asc-url}}/login",
+					"host": [
+						"{{asc-url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Auth-Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "confirm_password",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{asc-url}}/register",
+					"host": [
+						"{{asc-url}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Auth-Logout",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "2|uCtLu9WUcAnYzi6NIX654tw8qqLd72NdXPOljbCC",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{asc-url}}/logout",
+					"host": [
+						"{{asc-url}}"
+					],
+					"path": [
+						"logout"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
