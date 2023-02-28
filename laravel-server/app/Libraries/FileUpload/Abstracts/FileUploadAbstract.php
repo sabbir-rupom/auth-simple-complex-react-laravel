@@ -39,8 +39,6 @@ abstract class FileUploadAbstract implements FileUploadInterface
         return $this;
     }
 
-    abstract protected function uploadValidate();
-
     abstract protected function getExtension():string;
 
     abstract protected function getFileSize():int;

@@ -15,15 +15,19 @@ final class FileUpload extends FileUploadAbstract
     private $file;
     private $multiple = false;
 
+    /**
+     * Request file upload process
+     *
+     * @param UploadedFile|array $file
+     * @return void
+     */
     public function upload($file)
     {
         if ($file instanceof UploadedFile) {
 
             $this->file = $file;
 
-            if ($this->uploadValidate()) {
-                $this->response = $this->store();
-            }
+            $this->response = $this->store();
         } elseif (is_array($file)) {
 
             $this->multiple = true;
@@ -36,68 +40,28 @@ final class FileUpload extends FileUploadAbstract
         return $this->result();
     }
 
-    protected function uploadValidate()
-    {
-        if (!$this->file->isValid()) {
-
-            $this->uploadError = $this->file->getErrorMessage();
-        } elseif (isset($this->defaults['validation'])) {
-
-            $validation = new UploadValidation($this->file);
-
-            // dd($this->defaults);
-
-            foreach ($this->defaults['validation'] as $key => $value) {
-
-                switch ($key) {
-                    case 'maxSize':
-                        if ($value && intval($value) > 10) {
-                            $validation->setRules('max:' . $value);
-                            $validation->setMessages('max', "File size cannot exceed {$this->defaults['validation']['maxSize']} kilobytes");
-                        }
-                        break;
-                    case 'minSize':
-                        if ($value && intval($value) > 10) {
-                            $validation->setRules('min:' . $value);
-                            $validation->setMessages('min', "File size too small. Expected {$this->defaults['validation']['minSize']} kilobytes");
-                        }
-                        break;
-                    case 'extensions':
-                        $extAllowedStr = is_string($value) ? $value : (is_array($value) ? join(',', $value) : '');
-
-                        if ($extAllowedStr) {
-                            $validation->setRules('mimes:' . $extAllowedStr);
-                            $validation->setMessages('mimes', "Extension {$this->getExtension()} is not allowed");
-                        }
-                        break;
-                        case 'image':
-                            $validation->setRules('image');
-                            $validation->setMessages('image', "Not an image file");
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-
-            $this->uploadError = $validation->validate();
-        }
-
-        return $this->uploadError ? false : true;
-    }
-
+    /**
+     * Handle upload process for array of uploaded files
+     *
+     * @param array $files
+     * @return void
+     */
     public function uploadArray(array $files)
     {
         foreach ($files as $file) {
-            $this->file = $file;
-
-            if ($this->uploadValidate()) {
+            if ($file instanceof UploadedFile) {
+                $this->file = $file;
                 array_push($this->response, $this->store());
             }
         }
     }
 
-    public function store()
+    /**
+     * Execute file upload process
+     *
+     * @return array
+     */
+    public function store(): array
     {
 
         $result = Storage::putFileAs($this->uploadPath(), $this->file, $this->generateName());
@@ -118,31 +82,61 @@ final class FileUpload extends FileUploadAbstract
         }
     }
 
+    /**
+     * Return file upload process result
+     *
+     * @return mixed
+     */
     public function result()
     {
         return empty($this->response) ? $this->uploadError : $this->response;
     }
 
+    /**
+     * Get total size of the uploaded file in kilobyte
+     *
+     * @return integer
+     */
     protected function getFileSize(): int
     {
         return ceil($this->file->getSize())  / 1024;
     }
 
+    /**
+     * Get extension of the uploaded file
+     *
+     * @return string
+     */
     protected function getExtension(): string
     {
         return strtolower($this->file->getClientOriginalExtension());
     }
 
+    /**
+     * Get mime-type information of the uploaded file
+     *
+     * @return string
+     */
     protected function getMimeType(): string
     {
         return $this->file->getMimeType();
     }
 
+    /**
+     * Get original name of the uploaded file
+     *
+     * @return string
+     */
     protected function getOriginalName(): string
     {
         return pathinfo($this->file->getClientOriginalName(), PATHINFO_FILENAME);
     }
 
+    /**
+     * Build unique dynamic file name for the uploaded file
+     *
+     * @return string
+     */
     protected function generateName(): string
     {
         return (!empty($this->defaults['prefix']) && is_string($this->defaults['prefix']) ?  $this->defaults['prefix'] . '_'  : '')
@@ -151,6 +145,11 @@ final class FileUpload extends FileUploadAbstract
             . '.' . $this->getExtension();
     }
 
+    /**
+     * Get storage path for the uploaded file
+     *
+     * @return string
+     */
     protected function uploadPath(): string
     {
         return   date('Ymd') . ((isset($this->defaults['path']) && $this->defaults['path']) ? DIRECTORY_SEPARATOR . $this->defaults['path'] : '');
