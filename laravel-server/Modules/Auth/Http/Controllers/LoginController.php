@@ -22,7 +22,12 @@ class LoginController extends Controller
         $this->requestValidate($request);
 
         if (!Auth::attempt($request->only(['email', 'password']))) {
-            return $this->message('Credentials mismatched')->response([], 401);
+            throw new HttpResponseException(
+                response()->json([
+                    'error' => true,
+                    'message' => 'Login credentials mismatched'
+                ], 401)
+            );
         }
 
         $user = User::where('email', $request->email)->first();
