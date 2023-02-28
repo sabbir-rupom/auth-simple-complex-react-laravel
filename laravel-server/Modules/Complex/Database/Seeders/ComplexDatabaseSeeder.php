@@ -16,6 +16,8 @@ class ComplexDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        // $this->call("OthersTableSeeder");
+        $this->call(BuyerSeederTableSeeder::class);
+        $this->call(UnitSeederTableSeeder::class);
+        $this->call(ProductSeederTableSeeder::class);
     }
 }

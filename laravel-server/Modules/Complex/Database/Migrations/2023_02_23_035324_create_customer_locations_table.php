@@ -14,12 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('customer_locations', function (Blueprint $table) {
-            $table->id();
-
             $table->foreignId('customer_id')->constrained('customers')->cascadeOnDelete();
             $table->string('address', 300);
-
-            $table->timestamps();
+            $table->primary(['customer_id', 'address'], 'customer_address');
         });
     }
 

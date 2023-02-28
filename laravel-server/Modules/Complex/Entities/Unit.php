@@ -3,16 +3,14 @@
 namespace Modules\Complex\Entities;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Unit extends Model
 {
-    use HasFactory;
 
-    protected $fillable = [];
-    
-    protected static function newFactory()
+    protected $fillable = ['name', 'short'];
+
+    public function products()
     {
-        return \Modules\Complex\Database\factories\UnitFactory::new();
+        return $this->belongsToMany(Product::class)->withPivot('product_id');
     }
 }
