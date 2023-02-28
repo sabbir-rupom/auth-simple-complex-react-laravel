@@ -2,6 +2,7 @@
 
 namespace Modules\User\Transformers;
 
+use App\Libraries\FileUpload\FileUpload;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,7 +20,7 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'avatar' => $this->avatar ? Storage::url($this->avatar) : null,
+            'avatar' => $this->avatar ? FileUpload::getUrl($this->avatar) : null,
             'last_login_at' => (string) $this->last_login_at
         ];
     }

@@ -9,6 +9,7 @@ use Modules\Simple\Entities\Item;
 use Modules\Simple\Http\Requests\StoreItemRequest;
 use Modules\Simple\Http\Requests\UpdateItemRequest;
 use Modules\Simple\Services\ItemService;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ItemController extends Controller
 {
@@ -30,6 +31,11 @@ class ItemController extends Controller
         ]);
     }
 
+    /**
+     * Get item head array list
+     *
+     * @return Renderable
+     */
     public function itemHeads() {
         return response()->json([
             'message' => 'Item heads fetched successfully',
@@ -100,6 +106,8 @@ class ItemController extends Controller
     {
         if($item->id) {
             $item->delete();
+        } else {
+            throw new NotFoundHttpException('Item not found');
         }
 
         return response()->json([

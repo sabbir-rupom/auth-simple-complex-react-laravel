@@ -5,4 +5,6 @@ use Modules\User\Http\Controllers\UserController;
 
 Route::middleware(['auth:sanctum'])->prefix('user')->group(function () {
     Route::get('/profile', [UserController::class, 'profile']);
+
+    Route::put('profile/save', [UserController::class, 'update']);
 });

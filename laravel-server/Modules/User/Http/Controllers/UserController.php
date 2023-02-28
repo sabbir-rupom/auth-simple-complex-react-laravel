@@ -2,9 +2,12 @@
 
 namespace Modules\User\Http\Controllers;
 
+use App\Libraries\FileUpload\FileUpload;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Validator;
 use Modules\User\Transformers\UserResource;
 
 class UserController extends Controller
@@ -28,17 +31,63 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
+        $this->requestValidate($request);
+
         $user = $request->user();
-        dd($user);
+
+        $user->name = $request->name ? trim($request->name) : $user->name;
+        if($request->hasFile('avatar')) {
+            $fileUpload = FileUpload::instance()->upload($request->file('avatar'));
+
+            if (empty($fileUpload) || is_string($fileUpload)) {
+                throw new HttpResponseException(
+                    response()->json([
+                        'error' => true,
+                        'message' => $fileUpload ? $fileUpload : 'Some error occured! Please try again later'
+                    ], 400)
+                );
+            } elseif ($user->avatar) {
+                FileUpload::remove($user->avatar);
+            }
+
+            $user->avatar = $fileUpload['path'];
+        }
+
+        $user->save();
+
+        return response()->json([
+            'message' => 'Profile information updated successfully',
+            'profile' => new UserResource($user)
+        ]);
+
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
+     * Validate profile update request
+     *
+     * @param Request $request
+     * @return void
      */
-    public function destroy($id)
-    {
-        //
+    private function requestValidate(Request $request) {
+        $validateUser = Validator::make(
+            $request->all(),
+            [
+                'name' => 'required|min:4',
+                'avatar' => 'nullable|image|max:2048',
+            ],
+            [
+                'avatar.image' => 'Please provide a valid image file',
+                'avatar.max' => 'Image file size must not exceed 2MB',
+            ]
+        );
+
+        if ($validateUser->fails()) {
+            throw new HttpResponseException(
+                response()->json([
+                    'error' => true,
+                    'message' => $validateUser->errors()
+                ], 406)
+            );
+        }
     }
 }
