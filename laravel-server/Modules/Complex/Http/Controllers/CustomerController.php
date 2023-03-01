@@ -111,4 +111,17 @@ class CustomerController extends Controller
             'message' => 'Customer information deleted successfully',
         ]);
     }
+
+    /**
+     * Get customer address list
+     *
+     * @param int Customer $customer
+     * @return Renderable
+     */
+    public function getAddress(Customer $customer) {
+        return response()->json([
+            'message' => 'Customer address list fetched successfully',
+            'locations' => $customer->locations->pluck('address')
+        ]);
+    }
 }

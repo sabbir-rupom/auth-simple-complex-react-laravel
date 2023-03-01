@@ -3,16 +3,26 @@
 namespace Modules\Complex\Entities;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\User\Entities\User;
 
 class Order extends Model
 {
-    use HasFactory;
+    // protected $fillable = [];
 
-    protected $fillable = [];
-    
-    protected static function newFactory()
-    {
-        return \Modules\Complex\Database\factories\OrderFactory::new();
+    public function buyer() {
+        return $this->belongsTo(Buyer::class);
     }
+
+    public function customer() {
+        return $this->belongsTo(Customer::class);
+    }
+
+    public function author() {
+        return $this->belongsTo(User::class);
+    }
+
+    public function orderProducts() {
+        return $this->hasMany(OrderProduct::class, 'order_id');
+    }
+
 }

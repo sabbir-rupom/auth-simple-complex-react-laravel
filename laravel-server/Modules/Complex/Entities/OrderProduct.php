@@ -3,16 +3,21 @@
 namespace Modules\Complex\Entities;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class OrderProduct extends Model
 {
-    use HasFactory;
+    // protected $fillable = [];
 
-    protected $fillable = [];
-    
-    protected static function newFactory()
-    {
-        return \Modules\Complex\Database\factories\OrderProductFactory::new();
+    public function product() {
+        $this->belongsTo(Product::class);
     }
+
+    public function unit() {
+        $this->belongsTo(Unit::class);
+    }
+
+    public function productCategory() {
+        $this->belongsTo(ProductCategory::class);
+    }
+
 }

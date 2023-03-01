@@ -244,7 +244,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "2|uCtLu9WUcAnYzi6NIX654tw8qqLd72NdXPOljbCC",
+									"value": "1|cINKOUjf2bNeZbralhk6AQWut257IYexmviGTpoH",
 									"type": "string"
 								}
 							]
@@ -361,7 +361,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "1|jEiNN1ZJlS9lq2qTfyeUKiYWrnyqF0H06ZYG73qm",
+											"value": "1|cINKOUjf2bNeZbralhk6AQWut257IYexmviGTpoH",
 											"type": "string"
 										}
 									]
@@ -389,7 +389,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "1|jEiNN1ZJlS9lq2qTfyeUKiYWrnyqF0H06ZYG73qm",
+											"value": "1|cINKOUjf2bNeZbralhk6AQWut257IYexmviGTpoH",
 											"type": "string"
 										}
 									]
@@ -398,7 +398,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"name\":\"SHala Shamsu\",\"location\":[\"Dhaka\",\"Khulna\"]}",
+									"raw": "{\"name\":\"Kabir Ali\",\"location\":[\"Dhaka\",\"Khulna\"]}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -513,6 +513,36 @@
 										"complex",
 										"customers",
 										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Address",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "1|cINKOUjf2bNeZbralhk6AQWut257IYexmviGTpoH",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{asc-url}}/complex/customers/1/address",
+									"host": [
+										"{{asc-url}}"
+									],
+									"path": [
+										"complex",
+										"customers",
+										"1",
+										"address"
 									]
 								}
 							},
