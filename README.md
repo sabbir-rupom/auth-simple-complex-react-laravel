@@ -11,3 +11,8 @@ This is a practice project with a goal to achieve a Full-Stack Web Application h
 - Practice React application development with Laravel as backend
 - Practice ReactJS project structure
 - Study project scalability, optimization 
+
+
+## Project Setup Guide
+
+- (not finished)
