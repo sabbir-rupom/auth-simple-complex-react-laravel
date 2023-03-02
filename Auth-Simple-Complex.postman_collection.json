@@ -552,7 +552,107 @@
 				},
 				{
 					"name": "Order",
-					"item": []
+					"item": [
+						{
+							"name": "Get List",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "1|S61U0ZNTMc6AWgjzesy2rAVr7LGU9dXGvju5Lu0Z",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "page",
+											"value": "2",
+											"description": "current pagination page",
+											"type": "text"
+										},
+										{
+											"key": "order_number",
+											"value": "123",
+											"description": "unique order-number or part of order-number",
+											"type": "text"
+										},
+										{
+											"key": "customer",
+											"value": "2",
+											"description": "Customer ID",
+											"type": "text"
+										},
+										{
+											"key": "buyer",
+											"value": "2",
+											"description": "Buyer ID",
+											"type": "text"
+										},
+										{
+											"key": "start_date",
+											"value": "2023-03-06",
+											"description": "Begin order search from date",
+											"type": "text"
+										},
+										{
+											"key": "end_date",
+											"value": "2023-03-06",
+											"description": "End order search to date",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{asc-url}}/complex/orders/?page=1&order_number=&customer=&buyer=&start_date=2023-03-01&end_date=2023-03-30",
+									"host": [
+										"{{asc-url}}"
+									],
+									"path": [
+										"complex",
+										"orders",
+										""
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "order_number",
+											"value": ""
+										},
+										{
+											"key": "customer",
+											"value": ""
+										},
+										{
+											"key": "buyer",
+											"value": ""
+										},
+										{
+											"key": "start_date",
+											"value": "2023-03-01"
+										},
+										{
+											"key": "end_date",
+											"value": "2023-03-30"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				},
 				{
 					"name": "Product List",

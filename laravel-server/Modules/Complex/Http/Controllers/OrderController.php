@@ -6,16 +6,25 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Complex\Entities\OrderProduct;
+use Modules\Complex\Services\OrderService;
 
 class OrderController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
+     * Get order list
+     *
+     * @param Request $request
      * @return Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('complex::index');
+        $orders = (new OrderService())->filter($request)->getOrders(3);
+
+        return response()->json([
+            'message' => 'Order list fetched successful',
+            'orders' => $orders
+        ]);
     }
 
     /**
