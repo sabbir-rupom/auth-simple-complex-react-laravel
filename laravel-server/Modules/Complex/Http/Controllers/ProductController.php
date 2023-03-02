@@ -17,7 +17,7 @@ class ProductController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $products = Product::get();
+        $products = Product::with(['productUnits', 'productCategories'])->get();
 
         return response()->json([
             'message' => 'Product list fetched successful',

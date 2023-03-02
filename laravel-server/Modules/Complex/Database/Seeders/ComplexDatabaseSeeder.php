@@ -19,5 +19,6 @@ class ComplexDatabaseSeeder extends Seeder
         $this->call(BuyerSeederTableSeeder::class);
         $this->call(UnitSeederTableSeeder::class);
         $this->call(ProductSeederTableSeeder::class);
+        $this->call(OrderSeederTableSeeder::class);
     }
 }
