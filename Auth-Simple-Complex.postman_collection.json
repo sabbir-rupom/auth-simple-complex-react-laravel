@@ -354,14 +354,14 @@
 					"name": "Customer",
 					"item": [
 						{
-							"name": "Show List",
+							"name": "Customer List",
 							"request": {
 								"auth": {
 									"type": "bearer",
 									"bearer": [
 										{
 											"key": "token",
-											"value": "1|cINKOUjf2bNeZbralhk6AQWut257IYexmviGTpoH",
+											"value": "1|h2rcighipkmv8ucDzleKOjn0f1rIRhUS5J1rasiM",
 											"type": "string"
 										}
 									]
@@ -519,14 +519,14 @@
 							"response": []
 						},
 						{
-							"name": "Get Address",
+							"name": "Get Customer Addresses",
 							"request": {
 								"auth": {
 									"type": "bearer",
 									"bearer": [
 										{
 											"key": "token",
-											"value": "1|cINKOUjf2bNeZbralhk6AQWut257IYexmviGTpoH",
+											"value": "1|h2rcighipkmv8ucDzleKOjn0f1rIRhUS5J1rasiM",
 											"type": "string"
 										}
 									]
@@ -554,7 +554,7 @@
 					"name": "Order",
 					"item": [
 						{
-							"name": "Get List",
+							"name": "Order List",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
@@ -564,7 +564,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "1|S61U0ZNTMc6AWgjzesy2rAVr7LGU9dXGvju5Lu0Z",
+											"value": "1|h2rcighipkmv8ucDzleKOjn0f1rIRhUS5J1rasiM",
 											"type": "string"
 										}
 									]
@@ -613,7 +613,7 @@
 									]
 								},
 								"url": {
-									"raw": "{{asc-url}}/complex/orders/?page=1&order_number=&customer=&buyer=&start_date=2023-03-01&end_date=2023-03-30",
+									"raw": "{{asc-url}}/complex/orders/?page=1&order_number=&customer=&buyer=&start_date=&end_date=",
 									"host": [
 										"{{asc-url}}"
 									],
@@ -641,12 +641,116 @@
 										},
 										{
 											"key": "start_date",
-											"value": "2023-03-01"
+											"value": ""
 										},
 										{
 											"key": "end_date",
-											"value": "2023-03-30"
+											"value": ""
 										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Order",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "1|h2rcighipkmv8ucDzleKOjn0f1rIRhUS5J1rasiM",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{asc-url}}/complex/orders/6",
+									"host": [
+										"{{asc-url}}"
+									],
+									"path": [
+										"complex",
+										"orders",
+										"6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Order",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "1|h2rcighipkmv8ucDzleKOjn0f1rIRhUS5J1rasiM",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"order_number\":\"MAR61310\",\r\n   \"buyer\":2,\r\n   \"customer\":4,\r\n   \"customer_address\":\"181 Florence Ways\\nKuvalisview, OH 03428-0842\",\r\n   \"order_date\":\"2023-03-05\",\r\n   \"delivery_date\":\"2023-03-10\",\r\n   \"delivery_time\":\"17:00\",\r\n   \"attachment\":null,\r\n   \"remark\":\"Test Order 11\",\r\n   \"order_products\":[\r\n      {\r\n         \"product\":5,\r\n         \"product_unit\":2,\r\n         \"product_category\":11,\r\n         \"quantity\":3,\r\n         \"unit_price\":700,\r\n         \"total_price\":700\r\n      },\r\n      {\r\n         \"product\":3,\r\n         \"product_unit\":1,\r\n         \"product_category\":6,\r\n         \"quantity\":1,\r\n         \"unit_price\":1050,\r\n         \"total_price\":1050\r\n      }\r\n   ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{asc-url}}/complex/orders",
+									"host": [
+										"{{asc-url}}"
+									],
+									"path": [
+										"complex",
+										"orders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Order",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "1|h2rcighipkmv8ucDzleKOjn0f1rIRhUS5J1rasiM",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"id\":6,\r\n   \"order_number\":\"MAL61310\",\r\n   \"buyer\":2,\r\n   \"customer\":4,\r\n   \"customer_address\":\"181 Florence Ways\\nKuvalisview, OH 03428-0842\",\r\n   \"order_date\":\"2023-03-05\",\r\n   \"delivery_date\":\"2023-03-09\",\r\n   \"delivery_time\":\"18:00\",\r\n   \"attachment\":null,\r\n   \"remark\":\"Test Order is now shredder\",\r\n   \"order_products\":[\r\n      {\r\n         \"id\":12,\r\n         \"product\":5,\r\n         \"product_unit\":2,\r\n         \"product_category\":11,\r\n         \"quantity\":5,\r\n         \"unit_price\":700\r\n      },\r\n      {\r\n         \"id\":13,\r\n         \"product\":3,\r\n         \"product_unit\":1,\r\n         \"product_category\":6,\r\n         \"quantity\":2,\r\n         \"unit_price\":1050\r\n      }\r\n   ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{asc-url}}/complex/orders/6",
+									"host": [
+										"{{asc-url}}"
+									],
+									"path": [
+										"complex",
+										"orders",
+										"6"
 									]
 								}
 							},
@@ -662,7 +766,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "1|w3jG5kA2hxYYXsIF8UXhKNbrZiXF8yCtzvdHikhM",
+									"value": "1|h2rcighipkmv8ucDzleKOjn0f1rIRhUS5J1rasiM",
 									"type": "string"
 								}
 							]
@@ -677,6 +781,34 @@
 							"path": [
 								"complex",
 								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buyer List",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "1|h2rcighipkmv8ucDzleKOjn0f1rIRhUS5J1rasiM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{asc-url}}/complex/buyers",
+							"host": [
+								"{{asc-url}}"
+							],
+							"path": [
+								"complex",
+								"buyers"
 							]
 						}
 					},

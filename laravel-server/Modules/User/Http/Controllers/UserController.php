@@ -3,7 +3,7 @@
 namespace Modules\User\Http\Controllers;
 
 use App\Libraries\FileUpload\FileUpload;
-use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -13,8 +13,9 @@ use Modules\User\Transformers\UserResource;
 class UserController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     * @return Renderable
+     * Get user profile information
+     *
+     * @return Responsable
      */
     public function profile(Request $request)
     {
@@ -25,9 +26,11 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update user profile information
+     *
      * @param Request $request
-     * @return Renderable
+     * @return Responsable
+     * @throws HttpResponseException If request file validation fails
      */
     public function update(Request $request)
     {
@@ -67,6 +70,7 @@ class UserController extends Controller
      *
      * @param Request $request
      * @return void
+     * @throws HttpResponseException If request validation fails
      */
     private function requestValidate(Request $request) {
         $validateUser = Validator::make(

@@ -2,7 +2,7 @@
 
 namespace Modules\Simple\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Simple\Entities\Item;
@@ -15,8 +15,9 @@ class ItemController extends Controller
 {
 
     /**
-     * Display a listing of the resource.
-     * @return Renderable
+     * Get list of items
+     *
+     * @return Responsable
      */
     public function index(Request $request)
     {
@@ -34,7 +35,7 @@ class ItemController extends Controller
     /**
      * Get item head array list
      *
-     * @return Renderable
+     * @return Responsable
      */
     public function itemHeads() {
         return response()->json([
@@ -45,9 +46,10 @@ class ItemController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store new item
+     *
      * @param StoreItemRequest $request
-     * @return Renderable
+     * @return Responsable
      */
     public function store(StoreItemRequest $request)
     {
@@ -65,9 +67,10 @@ class ItemController extends Controller
     }
 
     /**
-     * Show the specified resource.
+     * Get the specified item
+     *
      * @param Item $item
-     * @return Renderable
+     * @return Responsable
      */
     public function show(Item $item)
     {
@@ -78,10 +81,11 @@ class ItemController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified item
+     *
      * @param UpdateItemRequest $request
      * @param Item $item
-     * @return Renderable
+     * @return Responsable
      */
     public function update(UpdateItemRequest $request, Item $item)
     {
@@ -98,9 +102,11 @@ class ItemController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified item
+     *
      * @param Item $item
-     * @return Renderable
+     * @return Responsable
+     * @throws NotFoundHttpException If specifed item is unavailable
      */
     public function destroy(Item $item)
     {

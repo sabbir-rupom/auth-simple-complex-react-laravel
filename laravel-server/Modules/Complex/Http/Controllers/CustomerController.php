@@ -2,7 +2,7 @@
 
 namespace Modules\Complex\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Complex\Entities\Customer;
@@ -15,7 +15,7 @@ class CustomerController extends Controller
     /**
      * Get list of customers
      *
-     * @return Renderable
+     * @return Responsable
      */
     public function index()
     {
@@ -31,7 +31,7 @@ class CustomerController extends Controller
      * Store customer information
      *
      * @param Request $request
-     * @return Renderable
+     * @return Responsable
      */
     public function store(CustomerSaveRequest $request)
     {
@@ -57,7 +57,7 @@ class CustomerController extends Controller
      * Get customer information
      *
      * @param Customer $customer
-     * @return Renderable
+     * @return Responsable
      */
     public function show(Customer $customer)
     {
@@ -72,7 +72,7 @@ class CustomerController extends Controller
      *
      * @param CustomerSaveRequest $request
      * @param Customer $customer
-     * @return Renderable
+     * @return Responsable
      */
     public function update(CustomerSaveRequest $request, Customer $customer)
     {
@@ -101,7 +101,7 @@ class CustomerController extends Controller
      * Remove customer information
      *
      * @param int Customer $customer
-     * @return Renderable
+     * @return Responsable
      */
     public function destroy(Customer $customer)
     {
@@ -116,7 +116,7 @@ class CustomerController extends Controller
      * Get customer address list
      *
      * @param int Customer $customer
-     * @return Renderable
+     * @return Responsable
      */
     public function getAddress(Customer $customer) {
         return response()->json([

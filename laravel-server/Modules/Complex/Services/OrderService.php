@@ -2,14 +2,18 @@
 
 namespace Modules\Complex\Services;
 
+use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Modules\Complex\Entities\Order;
+use Illuminate\Support\Str;
+use Modules\Complex\Entities\OrderProduct;
+use Modules\Complex\Entities\Product;
 
 class OrderService
 {
-    function __construct(public $orderModel = new Order())
+    function __construct(public $orderModel = new Order(), public array $errors = [])
     {
     }
 
@@ -63,5 +67,118 @@ class OrderService
             ->groupBy('orders.id')
             ->latest('orders.id')
             ->paginate($paginationNumber);
+    }
+
+    /**
+     * Create or Update order request
+     *
+     * @param Request $request
+     * @param Order|null $order
+     * @return boolean
+     */
+    public function saveOrder(Request $request, Order $order = null): bool
+    {
+        if (empty($order)) {
+            $order = $this->orderModel;
+        }
+        DB::beginTransaction();
+
+        try {
+            $order->order_number = $request->order_number;
+            $order->buyer_id = $request->buyer;
+            $order->customer_id = $request->customer;
+            $order->customer_address = $request->customer_address;
+            $order->order_date = $request->order_date;
+            $order->delivery_date = $request->delivery_date;
+            $order->delivery_time = $request->delivery_time ?? '15:00';
+            $order->user_id = $request->user()->id;
+            $order->remark = $request->remark;
+            $order->save();
+
+            $this->saveOrderProducts(
+                (is_string($request->order_products)
+                    ? json_decode($request->order_products, true)
+                    : $request->order_products),
+                $order
+            );
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            throw $e;
+        }
+
+        return empty($this->errors);
+    }
+
+    /**
+     * Save order products
+     *
+     * @param array $orderProducts
+     * @param Order $order
+     * @return bool
+     */
+    protected function saveOrderProducts(array $orderProducts, Order $order)
+    {
+        if (empty($orderProducts)) {
+            return false;
+        }
+        foreach ($orderProducts as $op) {
+            $product = Product::find($op['product']);
+
+            if($product) {
+
+                $orderProduct = null;
+                if(isset($op['id']) && $op['id'] > 0) {
+                    $orderProduct = OrderProduct::find($op['id']);
+                }
+
+                if(empty($orderProduct)) {
+                    $orderProduct = new OrderProduct();
+                } else {
+                    $product->stock += $orderProduct->quantity;
+                }
+
+                if($this->adjustProductStock($product, $op['quantity'])) {
+
+                    $orderProduct->order_id = $order->id;
+                    $orderProduct->product_id = $product->id;
+                    $orderProduct->unit_id = $op['product_unit'];
+                    $orderProduct->product_category_id = $op['product_category'];
+                    $orderProduct->quantity = $op['quantity'];
+                    $orderProduct->unit_price = $op['unit_price'];
+                    $orderProduct->total_price = $op['unit_price'] * $op['quantity'];
+                    $orderProduct->save();
+                } else {
+                    array_push($this->errors, 'Insufficient stock in product: ' . $product->name . '(stock-' . $product->stock . ')');
+                }
+
+            } else {
+                array_push($this->errors, 'Product: ' . $product->name . ' is unavailable');
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Update product stock if alright, otherwise return false
+     *
+     * @param Product $product
+     * @param integer $quantity
+     * @return bool
+     */
+    protected function adjustProductStock(Product $product, int $quantity):bool {
+
+        if($product->stock >= $quantity) {
+            // Update product stock
+            $product->stock -= $quantity;
+            $product->save();
+            return true;
+        }
+
+        // Insufficient product stock
+        return false;
     }
 }

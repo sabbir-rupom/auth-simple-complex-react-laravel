@@ -32,18 +32,38 @@ class OrderSeederTableSeeder extends Seeder
 
         $customers = Customer::with('locations')->get()->toArray();
 
-        // dd($customers[array_rand($customers)]);
-
-        $user = User::create([
-            'name' => 'Example User',
-            'email' => 'user@example.com',
-            'password' => Hash::make('11223344')
-        ]);
+        $user = $this->defaultUser();
 
         $this->addOrders($customers, $buyers, $user);
     }
 
-    private function addOrders($customers, $buyers, $user)
+    /**
+     * Insert and/or Get default user
+     *
+     * @return User
+     */
+    private function defaultUser():User {
+        $user = User::first();
+        if(empty($user)) {
+            $user = User::create([
+                'name' => 'Example User',
+                'email' => 'user@example.com',
+                'password' => Hash::make('11223344')
+            ]);
+        }
+
+        return $user;
+    }
+
+    /**
+     * Add dummy orders
+     *
+     * @param array $customers
+     * @param array $buyers
+     * @param User $user
+     * @return void
+     */
+    private function addOrders(array $customers, array $buyers, User $user)
     {
         for ($i = 0; $i < 5; $i++) {
             $customer = $customers[random_int(0, count($customers) - 1)];
@@ -99,6 +119,12 @@ class OrderSeederTableSeeder extends Seeder
         }
     }
 
+    /**
+     * Add dummy customers
+     *
+     * @param Faker $faker
+     * @return void
+     */
     private function addCustomers(Faker $faker)
     {
         for ($i = 0; $i < 5; $i++) {

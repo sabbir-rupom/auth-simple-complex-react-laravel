@@ -2,16 +2,16 @@
 
 namespace Modules\Auth\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 class AuthController extends Controller
 {
     /**
-     * Process user logout event
+     * Process User Logout Request
      *
-     * @return void
+     * @return Responsable
      */
     public function logout()
     {

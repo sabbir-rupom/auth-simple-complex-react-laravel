@@ -2,7 +2,7 @@
 
 namespace Modules\Complex\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Complex\Entities\Product;
@@ -11,9 +11,9 @@ use Modules\Complex\Transformers\ProductResource;
 class ProductController extends Controller
 {
     /**
-     * Process user login request
+     * Get product list
      *
-     * @return Renderable
+     * @return Responsable
      */
     public function __invoke(Request $request)
     {

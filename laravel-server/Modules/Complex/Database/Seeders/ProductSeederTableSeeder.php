@@ -27,7 +27,7 @@ class ProductSeederTableSeeder extends Seeder
                 'name' => 'Product ' . $i,
                 'sku' => 'PD' . $i,
                 'price' => $prices[array_rand($prices)],
-                'stock' => rand(1, 10),
+                'stock' => random_int(10, 100),
             ]);
 
             // Add product categories for the product

@@ -2,11 +2,17 @@
 
 namespace Modules\Complex\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
+use App\Libraries\FileUpload\FileUpload;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Complex\Entities\Order;
 use Modules\Complex\Entities\OrderProduct;
+use Modules\Complex\Http\Requests\OrderStoreRequest;
+use Modules\Complex\Http\Requests\OrderUpdateRequest;
 use Modules\Complex\Services\OrderService;
+use Modules\Complex\Transformers\Order\OrderPaginationResource;
+use Modules\Complex\Transformers\Order\OrderResource;
 
 class OrderController extends Controller
 {
@@ -15,84 +21,103 @@ class OrderController extends Controller
      * Get order list
      *
      * @param Request $request
-     * @return Renderable
+     * @return Responsable
      */
     public function index(Request $request)
     {
         $orders = (new OrderService())->filter($request)->getOrders(3);
 
+        $resultData = OrderPaginationResource::collection($orders)->response()->getData();
+        $resultData->orders = $resultData->data;
+        unset($resultData->data);
+        $resultData->message = 'Order data is fetched successfully';
+
+        return response()->json($resultData);
+    }
+
+    /**
+     * Store new order request
+     *
+     * @param OrderStoreRequest $request
+     * @return Responsable
+     */
+    public function store(OrderStoreRequest $request)
+    {
+
+        $orderService = new OrderService();
+        if ($orderService->saveOrder($request)) {
+            return response()->json([
+                'message' => 'Order has been created successfully',
+            ]);
+        }
+
         return response()->json([
-            'message' => 'Order list fetched successful',
-            'orders' => $orders
+            'message' => $orderService->errors[0],
+            'error' => true
+        ], 400);
+    }
+
+    /**
+     * Get specific order information
+     *
+     * @param Order $order
+     * @return Responsable
+     */
+    public function show(Order $order)
+    {
+        return response()->json([
+            'message' => 'Product list fetched successful',
+            'order' => new OrderResource($order)
         ]);
     }
 
+
     /**
-     * Show the form for creating a new resource.
-     * @return Renderable
+     * Update the specified order
+     *
+     * @param OrderUpdateRequest $request
+     * @param Order $order
+     * @return Responsable
      */
-    public function create()
+    public function update(OrderUpdateRequest $request, Order $order)
     {
-        return view('complex::create');
+
+        $orderService = new OrderService();
+        if ($orderService->saveOrder($request, $order)) {
+            return response()->json([
+                'message' => 'Order has been updated successfully',
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Failed to update order',
+            'errors' => $orderService->errors
+        ], 400);
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Renderable
+     * Remove the specified order
+     *
+     * @param Order $order
+     * @return Responsable
      */
-    public function store(Request $request)
+    public function destroy(Order $order)
     {
-        //
-    }
+        $order->orderProducts()->delete();
+        FileUpload::remove($order->attachment);
+        $order->delete();
 
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function show($id)
-    {
-        return view('complex::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function edit($id)
-    {
-        return view('complex::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
-     */
-    public function destroy($id)
-    {
-        //
+        return response()->json([
+            'message' => 'Order information deleted successfully',
+        ]);
     }
 
 
     /**
-     * Remove the specified resource from storage.
+     * Remove an order product
      *
      * @param OrderProduct $orderProduct
-     * @return Renderable
+     * @return Responsable
      */
     public function removeOrderProduct(OrderProduct $orderProduct)
     {

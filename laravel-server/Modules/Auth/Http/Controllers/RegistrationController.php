@@ -2,11 +2,10 @@
 
 namespace Modules\Auth\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Modules\User\Entities\User;
@@ -16,7 +15,7 @@ class RegistrationController extends Controller
     /**
      * Process user registration request
      *
-     * @return Renderable
+     * @return Responsable
      */
     public function __invoke(Request $request)
     {
@@ -45,6 +44,7 @@ class RegistrationController extends Controller
      *
      * @param Request $request
      * @return void
+     * @throws HttpResponseException If request validation fails
      */
     private function requestValidate(Request $request)
     {

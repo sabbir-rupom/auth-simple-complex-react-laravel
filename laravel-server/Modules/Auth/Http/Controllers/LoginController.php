@@ -2,7 +2,7 @@
 
 namespace Modules\Auth\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -13,9 +13,10 @@ use Modules\User\Entities\User;
 class LoginController extends Controller
 {
     /**
-     * Process user login request
+     * Process User Login Request
      *
-     * @return Renderable
+     * @return Responsable
+     * @throws HttpResponseException If login credentials mismatched
      */
     public function __invoke(Request $request)
     {
@@ -46,6 +47,7 @@ class LoginController extends Controller
      *
      * @param Request $request
      * @return void
+     * @throws HttpResponseException If request validation fails
      */
     private function requestValidate(Request $request)
     {
