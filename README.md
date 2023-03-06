@@ -12,14 +12,14 @@ This is a practice project with a goal to achieve a Full-Stack Web Application h
 - Practice ReactJS project structure
 - Study project scalability, optimization 
 
-### System Requirements
+## System Requirements
   - **Laravel**
     - PHP v8.1 or above
     - MySQL 5.7 or above
   - **React**
     - (not finished)
 
-### Project Setup Guide
+## Project Setup Guide
 
 Clone the repository in the desired directory
 
