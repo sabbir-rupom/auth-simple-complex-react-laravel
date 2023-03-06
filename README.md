@@ -28,8 +28,11 @@ Clone the repository in the desired directory
 - Go to `--project--/laravel-server` directory
 - Rename environment file `.env.example` to `.env` 
 - Update `.env` file with proper configuration parameters e.g Database, App url etc.
-- Run follwing commands `composer install`
+- Run follwing commands
 ```#!/bin/sh
+
+# install laravel project with composer
+composer install
 
 # generate application key
 php artisan key:generate
