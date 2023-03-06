@@ -21,6 +21,7 @@ class OrderStoreRequest extends FormRequest
             'buyer' => 'required|exists:buyers,id',
             'customer' => 'required|exists:customers,id',
             'customer_address' => 'required',
+            'attachment' => 'nullable|file|mimes:png,jpg,jpeg,pdf|max:5128',
             'order_date' => 'required|date',
             'delivery_date' => 'required|after_or_equal:order_date',
             'order_products' => 'required|array',
@@ -42,6 +43,8 @@ class OrderStoreRequest extends FormRequest
         return [
             'order_number.unique' => 'Order number is already in use',
             'order_product.array' => 'Please provide order products array',
+            'attachment.mimes' => 'Allowed attachment file: PNG, JPG, JPEG, PDF',
+            'attachment.max' => 'Allowed max attachment file size: 5MB',
         ];
     }
 

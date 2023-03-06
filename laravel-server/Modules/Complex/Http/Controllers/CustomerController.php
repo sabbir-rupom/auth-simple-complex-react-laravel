@@ -49,7 +49,7 @@ class CustomerController extends Controller
 
         return response()->json([
             'message' => 'Customer information added successfully',
-            'customer' => $customer
+            'customer' => new CustomerResource($customer)
         ]);
     }
 

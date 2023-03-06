@@ -4,6 +4,7 @@ namespace Modules\Complex\Http\Controllers;
 
 use App\Libraries\FileUpload\FileUpload;
 use Illuminate\Contracts\Support\Responsable;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Complex\Entities\Order;
@@ -25,7 +26,7 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
-        $orders = (new OrderService())->filter($request)->getOrders(3);
+        $orders = (new OrderService())->filter($request)->getOrders($request->paginate_count ?? 3);
 
         $resultData = OrderPaginationResource::collection($orders)->response()->getData();
         $resultData->orders = $resultData->data;
@@ -48,6 +49,7 @@ class OrderController extends Controller
         if ($orderService->saveOrder($request)) {
             return response()->json([
                 'message' => 'Order has been created successfully',
+                'order' => new OrderResource($orderService->orderModel)
             ]);
         }
 
@@ -78,6 +80,7 @@ class OrderController extends Controller
      * @param OrderUpdateRequest $request
      * @param Order $order
      * @return Responsable
+     * @throws HttpResponseException If order saving process fails
      */
     public function update(OrderUpdateRequest $request, Order $order)
     {
@@ -86,13 +89,16 @@ class OrderController extends Controller
         if ($orderService->saveOrder($request, $order)) {
             return response()->json([
                 'message' => 'Order has been updated successfully',
+                'order' => new OrderResource($orderService->orderModel)
             ]);
         }
 
-        return response()->json([
-            'message' => 'Failed to update order',
-            'errors' => $orderService->errors
-        ], 400);
+        throw new HttpResponseException(
+            response()->json([
+                'error' => true,
+                'message' => 'Failed to update order: ' . $orderService->errors[0] ?? 'error'
+            ], 400)
+        );
     }
 
     /**

@@ -13,11 +13,19 @@ class AuthController extends Controller
      *
      * @return Responsable
      */
-    public function logout()
+    public function logout(Request $request)
     {
 
         $user = request()->user();
-        $user->tokens()->where('id', $user->currentAccessToken()->id)->delete();
+        if ($request->all) {
+            $user->tokens()->delete();
+        } else if ($request->token) {
+            $user->tokens()->where('id', $request->token)->delete();
+        } else {
+            // Revoke current user token
+            //$user->tokens()->where('id', $user->currentAccessToken()->id)->delete();
+            $user->currentAccessToken()->delete();
+        }
 
         return response()->json([
             'result' => true,

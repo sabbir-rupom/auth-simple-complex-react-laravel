@@ -2,9 +2,12 @@
 
 namespace Modules\Complex\Services;
 
+use App\Libraries\FileUpload\FileUpload;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Modules\Complex\Entities\Order;
 use Illuminate\Support\Str;
@@ -75,51 +78,87 @@ class OrderService
      * @param Request $request
      * @param Order|null $order
      * @return boolean
+     * @throws HttpResponseException If order saving transaction failed
      */
     public function saveOrder(Request $request, Order $order = null): bool
     {
-        if (empty($order)) {
-            $order = $this->orderModel;
+        if ($order && $order->id) {
+            $this->orderModel = $order;
         }
         DB::beginTransaction();
 
         try {
-            $order->order_number = $request->order_number;
-            $order->buyer_id = $request->buyer;
-            $order->customer_id = $request->customer;
-            $order->customer_address = $request->customer_address;
-            $order->order_date = $request->order_date;
-            $order->delivery_date = $request->delivery_date;
-            $order->delivery_time = $request->delivery_time ?? '15:00';
-            $order->user_id = $request->user()->id;
-            $order->remark = $request->remark;
-            $order->save();
+            $this->orderModel->order_number = $request->order_number;
+            $this->orderModel->buyer_id = $request->buyer;
+            $this->orderModel->customer_id = $request->customer;
+            $this->orderModel->customer_address = $request->customer_address;
+            $this->orderModel->order_date = $request->order_date;
+            $this->orderModel->delivery_date = $request->delivery_date;
+            $this->orderModel->delivery_time = $request->delivery_time ?? '15:00';
+            $this->orderModel->user_id = $request->user()->id;
+            $this->orderModel->remark = $request->remark;
+
+            if($request->hasFile('attachment')) {
+                $this->saveAttachment($request->attachment);
+            }
+
+            $this->orderModel->save();
 
             $this->saveOrderProducts(
                 (is_string($request->order_products)
                     ? json_decode($request->order_products, true)
                     : $request->order_products),
-                $order
+                $this->orderModel
             );
 
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
 
-            throw $e;
+            throw new HttpResponseException(
+                response()->json([
+                    'error' => true,
+                    'message' => $e->getMessage()
+                ])
+            );
         }
 
         return empty($this->errors);
     }
 
     /**
+     * Save uploaded order attachment document
+     *
+     * @param UploadedFile $file
+     * @return void
+     * @throws HttpResponseException If order attachment upload failed
+     */
+    protected function saveAttachment(UploadedFile $file) {
+        if($this->orderModel->attachment) {
+            FileUpload::remove($this->orderModel->attachment);
+        }
+        $fileUpload = FileUpload::instance()->upload($file);
+
+        if (empty($fileUpload) || is_string($fileUpload)) {
+            throw new HttpResponseException(
+                response()->json([
+                    'error' => true,
+                    'message' => $fileUpload ? $fileUpload : 'Error! Failed to upload attachment'
+                ], 400)
+            );
+        }
+
+        $this->orderModel->attachment = $fileUpload['path'];
+    }
+
+    /**
      * Save order products
      *
-     * @param array $orderProducts
+     * @param array|null $orderProducts
      * @param Order $order
      * @return bool
      */
-    protected function saveOrderProducts(array $orderProducts, Order $order)
+    protected function saveOrderProducts(array|null $orderProducts, Order $order)
     {
         if (empty($orderProducts)) {
             return false;
@@ -127,20 +166,20 @@ class OrderService
         foreach ($orderProducts as $op) {
             $product = Product::find($op['product']);
 
-            if($product) {
+            if ($product) {
 
                 $orderProduct = null;
-                if(isset($op['id']) && $op['id'] > 0) {
+                if (isset($op['id']) && $op['id'] > 0) {
                     $orderProduct = OrderProduct::find($op['id']);
                 }
 
-                if(empty($orderProduct)) {
+                if (empty($orderProduct)) {
                     $orderProduct = new OrderProduct();
                 } else {
                     $product->stock += $orderProduct->quantity;
                 }
 
-                if($this->adjustProductStock($product, $op['quantity'])) {
+                if ($this->adjustProductStock($product, $op['quantity'])) {
 
                     $orderProduct->order_id = $order->id;
                     $orderProduct->product_id = $product->id;
@@ -153,7 +192,6 @@ class OrderService
                 } else {
                     array_push($this->errors, 'Insufficient stock in product: ' . $product->name . '(stock-' . $product->stock . ')');
                 }
-
             } else {
                 array_push($this->errors, 'Product: ' . $product->name . ' is unavailable');
             }
@@ -169,9 +207,10 @@ class OrderService
      * @param integer $quantity
      * @return bool
      */
-    protected function adjustProductStock(Product $product, int $quantity):bool {
+    protected function adjustProductStock(Product $product, int $quantity): bool
+    {
 
-        if($product->stock >= $quantity) {
+        if ($product->stock >= $quantity) {
             // Update product stock
             $product->stock -= $quantity;
             $product->save();

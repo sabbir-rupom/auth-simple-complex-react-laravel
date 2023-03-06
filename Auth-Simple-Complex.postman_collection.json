@@ -10,117 +10,6 @@
 			"name": "Simple Module",
 			"item": [
 				{
-					"name": "Item List",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{asc-url}}/simple/items?term=m",
-							"host": [
-								"{{asc-url}}"
-							],
-							"path": [
-								"simple",
-								"items"
-							],
-							"query": [
-								{
-									"key": "term",
-									"value": "m"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Add Item",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "name",
-									"value": "Solid Meme",
-									"type": "text"
-								},
-								{
-									"key": "code",
-									"value": "MI2",
-									"type": "text"
-								},
-								{
-									"key": "head",
-									"value": "1",
-									"type": "text"
-								},
-								{
-									"key": "status",
-									"value": "0",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{asc-url}}/simple/items",
-							"host": [
-								"{{asc-url}}"
-							],
-							"path": [
-								"simple",
-								"items"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update Item",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "name",
-									"value": "Raja Mresh",
-									"type": "text"
-								},
-								{
-									"key": "code",
-									"value": "MI1",
-									"type": "text"
-								},
-								{
-									"key": "head",
-									"value": "4",
-									"type": "text"
-								},
-								{
-									"key": "status",
-									"value": "1",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{asc-url}}/simple/items/2",
-							"host": [
-								"{{asc-url}}"
-							],
-							"path": [
-								"simple",
-								"items",
-								"2"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Get Heads",
 					"request": {
 						"method": "GET",
@@ -139,19 +28,158 @@
 					"response": []
 				},
 				{
-					"name": "Delete Item",
+					"name": "Item List",
 					"request": {
-						"method": "DELETE",
+						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{asc-url}}/simple/items/2",
+							"raw": "{{asc-url}}/simple/items?term=",
+							"host": [
+								"{{asc-url}}"
+							],
+							"path": [
+								"simple",
+								"items"
+							],
+							"query": [
+								{
+									"key": "term",
+									"value": "",
+									"description": "Search item(s) by name or code "
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Item",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Unit M1",
+									"description": "Item name",
+									"type": "text"
+								},
+								{
+									"key": "code",
+									"value": "MI1",
+									"description": "Item code, must be unique",
+									"type": "text"
+								},
+								{
+									"key": "head",
+									"value": "3",
+									"description": "Item head ID",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "1",
+									"description": "0: Inactive, 1: Active",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{asc-url}}/simple/items",
+							"host": [
+								"{{asc-url}}"
+							],
+							"path": [
+								"simple",
+								"items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Item",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{asc-url}}/simple/items/{item_id}",
 							"host": [
 								"{{asc-url}}"
 							],
 							"path": [
 								"simple",
 								"items",
-								"2"
+								"{item_id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Item",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Item Name",
+									"description": "Item name",
+									"type": "text"
+								},
+								{
+									"key": "code",
+									"value": "CODE",
+									"description": "Item code, must be unique",
+									"type": "text"
+								},
+								{
+									"key": "head",
+									"value": "2",
+									"description": "Item head ID",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "1",
+									"description": "0: Inactive, 1: Active",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{asc-url}}/simple/items/{item_id}",
+							"host": [
+								"{{asc-url}}"
+							],
+							"path": [
+								"simple",
+								"items",
+								"{item_id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Item",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{asc-url}}/simple/items/{item_id}",
+							"host": [
+								"{{asc-url}}"
+							],
+							"path": [
+								"simple",
+								"items",
+								"{item_id}"
 							]
 						}
 					},
@@ -163,38 +191,6 @@
 			"name": "Auth Module",
 			"item": [
 				{
-					"name": "Login",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "email",
-									"value": "sabbir@gmail.com",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "11223344",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{asc-url}}/login",
-							"host": [
-								"{{asc-url}}"
-							],
-							"path": [
-								"login"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Registration",
 					"request": {
 						"method": "POST",
@@ -205,21 +201,25 @@
 								{
 									"key": "name",
 									"value": "Sabbir Hossain",
+									"description": "User full name",
 									"type": "text"
 								},
 								{
 									"key": "email",
 									"value": "sabbir@gmail.com",
+									"description": "User email address",
 									"type": "text"
 								},
 								{
 									"key": "password",
 									"value": "11223344",
+									"description": "User password, 4 char long atleast",
 									"type": "text"
 								},
 								{
 									"key": "confirm_password",
 									"value": "11223344",
+									"description": "Retype password",
 									"type": "text"
 								}
 							]
@@ -237,6 +237,40 @@
 					"response": []
 				},
 				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "sabbir@gmail.com",
+									"description": "User Email",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "11223344",
+									"description": "User Password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{asc-url}}/login",
+							"host": [
+								"{{asc-url}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Logout",
 					"request": {
 						"auth": {
@@ -244,7 +278,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "1|cINKOUjf2bNeZbralhk6AQWut257IYexmviGTpoH",
+									"value": "2|YO4p4LIwWemfZGCdapDa5bCv6XY8FQQFUyGV4yGm",
 									"type": "string"
 								}
 							]
@@ -276,7 +310,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "4|HJMCQ0oEqjRg6Vtd39I7LmqfFD9HzeI2iZCjwEE9",
+									"value": "2|YO4p4LIwWemfZGCdapDa5bCv6XY8FQQFUyGV4yGm",
 									"type": "string"
 								}
 							]
@@ -304,7 +338,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "4|HJMCQ0oEqjRg6Vtd39I7LmqfFD9HzeI2iZCjwEE9",
+									"value": "2|YO4p4LIwWemfZGCdapDa5bCv6XY8FQQFUyGV4yGm",
 									"type": "string"
 								}
 							]
@@ -317,16 +351,19 @@
 								{
 									"key": "name",
 									"value": "Sabbir Hossain Rupom",
+									"description": "User fullname",
 									"type": "text"
 								},
 								{
 									"key": "avatar",
+									"description": "User profile picture",
 									"type": "file",
-									"src": "/C:/Users/Sabbir/Pictures/Next IT Web/p-3.png"
+									"src": "/C:/Users/Sabbir/Pictures/1623656923.jpg"
 								},
 								{
 									"key": "_method",
 									"value": "put",
+									"description": "Put method masking, for form data submission",
 									"type": "text"
 								}
 							]
@@ -361,7 +398,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "1|h2rcighipkmv8ucDzleKOjn0f1rIRhUS5J1rasiM",
+											"value": "1|vNLj41N8BktUfnxw5tKnPv9I2Id6TwdHF0RXVWjF",
 											"type": "string"
 										}
 									]
@@ -389,7 +426,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "1|cINKOUjf2bNeZbralhk6AQWut257IYexmviGTpoH",
+											"value": "2|0O2isO5GWuTFY82XCVPn7wpsO02mHxEjv8dQC7ln",
 											"type": "string"
 										}
 									]
@@ -426,7 +463,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "4|HJMCQ0oEqjRg6Vtd39I7LmqfFD9HzeI2iZCjwEE9",
+											"value": "2|YO4p4LIwWemfZGCdapDa5bCv6XY8FQQFUyGV4yGm",
 											"type": "string"
 										}
 									]
@@ -434,14 +471,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{asc-url}}/complex/customers/{id}",
+									"raw": "{{asc-url}}/complex/customers/{customer_id}",
 									"host": [
 										"{{asc-url}}"
 									],
 									"path": [
 										"complex",
 										"customers",
-										"{id}"
+										"{customer_id}"
 									]
 								}
 							},
@@ -455,7 +492,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "1|jEiNN1ZJlS9lq2qTfyeUKiYWrnyqF0H06ZYG73qm",
+											"value": "2|YO4p4LIwWemfZGCdapDa5bCv6XY8FQQFUyGV4yGm",
 											"type": "string"
 										}
 									]
@@ -464,7 +501,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"name\":\"Apa Shamsu\",\"location\":[\"Bogra\",\"Barisal\"]}",
+									"raw": "{\"name\":\"MD Kabir Chowdhury\",\"location\":[\"Bhaluka, Gazipur\",\"Kuakata, Patuakhali\"]}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -472,14 +509,14 @@
 									}
 								},
 								"url": {
-									"raw": "{{asc-url}}/complex/customers/1",
+									"raw": "{{asc-url}}/complex/customers/{customer_id}",
 									"host": [
 										"{{asc-url}}"
 									],
 									"path": [
 										"complex",
 										"customers",
-										"1"
+										"{customer_id}"
 									]
 								}
 							},
@@ -493,7 +530,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "1|jEiNN1ZJlS9lq2qTfyeUKiYWrnyqF0H06ZYG73qm",
+											"value": "2|YO4p4LIwWemfZGCdapDa5bCv6XY8FQQFUyGV4yGm",
 											"type": "string"
 										}
 									]
@@ -505,14 +542,14 @@
 									"formdata": []
 								},
 								"url": {
-									"raw": "{{asc-url}}/complex/customers/1",
+									"raw": "{{asc-url}}/complex/customers/{customer_id}",
 									"host": [
 										"{{asc-url}}"
 									],
 									"path": [
 										"complex",
 										"customers",
-										"1"
+										"{customer_id}"
 									]
 								}
 							},
@@ -526,7 +563,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "1|h2rcighipkmv8ucDzleKOjn0f1rIRhUS5J1rasiM",
+											"value": "2|YO4p4LIwWemfZGCdapDa5bCv6XY8FQQFUyGV4yGm",
 											"type": "string"
 										}
 									]
@@ -534,14 +571,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{asc-url}}/complex/customers/1/address",
+									"raw": "{{asc-url}}/complex/customers/{customer_id}/address",
 									"host": [
 										"{{asc-url}}"
 									],
 									"path": [
 										"complex",
 										"customers",
-										"1",
+										"{customer_id}",
 										"address"
 									]
 								}
@@ -555,65 +592,21 @@
 					"item": [
 						{
 							"name": "Order List",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
 							"request": {
 								"auth": {
 									"type": "bearer",
 									"bearer": [
 										{
 											"key": "token",
-											"value": "1|h2rcighipkmv8ucDzleKOjn0f1rIRhUS5J1rasiM",
+											"value": "1|vNLj41N8BktUfnxw5tKnPv9I2Id6TwdHF0RXVWjF",
 											"type": "string"
 										}
 									]
 								},
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "page",
-											"value": "2",
-											"description": "current pagination page",
-											"type": "text"
-										},
-										{
-											"key": "order_number",
-											"value": "123",
-											"description": "unique order-number or part of order-number",
-											"type": "text"
-										},
-										{
-											"key": "customer",
-											"value": "2",
-											"description": "Customer ID",
-											"type": "text"
-										},
-										{
-											"key": "buyer",
-											"value": "2",
-											"description": "Buyer ID",
-											"type": "text"
-										},
-										{
-											"key": "start_date",
-											"value": "2023-03-06",
-											"description": "Begin order search from date",
-											"type": "text"
-										},
-										{
-											"key": "end_date",
-											"value": "2023-03-06",
-											"description": "End order search to date",
-											"type": "text"
-										}
-									]
-								},
 								"url": {
-									"raw": "{{asc-url}}/complex/orders/?page=1&order_number=&customer=&buyer=&start_date=&end_date=",
+									"raw": "{{asc-url}}/complex/orders/?order_number=&customer=&buyer=&start_date=2022-12-30&end_date=2023-12-30&page=1&paginate_count=5",
 									"host": [
 										"{{asc-url}}"
 									],
@@ -624,28 +617,38 @@
 									],
 									"query": [
 										{
-											"key": "page",
-											"value": "1"
-										},
-										{
 											"key": "order_number",
-											"value": ""
+											"value": "",
+											"description": "unique order-number or part of order-number"
 										},
 										{
 											"key": "customer",
-											"value": ""
+											"value": "",
+											"description": "Customer ID"
 										},
 										{
 											"key": "buyer",
-											"value": ""
+											"value": "",
+											"description": "Buyer ID"
 										},
 										{
 											"key": "start_date",
-											"value": ""
+											"value": "2022-12-30",
+											"description": "Begin order search from date"
 										},
 										{
 											"key": "end_date",
-											"value": ""
+											"value": "2023-12-30",
+											"description": "End order search to date"
+										},
+										{
+											"key": "page",
+											"value": "1",
+											"description": "pagination page number"
+										},
+										{
+											"key": "paginate_count",
+											"value": "5"
 										}
 									]
 								}
@@ -660,7 +663,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "1|h2rcighipkmv8ucDzleKOjn0f1rIRhUS5J1rasiM",
+											"value": "1|vNLj41N8BktUfnxw5tKnPv9I2Id6TwdHF0RXVWjF",
 											"type": "string"
 										}
 									]
@@ -668,14 +671,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{asc-url}}/complex/orders/6",
+									"raw": "{{asc-url}}/complex/orders/{order_id}",
 									"host": [
 										"{{asc-url}}"
 									],
 									"path": [
 										"complex",
 										"orders",
-										"6"
+										"{order_id}"
 									]
 								}
 							},
@@ -689,7 +692,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "1|h2rcighipkmv8ucDzleKOjn0f1rIRhUS5J1rasiM",
+											"value": "1|vNLj41N8BktUfnxw5tKnPv9I2Id6TwdHF0RXVWjF",
 											"type": "string"
 										}
 									]
@@ -698,7 +701,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n   \"order_number\":\"MAR61310\",\r\n   \"buyer\":2,\r\n   \"customer\":4,\r\n   \"customer_address\":\"181 Florence Ways\\nKuvalisview, OH 03428-0842\",\r\n   \"order_date\":\"2023-03-05\",\r\n   \"delivery_date\":\"2023-03-10\",\r\n   \"delivery_time\":\"17:00\",\r\n   \"attachment\":null,\r\n   \"remark\":\"Test Order 11\",\r\n   \"order_products\":[\r\n      {\r\n         \"product\":5,\r\n         \"product_unit\":2,\r\n         \"product_category\":11,\r\n         \"quantity\":3,\r\n         \"unit_price\":700,\r\n         \"total_price\":700\r\n      },\r\n      {\r\n         \"product\":3,\r\n         \"product_unit\":1,\r\n         \"product_category\":6,\r\n         \"quantity\":1,\r\n         \"unit_price\":1050,\r\n         \"total_price\":1050\r\n      }\r\n   ]\r\n}",
+									"raw": "{\r\n   \"order_number\":\"MAR61310\",\r\n   \"buyer\":2,\r\n   \"customer\":3,\r\n   \"customer_address\":\"77254 Carmel Harbors\\nNew Ronny, LA 53092-5975\",\r\n   \"order_date\":\"2023-03-06\",\r\n   \"delivery_date\":\"2023-03-13\",\r\n   \"delivery_time\":\"17:00\",\r\n   \"attachment\":null,\r\n   \"remark\":\"Test Order 1\",\r\n   \"order_products\":[\r\n      {\r\n         \"product\":1,\r\n         \"product_unit\":4,\r\n         \"product_category\":1,\r\n         \"quantity\":3,\r\n         \"unit_price\":100\r\n      },\r\n      {\r\n         \"product\":3,\r\n         \"product_unit\":4,\r\n         \"product_category\":6,\r\n         \"quantity\":5,\r\n         \"unit_price\":420\r\n      }\r\n   ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -726,7 +729,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "1|h2rcighipkmv8ucDzleKOjn0f1rIRhUS5J1rasiM",
+											"value": "1|vNLj41N8BktUfnxw5tKnPv9I2Id6TwdHF0RXVWjF",
 											"type": "string"
 										}
 									]
@@ -735,7 +738,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n   \"id\":6,\r\n   \"order_number\":\"MAL61310\",\r\n   \"buyer\":2,\r\n   \"customer\":4,\r\n   \"customer_address\":\"181 Florence Ways\\nKuvalisview, OH 03428-0842\",\r\n   \"order_date\":\"2023-03-05\",\r\n   \"delivery_date\":\"2023-03-09\",\r\n   \"delivery_time\":\"18:00\",\r\n   \"attachment\":null,\r\n   \"remark\":\"Test Order is now shredder\",\r\n   \"order_products\":[\r\n      {\r\n         \"id\":12,\r\n         \"product\":5,\r\n         \"product_unit\":2,\r\n         \"product_category\":11,\r\n         \"quantity\":5,\r\n         \"unit_price\":700\r\n      },\r\n      {\r\n         \"id\":13,\r\n         \"product\":3,\r\n         \"product_unit\":1,\r\n         \"product_category\":6,\r\n         \"quantity\":2,\r\n         \"unit_price\":1050\r\n      }\r\n   ]\r\n}",
+									"raw": "{\r\n   \"order_number\":\"MAL61310\",\r\n   \"buyer\":2,\r\n   \"customer\":5,\r\n   \"customer_address\":\"9280 Myles Square Apt. 917\\nMarlinfort, HI 20372-2290\",\r\n   \"order_date\":\"2023-03-06\",\r\n   \"delivery_date\":\"2023-03-14\",\r\n   \"delivery_time\":\"18:00\",\r\n   \"remark\":\"Test Order is now shredder\",\r\n   \"order_products\":[\r\n       {\r\n                \"id\": 11,\r\n                \"product\": 1,\r\n                \"product_unit\": 4,\r\n                \"product_category\": 1,\r\n                \"quantity\": 4,\r\n                \"unit_price\": 100\r\n            },\r\n            {\r\n                \"id\": 12,\r\n                \"product\": 3,\r\n                \"product_unit\": 4,\r\n                \"product_category\": 6,\r\n                \"quantity\": 5,\r\n                \"unit_price\": 420\r\n            },\r\n            {\r\n                \"id\": 15,\r\n                \"product\": 6,\r\n                \"product_unit\": 1,\r\n                \"product_category\": 15,\r\n                \"quantity\": 1,\r\n                \"unit_price\": 840\r\n            }\r\n   ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -743,14 +746,91 @@
 									}
 								},
 								"url": {
-									"raw": "{{asc-url}}/complex/orders/6",
+									"raw": "{{asc-url}}/complex/orders/{order_id}",
 									"host": [
 										"{{asc-url}}"
 									],
 									"path": [
 										"complex",
 										"orders",
-										"6"
+										"{order_id}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Order",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "1|h2rcighipkmv8ucDzleKOjn0f1rIRhUS5J1rasiM",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{asc-url}}/complex/orders/{id}",
+									"host": [
+										"{{asc-url}}"
+									],
+									"path": [
+										"complex",
+										"orders",
+										"{id}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Order Product",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "2|YO4p4LIwWemfZGCdapDa5bCv6XY8FQQFUyGV4yGm",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{asc-url}}/complex/orders/products/{order_product_id}",
+									"host": [
+										"{{asc-url}}"
+									],
+									"path": [
+										"complex",
+										"orders",
+										"products",
+										"{order_product_id}"
 									]
 								}
 							},
@@ -760,19 +840,26 @@
 				},
 				{
 					"name": "Product List",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "1|h2rcighipkmv8ucDzleKOjn0f1rIRhUS5J1rasiM",
+									"value": "1|vNLj41N8BktUfnxw5tKnPv9I2Id6TwdHF0RXVWjF",
 									"type": "string"
 								}
 							]
 						},
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
 						"url": {
 							"raw": "{{asc-url}}/complex/products",
 							"host": [
@@ -794,7 +881,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "1|h2rcighipkmv8ucDzleKOjn0f1rIRhUS5J1rasiM",
+									"value": "1|vNLj41N8BktUfnxw5tKnPv9I2Id6TwdHF0RXVWjF",
 									"type": "string"
 								}
 							]
