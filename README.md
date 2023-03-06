@@ -49,6 +49,8 @@ php artisan serve
 
 ```
 
+- The server should run at `http://localhost:8000/`. The API url base path will be: `http://localhost:8000/api`
+
 **React Application**
 
 - (not finished)
