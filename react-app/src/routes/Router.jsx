@@ -1,15 +1,14 @@
 import
 {
   Navigate,
-  Outlet, Route, Routes,
-} from "react-router-dom";
-import GuestRoute from "./GuestRoute";
-import PrivateRoute from "./PrivateRoute";
+  Outlet, Route, Routes
+} from "react-router-dom"
+import GuestRoute from "./GuestRoute"
+import PrivateRoute from "./PrivateRoute"
 
-import ErrorPage from "../pages/error-404";
+import ErrorPage from "../pages/Error404"
 
-function AppRouter()
-{
+function AppRouter() {
   return <Routes>
     <Route path='/' element={<>Home</>} />
 
