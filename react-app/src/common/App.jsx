@@ -1,4 +1,4 @@
-import AppRouter from './routes/Router'
+import AppRouter from './Routes--/Router'
 import '../assets/Styles/Global.scss'
 
 function App () {
