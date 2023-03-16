@@ -2,7 +2,7 @@ import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
 import GuestRoute from './GuestRoute'
 import PrivateRoute from './PrivateRoute'
 
-import ErrorPage from '../Pages--/Error404'
+import ErrorPage from '../pages/Error404'
 
 function AppRouter () {
   return (

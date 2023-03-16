@@ -1,10 +1,11 @@
-import AppRouter from './Routes--/Router'
-import '../assets/Styles/Global.scss'
+import AppRouter from './routes/Router'
+import '../assets/styles/Global.scss'
+import MenuNavigation from './layouts/MenuNavigation'
 
 function App () {
   return (
     <>
-      <div>Navigation</div>
+      <MenuNavigation />
       <AppRouter />
       <div>Footer</div>
     </>

@@ -1,0 +1,6 @@
+button {
+  &:focus,
+  &:focus-visible {
+    outline: none;
+  }
+}
