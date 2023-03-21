@@ -6,8 +6,7 @@
   "extends": [
     "plugin:react/recommended",
     "standard",
-    "plugin:react/jsx-runtime",
-    "prettier"
+    "plugin:react/jsx-runtime"
   ],
   "overrides": [],
   "parserOptions": {

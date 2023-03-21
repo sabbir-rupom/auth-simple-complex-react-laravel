@@ -11,11 +11,6 @@
     "lint:fix": "eslint . --fix --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
-    "@emotion/react": "^11.10.6",
-    "@emotion/styled": "^11.10.6",
-    "@headlessui/react": "^1.7.13",
-    "@heroicons/react": "^2.0.16",
-    "@mui/material": "^5.11.13",
     "@reduxjs/toolkit": "^1.9.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -23,21 +18,16 @@
     "react-router-dom": "^6.9.0"
   },
   "devDependencies": {
-    "@types/react": "^18.0.27",
-    "@types/react-dom": "^18.0.10",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^3.1.0",
     "autoprefixer": "^10.4.14",
     "eslint": "^8.36.0",
-    "eslint-config-prettier": "^8.7.0",
     "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-n": "^15.6.1",
-    "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.32.2",
     "postcss": "^8.4.21",
-    "prettier": "^2.8.4",
     "sass": "^1.59.3",
     "tailwindcss": "^3.2.7",
-    "vite": "^4.1.0"
+    "vite": "^4.2.0"
   }
 }
