@@ -9,7 +9,6 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <title>React NextJS: Auth - Simple - Complex</title>
           <meta name="description" content="Next JS with Typescript and MUI practice project, covering the following features: Authentication, Simple Page, Complex Page" />
           <link rel="shortcut icon" href="/favicon.ico" />
           {(this.props as any).emotionStyleTags}
