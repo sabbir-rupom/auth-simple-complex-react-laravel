@@ -1,15 +1,18 @@
-import * as React from "react";
-import Document, { Html, Head, Main, NextScript } from "next/document";
-import createEmotionServer from "@emotion/server/create-instance";
-import createEmotionCache from "@/createEmotionCache";
-import FontRoboto from "@/font";
+import * as React from 'react';
+import Document, { Html, Head, Main, NextScript } from 'next/document';
+import createEmotionServer from '@emotion/server/create-instance';
+import createEmotionCache from '@/createEmotionCache';
+import FontRoboto from '@/font';
 
 export default class MyDocument extends Document {
   render() {
     return (
       <Html lang="en">
         <Head>
-          <meta name="description" content="Next JS with Typescript and MUI practice project, covering the following features: Authentication, Simple Page, Complex Page" />
+          <meta
+            name="description"
+            content="Next JS with Typescript and MUI practice project, covering the following features: Authentication, Simple Page, Complex Page"
+          />
           <link rel="shortcut icon" href="/favicon.ico" />
           {(this.props as any).emotionStyleTags}
         </Head>
@@ -39,7 +42,7 @@ MyDocument.getInitialProps = async (ctx) => {
   const emotionStyles = extractCriticalToChunks(initialProps.html);
   const emotionStyleTags = emotionStyles.styles.map((style) => (
     <style
-      data-emotion={`${style.key} ${style.ids.join(" ")}`}
+      data-emotion={`${style.key} ${style.ids.join(' ')}`}
       key={style.key}
       // eslint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{ __html: style.css }}

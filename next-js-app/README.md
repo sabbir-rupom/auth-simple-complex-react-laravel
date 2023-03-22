@@ -1,5 +1,6 @@
-This is a [Next.js](https://nextjs.org/) practice project covering: 
-- Next JS 13 
+This is a [Next.js](https://nextjs.org/) practice project covering:
+
+- Next JS 13
 - TypeScript
 - Material UI Components [Source](https://mui.com/material-ui/)
 - ESLint Configuration
