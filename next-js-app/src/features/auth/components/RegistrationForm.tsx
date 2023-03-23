@@ -1,29 +1,27 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Checkbox, FormControlLabel, TextField } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 import React from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import registrationSchema from '../validators/registration.schema';
 
-import loginSchema from '../validators/login.schema';
-
-type loginFormInputs = {
+type regFormInputs = {
+  name: string;
   email: string;
   password: string;
-  remember: boolean;
+  confirm_password: string;
 };
 
-const LoginForm: React.FC<{}> = () => {
+const RegistrationForm: React.FC<{}> = () => {
   const {
     handleSubmit,
     reset,
     control,
     formState: { errors },
-  } = useForm<loginFormInputs>({
-    resolver: yupResolver(loginSchema),
+  } = useForm<regFormInputs>({
+    resolver: yupResolver(registrationSchema),
   });
 
-  const loginFormSubmit: SubmitHandler<loginFormInputs> = (
-    data: loginFormInputs
-  ) => {
+  const regFormSubmit: SubmitHandler<regFormInputs> = (data: regFormInputs) => {
     console.log('Form data: ', data);
 
     reset({});
@@ -33,9 +31,27 @@ const LoginForm: React.FC<{}> = () => {
     <>
       <Box
         component="form"
-        onSubmit={handleSubmit(loginFormSubmit)}
+        onSubmit={handleSubmit(regFormSubmit)}
         sx={{ mt: 1 }}
       >
+        <Controller
+          defaultValue={''}
+          name="name"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              margin="normal"
+              required
+              fullWidth
+              label="Full Name"
+              autoFocus
+              error={!!errors.name}
+              helperText={errors.name?.message}
+            />
+          )}
+        />
+
         <Controller
           defaultValue={''}
           name="email"
@@ -75,23 +91,30 @@ const LoginForm: React.FC<{}> = () => {
         />
 
         <Controller
+          defaultValue={''}
+          name="confirm_password"
           control={control}
-          name="remember"
-          defaultValue={false}
-          render={({ field: { onChange, value } }) => (
-            <FormControlLabel
-              control={<Checkbox checked={value} onChange={onChange} />}
-              label="Remember me"
+          render={({ field }) => (
+            <TextField
+              {...field}
+              margin="normal"
+              required
+              fullWidth
+              label="Confirm Password"
+              type="password"
+              autoFocus
+              error={!!errors.confirm_password}
+              helperText={errors.confirm_password?.message}
             />
           )}
         />
 
         <button type="submit" className="btn btn-blue w-full mt-3">
-          Sign In
+          Register
         </button>
       </Box>
     </>
   );
 };
 
-export default LoginForm;
+export default RegistrationForm;

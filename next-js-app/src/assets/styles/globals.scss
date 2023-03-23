@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+span.error,
+label.error,
+.MuiFormHelperText-root.Mui-error {
+  @apply text-red-600 mt-2;
+}
+
+.btn {
+  @apply font-bold p-3 rounded;
+}
+.btn-blue {
+  @apply bg-blue-500 text-white;
+}
+.btn-blue:hover {
+  @apply bg-blue-700;
+}

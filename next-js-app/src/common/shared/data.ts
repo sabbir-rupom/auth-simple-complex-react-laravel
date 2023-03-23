@@ -1,4 +1,4 @@
-import { checkAuthentication } from '@/common/utils/general';
+import { checkAuthentication } from '@/features/auth/services/AuthService';
 
 export interface NavItemInterface {
   name: string;
@@ -7,11 +7,11 @@ export interface NavItemInterface {
 }
 
 export const NavItems: NavItemInterface[] = [
-  { name: 'Simple', path: '/', visibility: !checkAuthentication() },
-  { name: 'Complex', path: '/', visibility: checkAuthentication() },
+  { name: 'Simple', path: '/simple', visibility: !checkAuthentication() },
+  { name: 'Complex', path: '/complex', visibility: checkAuthentication() },
 ];
 
 export const NavUserItems: NavItemInterface[] = [
-  { name: 'Profile', path: '/', visibility: checkAuthentication() },
-  { name: 'Logout', path: '/', visibility: checkAuthentication() },
+  { name: 'Profile', path: '/user/profile', visibility: checkAuthentication() },
+  { name: 'Logout', path: '/logout', visibility: checkAuthentication() },
 ];

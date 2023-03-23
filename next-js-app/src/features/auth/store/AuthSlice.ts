@@ -2,7 +2,7 @@ import {
   checkAuthentication,
   clearSession,
   getUserToken,
-} from '@/common/utils/general';
+} from '@/features/auth/services/AuthService';
 
 import { createSlice } from '@reduxjs/toolkit';
 

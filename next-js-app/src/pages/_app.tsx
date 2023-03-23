@@ -1,6 +1,6 @@
 import type { AppProps } from 'next/app';
 
-import '@/assets/styles/globals.css';
+import '@/assets/styles/globals.scss';
 import theme from '@/config/theme';
 import { ThemeProvider } from '@mui/material';
 

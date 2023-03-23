@@ -1,4 +1,4 @@
-import GuestLayout from '@/layouts/MasterLayout';
+import MasterLayout from '@/layouts/MasterLayout';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 
@@ -9,11 +9,11 @@ const Custom404: NextPage = () => {
         <title>404: Page not found</title>
       </Head>
 
-      <GuestLayout>
+      <MasterLayout>
         <h2 style={{ padding: 10, textAlign: 'center' }}>
           404: Page not found
         </h2>
-      </GuestLayout>
+      </MasterLayout>
     </main>
   );
 };

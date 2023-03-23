@@ -10,7 +10,13 @@ const Home: NextPage = () => {
         <title>React NextJS: Auth - Simple - Complex</title>
       </Head>
 
-      <MasterLayout>Home</MasterLayout>
+      <MasterLayout>
+        <h2 style={{ padding: 10, textAlign: 'center' }}>Welcome</h2>
+
+        <h4 style={{ textAlign: 'center' }}>
+          (Auth + Simple + Complex) practice project
+        </h4>
+      </MasterLayout>
     </main>
   );
 };

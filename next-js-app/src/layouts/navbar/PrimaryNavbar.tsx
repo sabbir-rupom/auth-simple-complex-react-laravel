@@ -4,7 +4,7 @@ import MenuDefault from '@/common/components/menu/MenuDefault';
 import MenuMobile from '@/common/components/menu/MenuMobile';
 import MenuUser from '@/common/components/menu/MenuUser';
 import { NavItems, NavUserItems } from '@/common/shared/data';
-import { checkAuthentication } from '@/common/utils/general';
+import { checkAuthentication } from '@/features/auth/services/AuthService';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import { Button } from '@mui/material';
 import AppBar from '@mui/material/AppBar';

@@ -10,15 +10,19 @@ const MenuDefault = ({ pages }: { pages: NavItemInterface[] }) => {
 
   return (
     <Box sx={{ display: { xs: 'none', md: 'flex' }, mx: 3 }}>
-      {pages.map((page: NavItemInterface) => (
-        <Button
-          key={page.name}
-          onClick={() => router.push(page.path)}
-          sx={{ my: 2, mx: 1, color: 'white', display: 'block' }}
-        >
-          {page.name}
-        </Button>
-      ))}
+      {pages.map(({ name, path, visibility }: NavItemInterface) => {
+        if (visibility) {
+          return (
+            <Button
+              key={name}
+              onClick={() => router.push(path)}
+              sx={{ my: 2, mx: 1, color: 'white', display: 'block' }}
+            >
+              {name}
+            </Button>
+          );
+        }
+      })}
     </Box>
   );
 };
