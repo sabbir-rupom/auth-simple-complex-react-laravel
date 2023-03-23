@@ -20,6 +20,7 @@ class UserController extends Controller
     public function profile(Request $request)
     {
         return response()->json([
+            'result' => true,
             'message' => 'Profile information retrieved successfully',
             'profile' => new UserResource($request->user())
         ]);
@@ -45,7 +46,7 @@ class UserController extends Controller
             if (empty($fileUpload) || is_string($fileUpload)) {
                 throw new HttpResponseException(
                     response()->json([
-                        'error' => true,
+                        'result' => false,
                         'message' => $fileUpload ? $fileUpload : 'Some error occured! Please try again later'
                     ], 400)
                 );
@@ -59,6 +60,7 @@ class UserController extends Controller
         $user->save();
 
         return response()->json([
+            'result' => true,
             'message' => 'Profile information updated successfully',
             'profile' => new UserResource($user)
         ]);
@@ -88,7 +90,7 @@ class UserController extends Controller
         if ($validateUser->fails()) {
             throw new HttpResponseException(
                 response()->json([
-                    'error' => true,
+                    'result' => false,
                     'message' => $validateUser->errors()
                 ], 406)
             );

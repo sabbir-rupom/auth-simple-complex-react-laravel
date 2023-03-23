@@ -21,21 +21,25 @@ class RegistrationController extends Controller
     {
         $this->requestValidate($request);
 
+        if (auth('sanctum')->check()) {
+            auth()->user()->tokens()->delete();
+        }
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
 
-        if (auth('sanctum')->check()) {
-            auth()->user()->tokens()->delete();
-        }
-
         $user->email_verified_at = now();
+        $user->save();
 
         return response()->json([
+            'result' => true,
             'message' => 'Registration successful',
-            'token' => $user->createToken("API TOKEN")->plainTextToken
+            'data' => [
+                'token' => $user->createToken("API TOKEN")->plainTextToken
+            ]
         ]);
     }
 
@@ -66,7 +70,7 @@ class RegistrationController extends Controller
         if ($validateUser->fails()) {
             throw new HttpResponseException(
                 response()->json([
-                    'error' => true,
+                    'result' => false,
                     'message' => $validateUser->errors()
                 ], 406)
             );

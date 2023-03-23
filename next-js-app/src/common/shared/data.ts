@@ -1,5 +1,6 @@
 import { checkAuthentication } from '@/features/auth/services/AuthService';
 
+export const BASE_URL = process.env.SERVER_URL;
 export interface NavItemInterface {
   name: string;
   path: string;

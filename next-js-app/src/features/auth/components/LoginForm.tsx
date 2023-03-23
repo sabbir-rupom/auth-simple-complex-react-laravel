@@ -86,7 +86,7 @@ const LoginForm: React.FC<{}> = () => {
           )}
         />
 
-        <button type="submit" className="btn btn-blue w-full mt-3">
+        <button type="submit" className="btn btn-primary w-full mt-3">
           Sign In
         </button>
       </Box>

@@ -29,9 +29,8 @@ class OrderController extends Controller
         $orders = (new OrderService())->filter($request)->getOrders($request->paginate_count ?? 3);
 
         $resultData = OrderPaginationResource::collection($orders)->response()->getData();
-        $resultData->orders = $resultData->data;
-        unset($resultData->data);
         $resultData->message = 'Order data is fetched successfully';
+        $resultData->result = true;
 
         return response()->json($resultData);
     }
@@ -48,14 +47,15 @@ class OrderController extends Controller
         $orderService = new OrderService();
         if ($orderService->saveOrder($request)) {
             return response()->json([
+                'result' => true,
                 'message' => 'Order has been created successfully',
-                'order' => new OrderResource($orderService->orderModel)
+                'data' => new OrderResource($orderService->orderModel)
             ]);
         }
 
         return response()->json([
             'message' => $orderService->errors[0],
-            'error' => true
+            'result' => false
         ], 400);
     }
 
@@ -68,8 +68,9 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         return response()->json([
+            'result' => true,
             'message' => 'Product list fetched successful',
-            'order' => new OrderResource($order)
+            'data' => new OrderResource($order)
         ]);
     }
 
@@ -88,14 +89,15 @@ class OrderController extends Controller
         $orderService = new OrderService();
         if ($orderService->saveOrder($request, $order)) {
             return response()->json([
+                'result' => true,
                 'message' => 'Order has been updated successfully',
-                'order' => new OrderResource($orderService->orderModel)
+                'data' => new OrderResource($orderService->orderModel)
             ]);
         }
 
         throw new HttpResponseException(
             response()->json([
-                'error' => true,
+                'result' => false,
                 'message' => 'Failed to update order: ' . $orderService->errors[0] ?? 'error'
             ], 400)
         );
@@ -114,6 +116,7 @@ class OrderController extends Controller
         $order->delete();
 
         return response()->json([
+            'result' => true,
             'message' => 'Order information deleted successfully',
         ]);
     }
@@ -130,6 +133,7 @@ class OrderController extends Controller
         $orderProduct->delete();
 
         return response()->json([
+            'result' => true,
             'message' => 'Order product has been removed',
         ]);
     }

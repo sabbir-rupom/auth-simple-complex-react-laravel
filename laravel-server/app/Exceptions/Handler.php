@@ -51,8 +51,8 @@ class Handler extends ExceptionHandler
         $this->renderable(function (AuthenticationException $e, $request) {
             if ($request->is('api/*')) {
                 return response()->json([
+                    'result' => false,
                     'message' => 'Not authenticated',
-                    'error' => true,
                 ], 401);
             }
         });
@@ -65,41 +65,41 @@ class Handler extends ExceptionHandler
             if ($e instanceof ModelNotFoundException) {
                 // If route depenedant model parameter is empty or unavailable
                 return response()->json([
-                    'error' => true,
+                    'result' => false,
                     'message' => 'Sorry! Model data not found!'
                 ], 404);
             } elseif ($e instanceof MethodNotAllowedHttpException) {
                 // If route access method not defined
 
                 return response()->json([
-                    'error' => true,
+                    'result' => false,
                     'message' => $e->getMessage()
                 ], 405);
             } elseif ($e instanceof ThrottleRequestsException) {
                 // If number of route access request exceeded within given time limit
 
                 return response()->json([
-                    'error' => true,
+                    'result' => false,
                     'message' => $e->getMessage() . ' Please try again after one minute.'
                 ], 400);
             } elseif ($e instanceof NotFoundHttpException) {
                 // If route not found
 
                 return response()->json([
-                    'error' => true,
+                    'result' => false,
                     'message' => $e->getMessage()
                 ], 404);
             } elseif ($e instanceof AuthenticationException) {
                 // If session / authentication parameter unavailable
 
                 return response()->json([
-                    'error' => true,
+                    'result' => false,
                     'message' => $e->getMessage()
                 ], 401);
             } else {
 
                 return response()->json([
-                    'error' => true,
+                    'result' => false,
                     'message' => $e->getMessage(),
                     'file' => $e->getFile(),
                     'line' => $e->getLine()

@@ -27,8 +27,9 @@ class ItemController extends Controller
         );
 
         return response()->json([
+            'result' => true,
             'message' => count($items) <= 0 ? 'No item found' : 'Item fetched successfully',
-            'items' => $items
+            'data' => $items
         ]);
     }
 
@@ -39,8 +40,9 @@ class ItemController extends Controller
      */
     public function itemHeads() {
         return response()->json([
+            'result' => true,
             'message' => 'Item heads fetched successfully',
-            'heads' => (new ItemService)->getHeads()
+            'data' => (new ItemService)->getHeads()
         ]);
 
     }
@@ -61,8 +63,9 @@ class ItemController extends Controller
         ]);
 
         return response()->json([
+            'result' => true,
             'message' => 'Item stored successfully',
-            'item' => $item
+            'data' => $item
         ]);
     }
 
@@ -75,8 +78,9 @@ class ItemController extends Controller
     public function show(Item $item)
     {
         return response()->json([
+            'result' => true,
             'message' => 'Item fetched successfully',
-            'item' => $item
+            'data' => $item
         ]);
     }
 
@@ -96,8 +100,9 @@ class ItemController extends Controller
         $item->save();
 
         return response()->json([
+            'result' => true,
             'message' => 'Item updated successfully',
-            'item' => $item
+            'data' => $item
         ]);
     }
 
@@ -117,6 +122,7 @@ class ItemController extends Controller
         }
 
         return response()->json([
+            'result' => true,
             'message' => 'Item deleted successfully',
         ]);
     }

@@ -1,7 +1,8 @@
+import { getUserToken } from '@/features/auth/services/AuthService';
 import axios from 'axios';
-import { BASE_URL } from '../utils/Constants';
+import { BASE_URL } from '../shared/data';
 
-interface ResponseInterface {
+export interface ResponseInterface {
   data: object | null;
   message: string | null;
   result: boolean;
@@ -15,7 +16,7 @@ export const callApi = async (
   let api = axios.create({
     baseURL: BASE_URL,
     headers: {
-      Authorization: `Bearer ${localStorage.getItem('user_token')}`,
+      Authorization: `Bearer ${getUserToken()}`,
       Accept: 'application/json',
       // 'X-Requested-With': 'XMLHttpRequest',
     },
@@ -44,7 +45,7 @@ export const axiosData = (response: any): ResponseInterface => {
   let resData = response.data;
 
   if (resData) {
-    if (resData.success) {
+    if (resData.result) {
       return resData;
     } else {
       return {

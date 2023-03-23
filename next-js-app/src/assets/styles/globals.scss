@@ -11,9 +11,18 @@ label.error,
 .btn {
   @apply font-bold p-3 rounded;
 }
-.btn-blue {
+.btn-primary {
   @apply bg-blue-500 text-white;
+
+  &:hover {
+    @apply bg-blue-700;
+  }
 }
-.btn-blue:hover {
-  @apply bg-blue-700;
+
+.btn-success {
+  @apply bg-green-500 text-white;
+
+  &::hover {
+    @apply bg-green-700;
+  }
 }

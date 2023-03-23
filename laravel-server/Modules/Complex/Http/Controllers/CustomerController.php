@@ -22,8 +22,9 @@ class CustomerController extends Controller
         $customers = Customer::with('locations')->get();
 
         return response()->json([
+            'result' => true,
             'message' => $customers->count() <= 0 ? 'No customer available' : 'Customer list fetched successfully',
-            'customers' => CustomerResource::collection($customers)
+            'data' => CustomerResource::collection($customers)
         ]);
     }
 
@@ -48,8 +49,9 @@ class CustomerController extends Controller
         CustomerLocation::insert($location);
 
         return response()->json([
+            'result' => true,
             'message' => 'Customer information added successfully',
-            'customer' => new CustomerResource($customer)
+            'data' => new CustomerResource($customer)
         ]);
     }
 
@@ -62,8 +64,9 @@ class CustomerController extends Controller
     public function show(Customer $customer)
     {
         return response()->json([
+            'result' => true,
             'message' => 'Customer information fetched successfully',
-            'customer' => new CustomerResource($customer)
+            'data' => new CustomerResource($customer)
         ]);
     }
 
@@ -92,8 +95,9 @@ class CustomerController extends Controller
         CustomerLocation::insert($location);
 
         return response()->json([
+            'result' => true,
             'message' => 'Customer information added successfully',
-            'customer' => new CustomerResource($customer)
+            'data' => new CustomerResource($customer)
         ]);
     }
 
@@ -108,6 +112,7 @@ class CustomerController extends Controller
         $customer->delete();
 
         return response()->json([
+            'result' => true,
             'message' => 'Customer information deleted successfully',
         ]);
     }
@@ -120,8 +125,9 @@ class CustomerController extends Controller
      */
     public function getAddress(Customer $customer) {
         return response()->json([
+            'result' => true,
             'message' => 'Customer address list fetched successfully',
-            'locations' => $customer->locations->pluck('address')
+            'data' => $customer->locations->pluck('address')
         ]);
     }
 }

@@ -25,7 +25,7 @@ class LoginController extends Controller
         if (!Auth::attempt($request->only(['email', 'password']))) {
             throw new HttpResponseException(
                 response()->json([
-                    'error' => true,
+                    'result' => false,
                     'message' => 'Login credentials mismatched'
                 ], 401)
             );
@@ -37,8 +37,11 @@ class LoginController extends Controller
         $user->save();
 
         return response()->json([
+            'result' => true,
             'message' => 'Login successful',
-            'token' => $user->createToken("API TOKEN")->plainTextToken
+            'data' => [
+                'token' => $user->createToken("API TOKEN")->plainTextToken
+            ]
         ]);
     }
 
@@ -62,7 +65,7 @@ class LoginController extends Controller
         if ($validateUser->fails()) {
             throw new HttpResponseException(
                 response()->json([
-                    'error' => true,
+                    'result' => false,
                     'message' => $validateUser->errors()
                 ], 406)
             );

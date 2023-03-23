@@ -20,8 +20,9 @@ class ProductController extends Controller
         $products = Product::with(['productUnits', 'productCategories'])->get();
 
         return response()->json([
+            'result' => true,
             'message' => 'Product list fetched successful',
-            'products' => ProductResource::collection($products)
+            'data' => ProductResource::collection($products)
         ]);
     }
 }

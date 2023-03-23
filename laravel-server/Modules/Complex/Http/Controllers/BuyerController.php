@@ -19,8 +19,9 @@ class BuyerController extends Controller
         $buyers = Buyer::select('id', 'name')->get();
 
         return response()->json([
+            'result' => true,
             'message' => 'Buyer list retrieved successful',
-            'buyers' => $buyers
+            'data' => $buyers
         ]);
     }
 }

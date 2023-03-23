@@ -5,11 +5,8 @@ import MenuMobile from '@/common/components/menu/MenuMobile';
 import MenuUser from '@/common/components/menu/MenuUser';
 import { NavItems, NavUserItems } from '@/common/shared/data';
 import { checkAuthentication } from '@/features/auth/services/AuthService';
-import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
-import { Button } from '@mui/material';
-import AppBar from '@mui/material/AppBar';
-import Container from '@mui/material/Container';
-import Toolbar from '@mui/material/Toolbar';
+import AccessibleIcon from '@mui/icons-material/Accessible';
+import { AppBar, Button, Container, Toolbar } from '@mui/material';
 
 function PrimaryNavbar() {
   return (
@@ -27,7 +24,7 @@ function PrimaryNavbar() {
           {checkAuthentication() && <MenuUser pages={NavUserItems} />}
           {!checkAuthentication() && (
             <Button
-              startIcon={<MeetingRoomIcon />}
+              startIcon={<AccessibleIcon />}
               variant="contained"
               color="error"
               href="/auth"
