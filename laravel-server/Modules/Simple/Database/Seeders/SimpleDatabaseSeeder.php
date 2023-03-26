@@ -4,6 +4,7 @@ namespace Modules\Simple\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Simple\Entities\Item;
 
 class SimpleDatabaseSeeder extends Seeder
 {
@@ -16,6 +17,13 @@ class SimpleDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        // $this->call("OthersTableSeeder");
+        for ($i=1; $i <= 3; $i++) {
+            Item::create([
+               'name' => "Item {$i}",
+               'code' => "IM{$i}",
+               'head' => $i,
+               'status' => ($i % 2 === 1)
+            ]);
+        }
     }
 }

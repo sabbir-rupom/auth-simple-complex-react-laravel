@@ -1,21 +1,23 @@
 import { callApi } from '@/common/services/Axios';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { itemActions } from '@/features/simple/store/item.slice';
 import itemDTO from '../shared/data';
+import { itemActions } from '../store/item.slice';
+
 
 const ItemTable = () => {
   const dispatch = useDispatch();
-  const items: any = useSelector<object[]>((state: any) => state.item.items);
+  const items: any = useSelector<itemDTO[]>((state: any) => state.item.items);
 
-  const [tableData, setTableData] = useState<object[]>([]);
+  const [tableData, setTableData] = useState<itemDTO[]>([]);
+
+  console.log(items);
 
   useEffect(() => {
     setTableData(items);
   }, [items]);
 
-  const handleEditForm = async (event, id) => {
+  const handleEditForm = async (id:number) => {
     const { data, message }: any = await callApi(`simple/items/${id}`, 'get');
 
     if (data) {
@@ -33,10 +35,10 @@ const ItemTable = () => {
     }
   };
 
-  const handleDelete = async (event, id) => {
-    let { message, success } = await callApi(`units/${id}`, 'delete');
+  const handleDelete = async (id:number) => {
+    let { message, result } = await callApi(`units/${id}`, 'delete');
 
-    if (success) {
+    if (result) {
       setTableData(tableData.filter((data) => data.id !== id));
     } else {
       alert(message);
@@ -55,7 +57,7 @@ const ItemTable = () => {
         </tr>
       </thead>
       <tbody>
-        {tableData.map((item: itemDTO) => (
+        {tableData && tableData.map((item: itemDTO) => (
           <tr key={item.id}>
             <td>{item.name}</td>
             <td>{item.head}</td>
@@ -65,14 +67,14 @@ const ItemTable = () => {
               <button
                 type="button"
                 className="btn-sm-primary"
-                onClick={(e) => handleEditForm(e, item.id)}
+                onClick={(e) => handleEditForm(item.id)}
               >
                 edit
               </button>
               <button
                 type="button"
                 className="btn-sm-danger"
-                onClick={(e) => handleDelete(e, item.id)}
+                onClick={(e) => handleDelete(item.id)}
               >
                 delete
               </button>
