@@ -1,82 +1,75 @@
-import { callApi } from "@/common/services/Axios";
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import itemDTO from "../shared/data";
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import itemDTO from '../shared/data';
+import { ItemApi } from './../services/ItemApi';
 
-type InitialState = {
-  // loading: boolean;
+type ItemState = {
+  isLoading: boolean;
   heads: object[];
   items: itemDTO[];
   formInput: itemDTO;
 };
 
-const initialState: InitialState = {
+const initialState: ItemState = {
+  isLoading: false,
   heads: [],
   items: [],
   formInput: {
-    name: "",
-    code: "",
+    name: '',
+    code: '',
     head: 0,
     status: false,
     id: 0,
   },
 };
 
+/**
+ * Get item heads array with Redux Thunk
+ */
 export const fetchHeads = createAsyncThunk<object[]>(
-  "item/getAllHeads",
+  'item/getAllHeads',
   async (): Promise<object[]> => {
-    let response: any = await callApi("simple/heads", "get");
-
-    if (response.data) {
-      console.log("heads:", response.data);
-      return response.data;
-    } else {
-      console.log("Error occurred: " + response.message);
-    }
-    return [];
+    return ItemApi.heads();
   }
 );
 
-export const fetchItems = createAsyncThunk<itemDTO[]>(
-  "item/getAllItems",
-  async (): Promise<itemDTO[]> => {
-    let response: any = await callApi("simple/items", "get");
-
-    if (response.data) {
-      console.log("items:", response.data);
-      return response.data;
-    } else {
-      console.log("Error occurred: " + response.message);
-    }
-    return [];
+/**
+ * Get item list with Redux Thunk
+ */
+export const fetchItems = createAsyncThunk(
+  'item/getAllItems',
+  async thunkAPI => {
+    return ItemApi.getAll();
   }
 );
 
 const itemSlice = createSlice({
-  name: "item",
+  name: 'item',
   initialState,
   reducers: {
-    setForm(state, action: PayloadAction<itemDTO>) {
+    // set item form input object
+    setItemForm (state, action: PayloadAction<itemDTO>) {
       state.formInput = action.payload;
     },
-    setHeads(state, action: PayloadAction<object[]>) {
-      state.heads = action.payload;
-    },
-    setItems(state, action: PayloadAction<itemDTO[]>) {
+
+    // set item list array
+    setItemList (state, action: PayloadAction<itemDTO[]>) {
       state.items = action.payload;
     },
   },
-  extraReducers: (builder) => {
-    // builder.addCase(fetchHeads.pending, (state) => {
-    //   state.loading = true;
-    // });
+  extraReducers: builder => {
+    // Set loading parameter to true if item list not fetched yet
+    builder.addCase(fetchItems.pending, state => {
+      state.isLoading = true;
+    });
 
-    builder.addCase(fetchHeads.fulfilled, (state, action) => {
-      // state.loading = false;
+    // Set heads parameter upon API call is finished
+    builder.addCase(fetchHeads.fulfilled, (state: any, action) => {
       state.heads = action.payload;
     });
 
-    builder.addCase(fetchItems.fulfilled, (state, action) => {
-      // state.loading = false;
+    // Set items parameter upon API call is finished & set loading parameter to false
+    builder.addCase(fetchItems.fulfilled, (state: any, action) => {
+      state.isLoading = false;
       state.items = action.payload;
     });
   },
@@ -85,3 +78,6 @@ const itemSlice = createSlice({
 export const itemActions = itemSlice.actions;
 
 export default itemSlice;
+
+// export const selectAllJson = (state:any) => state.loadJsonReducer.memes;
+// export const isLoading = (state) => state.loadJsonReducer.isLoading;

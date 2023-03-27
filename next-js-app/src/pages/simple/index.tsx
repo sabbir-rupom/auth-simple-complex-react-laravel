@@ -16,10 +16,10 @@ const Simple = () => {
       <MasterLayout>
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
-            <Grid item xs={5} sx={{ p: 3 }}>
+            <Grid item lg={5} xs={12} sx={{ p: 3 }}>
               <ItemForm />
             </Grid>
-            <Grid item xs={7} sx={{ p: 3 }}>
+            <Grid item lg={7} xs={12} sx={{ p: 3 }}>
               <ItemSearch />
               <ItemTable />
             </Grid>

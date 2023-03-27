@@ -9,7 +9,14 @@ class ItemService
 {
     public function getHeads(): Collection
     {
-        return collect(Item::HEADS);
+        $heads = [];
+        foreach (Item::HEADS as $k => $v) {
+            $heads[] = [
+                'id' => $k,
+                'value' => $v
+            ];
+        }
+        return collect($heads);
     }
 
     public function getItems(string $search = null): Collection

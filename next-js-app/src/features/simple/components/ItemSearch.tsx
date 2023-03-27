@@ -1,7 +1,7 @@
-import { callApi } from '@/common/services/Axios';
-import { itemActions } from '@/features/simple/store/item.slice';
 import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { ItemApi } from '../services/ItemApi';
+import { itemActions } from '../store/item.slice';
 
 const ItemSearch = () => {
   const searchField = useRef<HTMLInputElement>(null);
@@ -10,15 +10,10 @@ const ItemSearch = () => {
 
   const handleSearch = () => {
     async function searchData(search: string) {
-      let { data, message }: any = await callApi(
-        `simple/items/?term=${search}`,
-        'get'
-      );
+      let items: any = await ItemApi.search(search);
 
-      if (data) {
-        dispatch(itemActions.setItems(data));
-      } else {
-        alert(message);
+      if (items) {
+        dispatch(itemActions.setItemList(items));
       }
     }
 
@@ -28,12 +23,14 @@ const ItemSearch = () => {
   const items: any = useSelector<object[]>((state: any) => state.item.items);
 
   return (
-    <div className="flex justify-between">
-      <div className="mt-3">Showing All Units ({items.length})</div>
-      <div>
+    <div className="justify-between md:flex">
+      <div className="mt-3 w-full md:w-1/2">
+        Showing All Items ({items.length})
+      </div>
+      <div className="w-full md:w-1/2">
         <input
           type="text"
-          className="px-2 py-3 border md:w"
+          className="px-2 py-3 border w-full mt-3 md:mt-0"
           ref={searchField}
           onKeyUp={handleSearch}
           placeholder="Search item ..."

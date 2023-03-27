@@ -7,10 +7,10 @@ const itemSchema = Yup.object().shape({
   code: Yup.string()
     .required('Item code is required')
     .matches(
-      /^.*(?=.*0-9])(?=.*[A-Z]).*$/,
+      /^[A-Z0-9]*$/,
       'Code must contain only uppercase letters and digits'
     ),
-  head: Yup.number().required('Item head is required'),
+  head: Yup.number().min(1).required('Item head is required'),
   status: Yup.bool().nullable(),
 });
 

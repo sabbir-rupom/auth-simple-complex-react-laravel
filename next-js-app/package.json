@@ -16,6 +16,7 @@
     "@emotion/styled": "^11.10.6",
     "@hookform/resolvers": "^3.0.0",
     "@mui/icons-material": "^5.11.11",
+    "@mui/lab": "^5.0.0-alpha.124",
     "@mui/material": "^5.11.14",
     "@reduxjs/toolkit": "^1.9.3",
     "@types/react-redux": "^7.1.25",
