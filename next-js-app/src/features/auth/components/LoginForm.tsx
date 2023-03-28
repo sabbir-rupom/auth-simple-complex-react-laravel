@@ -1,7 +1,13 @@
+import { useAppDispatch } from '@/common/redux/store';
 import { yupResolver } from '@hookform/resolvers/yup';
+import AccessibilityIcon from '@mui/icons-material/Accessibility';
+import { LoadingButton } from '@mui/lab';
 import { Box, Checkbox, FormControlLabel, TextField } from '@mui/material';
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { AuthApi } from '../services/AuthService';
+import { authActions } from '../store/auth.slice';
 
 import loginSchema from '../validators/login.schema';
 
@@ -12,22 +18,50 @@ type loginFormInputs = {
 };
 
 const LoginForm: React.FC<{}> = () => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [loggedIn, setLoggedIn] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
+
+  const router = useRouter();
+  if (loggedIn) {
+    router.push('/');
+  }
+
   const {
     handleSubmit,
     reset,
     control,
-    formState: { errors },
+    formState: { errors, isSubmitSuccessful },
   } = useForm<loginFormInputs>({
     resolver: yupResolver(loginSchema),
   });
 
-  const loginFormSubmit: SubmitHandler<loginFormInputs> = (
-    data: loginFormInputs
+  const loginFormSubmit: SubmitHandler<loginFormInputs> = async (
+    form: loginFormInputs
   ) => {
-    console.log('Form data: ', data);
+    setLoading(true);
 
-    reset({});
+    let data: any = await AuthApi.login(form);
+
+    console.log(data);
+
+    if (data && data.token) {
+      dispatch(authActions.login(data.token));
+      setLoggedIn(true);
+    } else {
+      console.error('Registration failed');
+    }
   };
+
+  /**
+   * Reset form if registration process is finished
+   */
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset({});
+      setLoading(false);
+    }
+  }, [isSubmitSuccessful, reset, setLoading]);
 
   return (
     <>
@@ -86,9 +120,17 @@ const LoginForm: React.FC<{}> = () => {
           )}
         />
 
-        <button type="submit" className="btn btn-primary w-full mt-3">
-          Sign In
-        </button>
+        <LoadingButton
+          className="btn btn-primary"
+          fullWidth
+          type="submit"
+          loading={loading}
+          loadingPosition="start"
+          sx={{ py: '1rem', mt: '1rem' }}
+          startIcon={<AccessibilityIcon />}
+        >
+          <span>Sign In</span>
+        </LoadingButton>
       </Box>
     </>
   );

@@ -28,6 +28,6 @@ class ItemService
                 ->orWhere('code', 'like', "%{$search}%");
         }
 
-        return $itemQuery->orderBy('name', 'asc')->get();
+        return $itemQuery->get();
     }
 }

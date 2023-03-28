@@ -1,7 +1,13 @@
+import { useAppDispatch } from '@/common/redux/store';
 import { yupResolver } from '@hookform/resolvers/yup';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { LoadingButton } from '@mui/lab';
 import { Box, TextField } from '@mui/material';
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { AuthApi } from '../services/AuthService';
+import { authActions } from '../store/auth.slice';
 import registrationSchema from '../validators/registration.schema';
 
 type regFormInputs = {
@@ -12,25 +18,57 @@ type regFormInputs = {
 };
 
 const RegistrationForm: React.FC<{}> = () => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [loggedIn, setLoggedIn] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
+
+  const router = useRouter();
+  if (loggedIn) {
+    router.push('/');
+  }
+
   const {
     handleSubmit,
     reset,
     control,
-    formState: { errors },
+    formState: { errors, isSubmitSuccessful },
   } = useForm<regFormInputs>({
     resolver: yupResolver(registrationSchema),
   });
 
-  const regFormSubmit: SubmitHandler<regFormInputs> = (data: regFormInputs) => {
-    console.log('Form data: ', data);
+  const regFormSubmit: SubmitHandler<regFormInputs> = async (
+    form: regFormInputs
+  ) => {
+    setLoading(true);
 
-    reset({});
+    let data: any = await AuthApi.registration(form);
+
+    console.log(data);
+
+    if (data && data.token) {
+      dispatch(authActions.login(data.token));
+      setLoggedIn(true);
+    } else {
+      console.error('Registration failed');
+    }
   };
+
+  /**
+   * Reset form if registration process is finished
+   */
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset({});
+      setLoading(false);
+    }
+  }, [isSubmitSuccessful, reset, setLoading]);
 
   return (
     <>
       <Box
         component="form"
+        noValidate
+        autoComplete="off"
         onSubmit={handleSubmit(regFormSubmit)}
         sx={{ mt: 1 }}
       >
@@ -109,9 +147,17 @@ const RegistrationForm: React.FC<{}> = () => {
           )}
         />
 
-        <button type="submit" className="btn btn-blue w-full mt-3">
-          Register
-        </button>
+        <LoadingButton
+          className="btn btn-primary"
+          fullWidth
+          type="submit"
+          loading={loading}
+          loadingPosition="start"
+          sx={{ py: '1rem', mt: '1rem' }}
+          startIcon={<AccountCircleIcon />}
+        >
+          <span>Register</span>
+        </LoadingButton>
       </Box>
     </>
   );

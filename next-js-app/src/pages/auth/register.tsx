@@ -1,3 +1,4 @@
+import { useAppSelector } from '@/common/redux/store';
 import RegistrationForm from '@/features/auth/components/RegistrationForm';
 import MasterLayout from '@/layouts/MasterLayout';
 import Box from '@mui/material/Box';
@@ -5,16 +6,14 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 
 const Register: NextPage = () => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+  const router = useRouter();
+  const auth = useAppSelector((state) => state.userAuth.isLoggedIn);
+  if (auth) {
+    router.push('/');
+  }
 
   return (
     <main>

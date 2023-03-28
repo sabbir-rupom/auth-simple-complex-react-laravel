@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import itemDTO from '../shared/data';
-import { ItemApi } from './../services/ItemApi';
+import itemDTO, { defaultItemInput } from '../shared/data';
+import ItemApi from './../services/ItemApi';
 
 type ItemState = {
   isLoading: boolean;
@@ -13,13 +13,7 @@ const initialState: ItemState = {
   isLoading: false,
   heads: [],
   items: [],
-  formInput: {
-    name: '',
-    code: '',
-    head: 0,
-    status: false,
-    id: 0,
-  },
+  formInput: defaultItemInput,
 };
 
 /**

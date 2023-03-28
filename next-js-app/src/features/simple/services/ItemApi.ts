@@ -1,7 +1,7 @@
 import { callApi, ResponseInterface } from '@/common/services/Axios';
 import itemDTO from '../shared/data';
 
-export const ItemApi = {
+const ItemApi = {
   // Get array of Item heads
   heads: async function () {
     let response: any = await callApi('simple/heads', 'get');
@@ -32,7 +32,7 @@ export const ItemApi = {
   },
 
   // Get all items
-  getAll: async function (cancel = false) {
+  getAll: async function () {
     let { data, message }: ResponseInterface = await callApi(
       'simple/items',
       'get'
@@ -47,7 +47,7 @@ export const ItemApi = {
   },
 
   // Search item list with keyword
-  search: async function (search: string, cancel = false) {
+  search: async function (search: string) {
     let { data, message }: ResponseInterface = await callApi(
       `simple/items/?term=${search}`,
       'get'
@@ -63,11 +63,11 @@ export const ItemApi = {
   },
 
   // Create or update item
-  save: async function (item: itemDTO, cancel = false) {
+  save: async function (item: itemDTO) {
     let url = 'simple/items' + (item.id > 0 ? `/${item.id}` : '');
     let method = item.id > 0 ? 'put' : 'post';
 
-    const { result, data, message }: ResponseInterface = await callApi(
+    const { result, message }: ResponseInterface = await callApi(
       url,
       method,
       item
@@ -79,4 +79,21 @@ export const ItemApi = {
 
     return result;
   },
+
+  delete: async function (id: number) {
+    let { result, message }: ResponseInterface = await callApi(
+      'simple/items/' + id,
+      'delete'
+    );
+
+    if (result) {
+      console.log('Success: ' + message);
+    } else {
+      console.log('Error occurred: ' + message);
+    }
+
+    return result;
+  },
 };
+
+export default ItemApi;

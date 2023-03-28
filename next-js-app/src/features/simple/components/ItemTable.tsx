@@ -1,5 +1,4 @@
 import { useAppDispatch, useAppSelector } from '@/common/redux/store';
-import { callApi } from '@/common/services/Axios';
 import { useEffect, useState } from 'react';
 import itemDTO from '../shared/data';
 import { fetchHeads, fetchItems, itemActions } from '../store/item.slice';
@@ -13,7 +12,7 @@ import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { ItemApi } from '../services/ItemApi';
+import ItemApi from '../services/ItemApi';
 import StyledTableCell from './elements/StyledTableCell';
 import StyledTableRow from './elements/StyledTableRow';
 
@@ -62,16 +61,12 @@ const ItemTable = () => {
   };
 
   const handleDelete = async (id: number) => {
-    let { message, result } = await callApi(`units/${id}`, 'delete');
+    const result: boolean = await ItemApi.delete(id);
 
     if (result) {
       setTableData(tableData.filter((data) => data.id !== id));
-    } else {
-      alert(message);
     }
   };
-
-  console.log(tableData);
 
   return (
     <TableContainer component={Paper} sx={{ mt: 3 }}>
@@ -125,6 +120,7 @@ const ItemTable = () => {
                       variant="outlined"
                       color="error"
                       startIcon={<DeleteIcon />}
+                      onClick={(e) => handleDelete(item.id)}
                     >
                       Delete
                     </Button>

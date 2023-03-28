@@ -6,4 +6,12 @@ type itemDTO = {
   id: number;
 };
 
+export const defaultItemInput: itemDTO = {
+  name: '',
+  code: '',
+  head: 0,
+  status: false,
+  id: 0,
+};
+
 export default itemDTO;

@@ -3,9 +3,17 @@ import MasterLayout from '@/layouts/MasterLayout';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 
+import { useAppSelector } from '@/common/redux/store';
 import { Box, Container, Link, Typography } from '@mui/material';
+import { useRouter } from 'next/router';
 
 const Login: NextPage = () => {
+  const router = useRouter();
+  const auth = useAppSelector((state) => state.userAuth.isLoggedIn);
+
+  if (auth) {
+    router.push('/');
+  }
   return (
     <>
       <Head>

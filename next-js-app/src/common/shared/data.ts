@@ -1,18 +1,20 @@
-import { checkAuthentication } from '@/features/auth/services/AuthService';
-
 export const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 export interface NavItemInterface {
   name: string;
   path: string;
-  visibility: boolean;
+  guard: number;
 }
 
+export const PAGE_PUBLIC = 0;
+export const PAGE_GUEST = 1;
+export const PAGE_PRIVATE = 2;
+
 export const NavItems: NavItemInterface[] = [
-  { name: 'Simple', path: '/simple', visibility: !checkAuthentication() },
-  { name: 'Complex', path: '/complex', visibility: checkAuthentication() },
+  { name: 'Simple', path: '/simple', guard: PAGE_PUBLIC },
+  { name: 'Complex', path: '/complex', guard: PAGE_PRIVATE },
 ];
 
 export const NavUserItems: NavItemInterface[] = [
-  { name: 'Profile', path: '/user/profile', visibility: checkAuthentication() },
-  { name: 'Logout', path: '/logout', visibility: checkAuthentication() },
+  { name: 'Profile', path: '/user/profile', guard: PAGE_PRIVATE },
+  { name: 'Logout', path: '/logout', guard: PAGE_PRIVATE },
 ];
