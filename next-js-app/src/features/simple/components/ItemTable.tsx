@@ -3,6 +3,9 @@ import { useEffect, useState } from 'react';
 import itemDTO from '../shared/data';
 import { fetchHeads, fetchItems, itemActions } from '../store/item.slice';
 
+import DialogBox from '@/common/components/ui/DialogBox';
+import StyledTableCell from '@/common/components/ui/StyledTableCell';
+import StyledTableRow from '@/common/components/ui/StyledTableRow';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import Button from '@mui/material/Button';
@@ -13,8 +16,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import ItemApi from '../services/ItemApi';
-import StyledTableCell from './elements/StyledTableCell';
-import StyledTableRow from './elements/StyledTableRow';
 
 const ItemTable = () => {
   const dispatch = useAppDispatch();
@@ -27,11 +28,12 @@ const ItemTable = () => {
   }, [dispatch]);
 
   const [tableData, setTableData] = useState<itemDTO[]>([]);
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const [deleteItem, setDeleteItem] = useState<number>(0);
 
   const items = useAppSelector((state) => state.item.items);
 
   useEffect(() => {
-    console.log(items);
     setTableData(items);
   }, [items]);
 
@@ -60,115 +62,95 @@ const ItemTable = () => {
     }
   };
 
-  const handleDelete = async (id: number) => {
-    const result: boolean = await ItemApi.delete(id);
+  const openDelete = (id: number) => {
+    setOpenDialog(true);
+    setDeleteItem(id);
+  };
 
-    if (result) {
-      setTableData(tableData.filter((data) => data.id !== id));
+  const handleDelete = async () => {
+    if (deleteItem > 0) {
+      setOpenDialog(false);
+      const result: boolean = await ItemApi.delete(deleteItem);
+
+      if (result) {
+        setTableData(tableData.filter((data) => data.id !== deleteItem));
+      }
     }
   };
 
   return (
-    <TableContainer component={Paper} sx={{ mt: 3 }}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>Item Name</StyledTableCell>
-            <StyledTableCell align="center">Head</StyledTableCell>
-            <StyledTableCell align="center">Code</StyledTableCell>
-            <StyledTableCell align="center">Status</StyledTableCell>
-            <StyledTableCell align="right">Action</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {tableData &&
-            tableData.map((item: itemDTO) => (
-              <StyledTableRow key={item.id}>
-                <StyledTableCell component="th" scope="row">
-                  {item.name}
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  {getHead(item.head)}
-                </StyledTableCell>
-                <StyledTableCell align="center">{item.code}</StyledTableCell>
-                <StyledTableCell align="center">
-                  {item.status ? (
-                    <small className="bg-green-500 p-2 rounded-2xl text-white">
-                      Active
-                    </small>
-                  ) : (
-                    <small className="bg-red-500 p-2 rounded-2xl text-white">
-                      In-active
-                    </small>
-                  )}
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  <div>
-                    <Button
-                      type="button"
-                      size="small"
-                      variant="outlined"
-                      startIcon={<EditIcon />}
-                      sx={{ mr: 1 }}
-                      onClick={(e) => handleEditForm(item.id)}
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      type="button"
-                      size="small"
-                      variant="outlined"
-                      color="error"
-                      startIcon={<DeleteIcon />}
-                      onClick={(e) => handleDelete(item.id)}
-                    >
-                      Delete
-                    </Button>
-                  </div>
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-    // <table className="border-collapse table-style table-auto w-full text-sm">
-    //   <thead>
-    //     <tr>
-    //       <th>Name</th>
-    //       <th>Head</th>
-    //       <th>Code</th>
-    //       <th>Active</th>
-    //       <th>Action</th>
-    //     </tr>
-    //   </thead>
-    //   <tbody>
-    //     {tableData &&
-    //       tableData.map((item: itemDTO) => (
-    //         <tr key={item.id}>
-    //           <td>{item.name}</td>
-    //           <td>{item.head}</td>
-    //           <td>{item.code}</td>
-    //           <td>{item.status}</td>
-    //           <td>
-    //             <button
-    //               type="button"
-    //               className="btn-sm-primary"
-    //               onClick={(e) => handleEditForm(item.id)}
-    //             >
-    //               edit
-    //             </button>
-    //             <button
-    //               type="button"
-    //               className="btn-sm-danger"
-    //               onClick={(e) => handleDelete(item.id)}
-    //             >
-    //               delete
-    //             </button>
-    //           </td>
-    //         </tr>
-    //       ))}
-    //   </tbody>
-    // </table>
+    <>
+      <TableContainer component={Paper} sx={{ mt: 3 }}>
+        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell>Item Name</StyledTableCell>
+              <StyledTableCell align="center">Head</StyledTableCell>
+              <StyledTableCell align="center">Code</StyledTableCell>
+              <StyledTableCell align="center">Status</StyledTableCell>
+              <StyledTableCell align="right">Action</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {tableData &&
+              tableData.map((item: itemDTO) => (
+                <StyledTableRow key={item.id}>
+                  <StyledTableCell component="th" scope="row">
+                    {item.name}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {getHead(item.head)}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">{item.code}</StyledTableCell>
+                  <StyledTableCell align="center">
+                    {item.status ? (
+                      <small className="bg-green-500 p-2 rounded-2xl text-white">
+                        Active
+                      </small>
+                    ) : (
+                      <small className="bg-red-500 p-2 rounded-2xl text-white">
+                        In-active
+                      </small>
+                    )}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    <div>
+                      <Button
+                        type="button"
+                        size="small"
+                        variant="outlined"
+                        startIcon={<EditIcon />}
+                        sx={{ mr: 1 }}
+                        onClick={(e) => handleEditForm(item.id)}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        type="button"
+                        size="small"
+                        variant="outlined"
+                        color="error"
+                        startIcon={<DeleteIcon />}
+                        onClick={(e) => openDelete(item.id)}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      <DialogBox
+        open={openDialog}
+        closeDialog={() => setOpenDialog(false)}
+        dialogHandler={handleDelete}
+        remove={true}
+        title="Are you sure you want to delete this Item?"
+      />
+    </>
   );
 };
 

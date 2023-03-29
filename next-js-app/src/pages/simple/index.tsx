@@ -1,3 +1,4 @@
+import Breadcrumb from '@/common/components/templates/Breadcrumb';
 import ItemForm from '@/features/simple/components/ItemForm';
 import ItemSearch from '@/features/simple/components/ItemSearch';
 import ItemTable from '@/features/simple/components/ItemTable';
@@ -14,6 +15,11 @@ const Simple = () => {
       </Head>
 
       <MasterLayout>
+        <Breadcrumb
+          parent="Home"
+          bread1="Simple"
+          title="Simple Page: Item CRUD"
+        />
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
             <Grid item lg={5} xs={12} sx={{ p: 3 }}>

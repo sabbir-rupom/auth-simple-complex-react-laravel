@@ -4,12 +4,14 @@ import type { TypedUseSelectorHook } from 'react-redux';
 import { useDispatch, useSelector } from 'react-redux';
 
 import authSlice from '@/features/auth/store/auth.slice';
+import orderSlice from '@/features/complex/store/order.slice';
 import itemSlice from '@/features/simple/store/item.slice';
 
 const store = configureStore({
   reducer: {
     userAuth: authSlice.reducer,
     item: itemSlice.reducer,
+    order: orderSlice.reducer,
   },
 });
 

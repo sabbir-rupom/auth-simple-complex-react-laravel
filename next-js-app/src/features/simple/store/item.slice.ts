@@ -72,6 +72,3 @@ const itemSlice = createSlice({
 export const itemActions = itemSlice.actions;
 
 export default itemSlice;
-
-// export const selectAllJson = (state:any) => state.loadJsonReducer.memes;
-// export const isLoading = (state) => state.loadJsonReducer.isLoading;

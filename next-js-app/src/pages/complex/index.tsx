@@ -1,21 +1,13 @@
-import MasterLayout from '@/layouts/MasterLayout';
-import { Container } from '@mui/material';
-import Head from 'next/head';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 const Complex = () => {
-  return (
-    <>
-      <Head>
-        <title>Complex Page</title>
-      </Head>
+  const { push } = useRouter();
 
-      <MasterLayout>
-        <Container component="main" maxWidth="xs">
-          Complex Page
-        </Container>
-      </MasterLayout>
-    </>
-  );
+  useEffect(() => {
+    push('/complex/order');
+  }, []);
+  return <></>;
 };
 
 export default Complex;

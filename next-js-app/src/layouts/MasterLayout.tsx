@@ -12,16 +12,14 @@ const MasterLayout = ({ children }: Props) => {
       <header>
         <PrimaryNavbar />
       </header>
-      <main>
-        <Container
-          maxWidth="xl"
-          sx={{
-            p: 3,
-          }}
-        >
-          {children}
-        </Container>
-      </main>
+      <Container
+        maxWidth="xl"
+        sx={{
+          p: 3,
+        }}
+      >
+        {children}
+      </Container>
     </>
   );
 };

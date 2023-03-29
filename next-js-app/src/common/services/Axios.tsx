@@ -13,7 +13,6 @@ export const callApi = async (
   method: string = 'get',
   data: object = {}
 ) => {
-  console.log(BASE_URL);
   let api = axios.create({
     baseURL: BASE_URL,
     headers: {

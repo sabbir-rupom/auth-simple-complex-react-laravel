@@ -43,8 +43,6 @@ const LoginForm: React.FC<{}> = () => {
 
     let data: any = await AuthApi.login(form);
 
-    console.log(data);
-
     if (data && data.token) {
       dispatch(authActions.login(data.token));
       setLoggedIn(true);
