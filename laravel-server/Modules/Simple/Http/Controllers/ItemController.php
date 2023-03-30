@@ -2,6 +2,7 @@
 
 namespace Modules\Simple\Http\Controllers;
 
+use App\Traits\ResponseJSON;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -13,6 +14,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ItemController extends Controller
 {
+
+    use ResponseJSON;
 
     /**
      * Get list of items
@@ -26,11 +29,9 @@ class ItemController extends Controller
             is_string($term) ? $term : ''
         );
 
-        return response()->json([
-            'result' => true,
-            'message' => count($items) <= 0 ? 'No item found' : 'Item fetched successfully',
-            'data' => $items
-        ]);
+        return $this->success()
+            ->message(count($items) <= 0 ? 'No item available' : 'Item fetched successfully')
+            ->response($items);
     }
 
     /**
@@ -38,13 +39,11 @@ class ItemController extends Controller
      *
      * @return Responsable
      */
-    public function itemHeads() {
-        return response()->json([
-            'result' => true,
-            'message' => 'Item heads fetched successfully',
-            'data' => (new ItemService)->getHeads()
-        ]);
-
+    public function itemHeads()
+    {
+        return $this->success()
+            ->message('Item heads fetched successfully')
+            ->response((new ItemService)->getHeads());
     }
 
     /**
@@ -62,11 +61,7 @@ class ItemController extends Controller
             'status' => boolval($request->status),
         ]);
 
-        return response()->json([
-            'result' => true,
-            'message' => 'Item stored successfully',
-            'data' => $item
-        ]);
+        return $this->success()->message('Item stored successfully')->response($item);
     }
 
     /**
@@ -77,11 +72,7 @@ class ItemController extends Controller
      */
     public function show(Item $item)
     {
-        return response()->json([
-            'result' => true,
-            'message' => 'Item fetched successfully',
-            'data' => $item
-        ]);
+        return $this->success()->message('Item fetched successfully')->response($item->toArray());
     }
 
     /**
@@ -115,7 +106,7 @@ class ItemController extends Controller
      */
     public function destroy(Item $item)
     {
-        if($item->id) {
+        if ($item->id) {
             $item->delete();
         } else {
             throw new NotFoundHttpException('Item not found');

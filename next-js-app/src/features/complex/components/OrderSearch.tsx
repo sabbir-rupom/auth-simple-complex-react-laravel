@@ -1,4 +1,7 @@
-import { useAppSelector } from '@/common/redux/store';
+import DateRangePicker from '@/common/components/form/advanced/DateRangePicker';
+import { useAppDispatch, useAppSelector } from '@/common/redux/store';
+import SearchIcon from '@mui/icons-material/Search';
+import { LoadingButton } from '@mui/lab';
 import {
   Button,
   FormControl,
@@ -7,35 +10,69 @@ import {
   MenuItem,
   Paper,
   Select,
+  SelectChangeEvent,
   TextField,
   Typography,
 } from '@mui/material';
-import { CustomerDTO, FilterDTO } from '../shared/data';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import CommonApi from '../services/CommonApi';
+import { BuyerDTO, CustomerDTO, FilterDTO } from '../shared/data';
+import { orderActions } from '../store/order.slice';
 
 const OrderSearch = ({ orderCount = 0 }: { orderCount: number }) => {
-  // const customers: CustomerDTO[] = useAppSelector<CustomerDTO[]>(
-  //   (state: any) => state.order.customers
-  // );
-  const customers = useAppSelector((state) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [formData, setFormData] = useState<FilterDTO>({});
+
+  const customers: CustomerDTO[] = useAppSelector((state) => {
     return state.order.customers;
   });
+  const buyers: BuyerDTO[] = useAppSelector((state) => {
+    return state.order.buyers;
+  });
 
-  // useEffect(() => {
-  //   async function searchData() {
-  //     let items: any = await CommonApi.customers();
+  const dispatch = useAppDispatch();
 
-  //     console.log(items);
-  //   }
+  useEffect(() => {
+    async function getCustomers() {
+      let tCustomers: any = await CommonApi.customers();
 
-  //   searchData();
-  // }, []);
+      dispatch(orderActions.setCustomers(tCustomers));
+    }
 
-  const buyers: CustomerDTO[] = useAppSelector<CustomerDTO[]>(
-    (state: any) => state.order.buyers
-  );
+    async function getBuyers() {
+      let tBuyers: any = await CommonApi.buyers();
+
+      dispatch(orderActions.setBuyers(tBuyers));
+    }
+
+    if (customers.length === 0) {
+      getCustomers();
+    }
+
+    if (buyers.length === 0) {
+      getBuyers();
+    }
+  }, [customers, buyers]);
+
   const filterParams: FilterDTO = useAppSelector<FilterDTO>(
     (state: any) => state.order.filterParams
   );
+  useEffect(() => setFormData(filterParams), [filterParams]);
+
+  const inputChangeHandler = (
+    event: ChangeEvent<any> | SelectChangeEvent<any>
+  ) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setTimeout(() => {
+      console.log(formData);
+      setLoading(false);
+    }, 2000);
+  };
 
   return (
     <>
@@ -57,12 +94,16 @@ const OrderSearch = ({ orderCount = 0 }: { orderCount: number }) => {
         </Grid>
       </Grid>
       <Paper variant="outlined" square className="mt-5 px-6 py-8">
-        <form>
+        <form onSubmit={handleSubmit}>
           <Grid container spacing={4}>
             <Grid item md={6} xs={12}>
               <FormControl fullWidth>
                 <InputLabel>Customer</InputLabel>
-                <Select value={filterParams.customer} label="Customer">
+                <Select
+                  value={filterParams.customer}
+                  label="Customer"
+                  onChange={(e) => inputChangeHandler(e)}
+                >
                   <MenuItem value="0">
                     <em>Select Customer</em>
                   </MenuItem>
@@ -79,7 +120,11 @@ const OrderSearch = ({ orderCount = 0 }: { orderCount: number }) => {
             <Grid item md={6} xs={12}>
               <FormControl fullWidth>
                 <InputLabel>Buyer</InputLabel>
-                <Select value={filterParams.buyer} label="Buyer">
+                <Select
+                  value={filterParams.buyer}
+                  label="Buyer"
+                  onChange={(e) => inputChangeHandler(e)}
+                >
                   <MenuItem value="0">
                     <em>Select Buyer</em>
                   </MenuItem>
@@ -99,9 +144,26 @@ const OrderSearch = ({ orderCount = 0 }: { orderCount: number }) => {
                 label="Order Number"
                 variant="outlined"
                 fullWidth
+                onChange={(e) => inputChangeHandler(e)}
               />
             </Grid>
-            <Grid item md={6} xs={12}></Grid>
+            <Grid item md={6} xs={12}>
+              <DateRangePicker />
+            </Grid>
+          </Grid>
+          <Grid item xs={12} alignItems="center">
+            <LoadingButton
+              variant="outlined"
+              color="primary"
+              fullWidth
+              type="submit"
+              loading={loading}
+              loadingPosition="start"
+              sx={{ py: '0.8rem', mt: '1rem' }}
+              startIcon={<SearchIcon />}
+            >
+              <span>Save</span>
+            </LoadingButton>
           </Grid>
         </form>
       </Paper>

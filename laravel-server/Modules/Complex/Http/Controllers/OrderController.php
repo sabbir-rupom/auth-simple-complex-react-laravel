@@ -3,6 +3,7 @@
 namespace Modules\Complex\Http\Controllers;
 
 use App\Libraries\FileUpload\FileUpload;
+use App\Traits\ResponseJSON;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
@@ -17,6 +18,7 @@ use Modules\Complex\Transformers\Order\OrderResource;
 
 class OrderController extends Controller
 {
+    use ResponseJSON;
 
     /**
      * Get order list
@@ -53,10 +55,7 @@ class OrderController extends Controller
             ]);
         }
 
-        return response()->json([
-            'message' => $orderService->errors[0],
-            'result' => false
-        ], 400);
+        return $this->setErrors($orderService->errors)->response([], 400);
     }
 
     /**
@@ -67,11 +66,9 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        return response()->json([
-            'result' => true,
-            'message' => 'Product list fetched successful',
-            'data' => new OrderResource($order)
-        ]);
+        return $this->success()
+            ->message('Product list fetched successful')
+            ->response(new OrderResource($order));
     }
 
 
@@ -88,11 +85,9 @@ class OrderController extends Controller
 
         $orderService = new OrderService();
         if ($orderService->saveOrder($request, $order)) {
-            return response()->json([
-                'result' => true,
-                'message' => 'Order has been updated successfully',
-                'data' => new OrderResource($orderService->orderModel)
-            ]);
+            return $this->success()
+                ->message('Order has been updated successfully')
+                ->response(new OrderResource($orderService->orderModel));
         }
 
         throw new HttpResponseException(
@@ -115,10 +110,7 @@ class OrderController extends Controller
         FileUpload::remove($order->attachment);
         $order->delete();
 
-        return response()->json([
-            'result' => true,
-            'message' => 'Order information deleted successfully',
-        ]);
+        return $this->success()->message('Order information deleted successfully')->response();
     }
 
 
@@ -132,9 +124,6 @@ class OrderController extends Controller
     {
         $orderProduct->delete();
 
-        return response()->json([
-            'result' => true,
-            'message' => 'Order product has been removed',
-        ]);
+        return $this->success()->message('Order product has been removed')->response();
     }
 }

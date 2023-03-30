@@ -2,6 +2,9 @@
 
 namespace App\Traits;
 
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Collection;
+
 trait ResponseJSON
 {
     /**
@@ -10,7 +13,7 @@ trait ResponseJSON
      * @var array
      */
     private $jsonResponse = [
-        'success' => false,
+        'result' => false,
         'errors' => [],
         'message' => "",
         'data' => [],
@@ -19,22 +22,25 @@ trait ResponseJSON
     /**
      * Set success response status
      *
-     * @return object
+     * @return self
      */
-    protected function success()
+    public function success()
     {
-        $this->jsonResponse['success'] = true;
+        $this->jsonResponse['result'] = true;
         return $this;
     }
 
     /**
      * Set error results
      *
-     * @return object
+     * @return self
      */
-    protected function setErrors(array $errors = [])
+    public function setErrors(array $errors = [])
     {
         $this->jsonResponse['errors'] = empty($errors) ?  (isset($this->errors) && is_array($this->errors) ? $this->errors : []) : $errors;
+        if(empty($this->jsonResponse['message'])) {
+            $this->message($this->jsonResponse['errors'][0] ?? '');
+        }
         return $this;
     }
 
@@ -42,9 +48,9 @@ trait ResponseJSON
      * Set response message
      *
      * @param string $message
-     * @return object
+     * @return self
      */
-    protected function message(string $message = '')
+    public function message(string $message = '')
     {
         $this->jsonResponse['message'] = $message;
         return $this;
@@ -53,13 +59,17 @@ trait ResponseJSON
     /**
      * Return formatted JSON response
      *
-     * @param (string|array|object|int)[] $data
+     * @param array|JsonResource|Collection $data
      * @param integer $httpStatus
      * @param string[] $headers
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Contracts\Support\Responsable
      */
-    protected function response(array $data = [], int $httpStatus = 200, array $headers = [], int $option = 0)
-    {
+    public function response(
+        array|JsonResource|Collection $data = [],
+        int $httpStatus = 200,
+        array $headers = [],
+        int $option = 0
+    ) {
         $this->jsonResponse['data'] = $data;
 
         return response()->json(

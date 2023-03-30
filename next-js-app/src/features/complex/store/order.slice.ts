@@ -97,6 +97,15 @@ const orderSlice = createSlice({
     setOrderPagination (state, action: PayloadAction<any>) {
       state.orderPagination = action.payload;
     },
+    setCustomers (state, action: PayloadAction<CustomerDTO[]>) {
+      state.customers = action.payload;
+    },
+    setBuyers (state, action: PayloadAction<BuyerDTO[]>) {
+      state.buyers = action.payload;
+    },
+    setProducts (state, action: PayloadAction<ProductDTO[]>) {
+      state.products = action.payload;
+    },
   },
 
   ////////////////////////////

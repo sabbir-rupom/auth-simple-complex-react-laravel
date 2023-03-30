@@ -2,6 +2,7 @@
 
 namespace Modules\Complex\Http\Controllers;
 
+use App\Traits\ResponseJSON;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -12,6 +13,8 @@ use Modules\Complex\Transformers\CustomerResource;
 
 class CustomerController extends Controller
 {
+    use ResponseJSON;
+
     /**
      * Get list of customers
      *
@@ -21,11 +24,9 @@ class CustomerController extends Controller
     {
         $customers = Customer::with('locations')->get();
 
-        return response()->json([
-            'result' => true,
-            'message' => $customers->count() <= 0 ? 'No customer available' : 'Customer list fetched successfully',
-            'data' => CustomerResource::collection($customers)
-        ]);
+        return $this->success()
+            ->message($customers->count() <= 0 ? 'No customer available' : 'Customer list fetched successfully')
+            ->response(CustomerResource::collection($customers));
     }
 
     /**
@@ -48,11 +49,9 @@ class CustomerController extends Controller
 
         CustomerLocation::insert($location);
 
-        return response()->json([
-            'result' => true,
-            'message' => 'Customer information added successfully',
-            'data' => new CustomerResource($customer)
-        ]);
+        return $this->success()
+            ->message('Customer information added successfully')
+            ->response(new CustomerResource($customer));
     }
 
     /**
@@ -63,11 +62,9 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        return response()->json([
-            'result' => true,
-            'message' => 'Customer information fetched successfully',
-            'data' => new CustomerResource($customer)
-        ]);
+        return $this->success()
+            ->message('Customer information fetched successfully')
+            ->response(new CustomerResource($customer));
     }
 
     /**
@@ -94,11 +91,9 @@ class CustomerController extends Controller
 
         CustomerLocation::insert($location);
 
-        return response()->json([
-            'result' => true,
-            'message' => 'Customer information added successfully',
-            'data' => new CustomerResource($customer)
-        ]);
+        return $this->success()
+            ->message('Customer information added successfully')
+            ->response(new CustomerResource($customer));
     }
 
     /**
@@ -111,10 +106,7 @@ class CustomerController extends Controller
     {
         $customer->delete();
 
-        return response()->json([
-            'result' => true,
-            'message' => 'Customer information deleted successfully',
-        ]);
+        return $this->success()->message('Customer information deleted successfully')->response();
     }
 
     /**
@@ -123,11 +115,10 @@ class CustomerController extends Controller
      * @param int Customer $customer
      * @return Responsable
      */
-    public function getAddress(Customer $customer) {
-        return response()->json([
-            'result' => true,
-            'message' => 'Customer address list fetched successfully',
-            'data' => $customer->locations->pluck('address')
-        ]);
+    public function getAddress(Customer $customer)
+    {
+        $this->success()
+            ->message('Customer address list fetched successfully')
+            ->response($customer->locations->pluck('address'));
     }
 }
