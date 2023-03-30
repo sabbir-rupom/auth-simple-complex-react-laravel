@@ -6,16 +6,16 @@ import {
   Button,
   FormControl,
   Grid,
-  InputLabel,
   MenuItem,
   Paper,
   Select,
-  SelectChangeEvent,
   TextField,
   Typography,
 } from '@mui/material';
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import CommonApi from '../services/CommonApi';
+import OrderApi from '../services/OrderApi';
 import { BuyerDTO, CustomerDTO, FilterDTO } from '../shared/data';
 import { orderActions } from '../store/order.slice';
 
@@ -59,19 +59,26 @@ const OrderSearch = ({ orderCount = 0 }: { orderCount: number }) => {
   );
   useEffect(() => setFormData(filterParams), [filterParams]);
 
-  const inputChangeHandler = (
-    event: ChangeEvent<any> | SelectChangeEvent<any>
-  ) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  const { handleSubmit, reset, control } = useForm<FilterDTO>();
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setTimeout(() => {
-      console.log(formData);
-      setLoading(false);
-    }, 2000);
+  /**
+   * Set form with initial values
+   */
+  useEffect(() => {
+    reset(filterParams);
+  }, [filterParams, reset]);
+
+  const filterFormSubmit: SubmitHandler<FilterDTO> = async (
+    inputs: FilterDTO
+  ) => {
+    setLoading(true);
+    let [orders, pagination, result] = await OrderApi.orders(inputs);
+
+    if (result) {
+      dispatch(orderActions.setOrders(orders));
+      dispatch(orderActions.setOrderPagination(pagination));
+    }
+    setLoading(false);
   };
 
   return (
@@ -94,61 +101,83 @@ const OrderSearch = ({ orderCount = 0 }: { orderCount: number }) => {
         </Grid>
       </Grid>
       <Paper variant="outlined" square className="mt-5 px-6 py-8">
-        <form onSubmit={handleSubmit}>
+        <form autoComplete="off" onSubmit={handleSubmit(filterFormSubmit)}>
           <Grid container spacing={4}>
             <Grid item md={6} xs={12}>
               <FormControl fullWidth>
-                <InputLabel>Customer</InputLabel>
-                <Select
-                  value={filterParams.customer}
-                  label="Customer"
-                  onChange={(e) => inputChangeHandler(e)}
-                >
-                  <MenuItem value="0">
-                    <em>Select Customer</em>
-                  </MenuItem>
-
-                  {customers &&
-                    customers.map(({ id, name }: any) => (
-                      <MenuItem key={id} value={id}>
-                        {name}
+                <Controller
+                  control={control}
+                  name="customer"
+                  defaultValue={filterParams.customer}
+                  render={({ field }) => (
+                    <Select {...field}>
+                      <MenuItem value="0">
+                        <em>Select Customer</em>
                       </MenuItem>
-                    ))}
-                </Select>
+
+                      {customers &&
+                        customers.map(({ id, name }: any) => (
+                          <MenuItem key={id} value={id}>
+                            {name}
+                          </MenuItem>
+                        ))}
+                    </Select>
+                  )}
+                />
               </FormControl>
             </Grid>
+
             <Grid item md={6} xs={12}>
               <FormControl fullWidth>
-                <InputLabel>Buyer</InputLabel>
-                <Select
-                  value={filterParams.buyer}
-                  label="Buyer"
-                  onChange={(e) => inputChangeHandler(e)}
-                >
-                  <MenuItem value="0">
-                    <em>Select Buyer</em>
-                  </MenuItem>
-
-                  {buyers &&
-                    buyers.map(({ id, name }: any) => (
-                      <MenuItem key={id} value={id}>
-                        {name}
+                <Controller
+                  control={control}
+                  name="buyer"
+                  defaultValue={filterParams.buyer}
+                  render={({ field }) => (
+                    <Select {...field}>
+                      <MenuItem value="0">
+                        <em>Select Buyer</em>
                       </MenuItem>
-                    ))}
-                </Select>
+
+                      {buyers &&
+                        buyers.map(({ id, name }: any) => (
+                          <MenuItem key={id} value={id}>
+                            {name}
+                          </MenuItem>
+                        ))}
+                    </Select>
+                  )}
+                />
               </FormControl>
             </Grid>
+
             <Grid item md={6} xs={12}>
-              <TextField
-                sx={{ mb: 3 }}
-                label="Order Number"
-                variant="outlined"
-                fullWidth
-                onChange={(e) => inputChangeHandler(e)}
+              <Controller
+                name="order_number"
+                control={control}
+                defaultValue={filterParams.order_number}
+                render={({ field: { onChange, value, ...rest } }) => (
+                  <TextField
+                    onChange={onChange}
+                    {...rest}
+                    value={value ?? ''}
+                    sx={{ mb: 3 }}
+                    label="Order Number"
+                    variant="outlined"
+                    fullWidth
+                  />
+                )}
               />
             </Grid>
+
             <Grid item md={6} xs={12}>
-              <DateRangePicker />
+              <DateRangePicker
+                startValue={filterParams.start_date}
+                endValue={filterParams.end_date}
+                control={control}
+                startName="start_date"
+                endName="end_date"
+              />
             </Grid>
           </Grid>
           <Grid item xs={12} alignItems="center">

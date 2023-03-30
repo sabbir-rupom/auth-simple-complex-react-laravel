@@ -56,7 +56,7 @@ const ItemForm: React.FC<{}> = () => {
     }
   }, [isSubmitSuccessful, reset, setLoading]);
 
-  const ItemFormSubmit: SubmitHandler<itemDTO> = async (inputs: itemDTO) => {
+  const itemFormSubmit: SubmitHandler<itemDTO> = async (inputs: itemDTO) => {
     setLoading(true);
     let result = await ItemApi.save(inputs);
 
@@ -79,7 +79,7 @@ const ItemForm: React.FC<{}> = () => {
           component="form"
           noValidate
           autoComplete="off"
-          onSubmit={handleSubmit(ItemFormSubmit)}
+          onSubmit={handleSubmit(itemFormSubmit)}
           sx={{ mt: 1 }}
         >
           <input type="hidden" name="id" value={itemInput.id} />

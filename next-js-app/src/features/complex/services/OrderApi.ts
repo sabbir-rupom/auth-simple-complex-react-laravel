@@ -3,7 +3,17 @@ import { callApi, ResponseInterface } from '@/common/services/Axios';
 const OrderApi = {
   // Get order list from server
   orders: async function (filter: object) {
-    let response: any = await callApi('complex/orders', 'get', filter);
+    const asArray = Object.entries(filter);
+
+    const params: any = asArray.filter(
+      ([key, value]) => Boolean(value) === true
+    );
+
+    let { data, message, result, ...rest }: any = await callApi(
+      'complex/orders?' + new URLSearchParams(params).toString(),
+      'get',
+      filter
+    );
 
     console.log('calling Orders API');
 
@@ -13,20 +23,20 @@ const OrderApi = {
         meta: null,
       };
 
-    if (response.data) {
-      orders = response.data;
+    if (data) {
+      orders = data;
     } else {
-      console.log('Error occurred: ' + response.message);
+      console.log('Error occurred: ' + message);
     }
 
-    if (response.links) {
-      pagination.links = response.links;
+    if (rest.links) {
+      pagination.links = rest.links;
     }
-    if (response.meta) {
-      pagination.meta = response.meta;
+    if (rest.meta) {
+      pagination.meta = rest.meta;
     }
 
-    return [orders, pagination];
+    return [orders, pagination, result];
   },
 
   // Get order detail by ID

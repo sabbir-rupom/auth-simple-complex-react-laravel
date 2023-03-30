@@ -1,24 +1,33 @@
+import { Container } from '@mui/material';
 import Box from '@mui/material/Box';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
+import { Controller } from 'react-hook-form';
+
+interface RangePickerProps {
+  startValue?: null | string;
+  endValue?: null | string;
+  startName: string;
+  endName: string;
+  control: any;
+}
 
 const DateRangePicker = ({
-  startDate = null,
-  endDate = null,
+  startValue = null,
+  endValue = null,
   startName = 'start_date',
   endName = 'end_date',
-  inputChangeHandler,
-}: any) => {
-  const [startDateInput, setStartDateInput] = useState(startDate);
-  const [endDateInput, setEndDateInput] = useState(endDate);
+  control,
+}: RangePickerProps) => {
+  const [startDateInput, setStartDateInput] = useState<any>(null);
+  const [endDateInput, setEndDateInput] = useState<any>(null);
 
   useEffect(() => {
-    console.log(startDateInput);
-    console.log(endDateInput);
+    if (startDateInput && endDateInput && startDateInput > endDateInput) {
+      console.log('do date range validation');
+    }
   }, [startDateInput, endDateInput]);
 
   return (
@@ -26,23 +35,61 @@ const DateRangePicker = ({
       sx={{
         display: 'flex',
         alignItems: 'center',
-        '& > :not(style)': { m: -1, px: 1 },
+        '& > :not(style)': { px: 0 },
       }}
     >
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DemoContainer components={['DatePicker', 'DatePicker']}>
-          <DatePicker
-            label="Start Date"
-            defaultValue={startDateInput ? dayjs(startDateInput) : null}
-            onChange={(value) => setStartDateInput(value)}
+        <Container className="flex">
+          <Controller
+            control={control}
+            name={startName}
+            defaultValue={startValue}
+            render={({ field: { onChange, value, ...rest } }) => (
+              <DatePicker
+                className="flex-grow"
+                label="Start Date"
+                {...rest}
+                onChange={(e: any) => {
+                  let dt = new Date(e);
+                  dt.setDate(dt.getDate() + 1);
+                  let [year, month, day] = dt
+                    .toISOString()
+                    .substring(0, 10)
+                    .split('-')
+                    .map((x) => parseInt(x, 10));
+                  let newDate = `${year}-${month}-${day}`;
+                  setStartDateInput(new Date(newDate));
+                  onChange(newDate);
+                }}
+              />
+            )}
           />
-          <span className="p-3">-</span>
-          <DatePicker
-            label="End Date"
-            defaultValue={endDateInput ? dayjs(endDateInput) : null}
-            onChange={(value) => setEndDateInput(value)}
+          <div className="p-3">-</div>
+          <Controller
+            control={control}
+            name={endName}
+            defaultValue={endValue}
+            render={({ field: { onChange, value, ...rest } }) => (
+              <DatePicker
+                className="flex-grow"
+                label="End Date"
+                {...rest}
+                onChange={(e: any) => {
+                  let dt = new Date(e);
+                  dt.setDate(dt.getDate() + 1);
+                  let [year, month, day] = dt
+                    .toISOString()
+                    .substring(0, 10)
+                    .split('-')
+                    .map((x) => parseInt(x, 10));
+                  let newDate = `${year}-${month}-${day}`;
+                  setEndDateInput(new Date(newDate));
+                  onChange(newDate);
+                }}
+              />
+            )}
           />
-        </DemoContainer>
+        </Container>
       </LocalizationProvider>
     </Box>
   );

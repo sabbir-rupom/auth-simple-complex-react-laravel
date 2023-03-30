@@ -87,7 +87,7 @@ export type FilterDTO = {
 };
 
 export const defaultFilterParams: FilterDTO = {
-  order_number: null,
+  order_number: '',
   customer: 0,
   buyer: 0,
   start_date: null,
