@@ -35,12 +35,12 @@ const Breadcrumb = ({
             {parent}
           </Link>
           {bread2 && (
-            <>
+            <Breadcrumbs aria-label="breadcrumb">
               <Link underline="hover" color="inherit" href={breadLink1 ?? ''}>
                 {bread1}
               </Link>
               <Typography color="text.primary">{bread2}</Typography>
-            </>
+            </Breadcrumbs>
           )}
 
           {!bread2 && <Typography color="text.primary">{bread1}</Typography>}

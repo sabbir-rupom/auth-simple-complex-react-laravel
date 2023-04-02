@@ -1,11 +1,21 @@
 import { convertDate } from '../services/Utility';
 
-export type OrderProductDTO = {
-  product: number;
-  product_unit: number;
-  product_category: number;
-  quantity: number;
-  unit_price: number;
+export interface OrderProductDTO {
+  id: number | undefined;
+  product: number | undefined;
+  product_unit: number | undefined;
+  product_category: number | undefined;
+  quantity: number | undefined;
+  unit_price: number | undefined;
+}
+
+export const defaultOrderProduct: OrderProductDTO = {
+  id: 0,
+  product: 0,
+  product_unit: 0,
+  product_category: 0,
+  quantity: 1,
+  unit_price: 0,
 };
 
 export type OrderDTO = {
@@ -31,7 +41,7 @@ export const defaultOrderInput: OrderDTO = {
   delivery_time: '12:00',
   attachment: null,
   remark: '',
-  order_products: [],
+  order_products: [defaultOrderProduct],
 };
 
 export type OrderSummaryDTO = {

@@ -28,7 +28,7 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
-        $orders = (new OrderService())->filter($request)->getOrders($request->paginate_count ?? 3);
+        $orders = (new OrderService())->filter($request)->getOrders($request->paginate_count ?? 5);
 
         $resultData = OrderPaginationResource::collection($orders)->response()->getData();
         $resultData->message = 'Order data is fetched successfully';

@@ -19,7 +19,13 @@ import OrderApi from '../services/OrderApi';
 import { BuyerDTO, CustomerDTO, FilterDTO } from '../shared/data';
 import { orderActions } from '../store/order.slice';
 
-const OrderSearch = ({ orderCount = 0 }: { orderCount: number }) => {
+const OrderSearch = ({
+  orderCount = 0,
+  totalOrder = 0,
+}: {
+  orderCount: number;
+  totalOrder: number;
+}) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [formData, setFormData] = useState<FilterDTO>({});
 
@@ -83,24 +89,10 @@ const OrderSearch = ({ orderCount = 0 }: { orderCount: number }) => {
 
   return (
     <>
-      <Grid container spacing={2}>
-        <Grid item md={6}>
-          <Typography component="h6">
-            Showing List of Orders ({orderCount})
-          </Typography>
-        </Grid>
-        <Grid item md={6} className="flex justify-end">
-          <Button
-            variant="contained"
-            href="/complex/order/0"
-            color="success"
-            className="-mt-2"
-          >
-            New Order
-          </Button>
-        </Grid>
-      </Grid>
-      <Paper variant="outlined" square className="mt-5 px-6 py-8">
+      <Paper variant="outlined" square className="mb-8 px-6 pt-6 pb-8">
+        <h3 className="text-2xl font-semibold w-full text-center mb-5">
+          Filter Order(s)
+        </h3>
         <form autoComplete="off" onSubmit={handleSubmit(filterFormSubmit)}>
           <Grid container spacing={4}>
             <Grid item md={6} xs={12}>
@@ -196,6 +188,24 @@ const OrderSearch = ({ orderCount = 0 }: { orderCount: number }) => {
           </Grid>
         </form>
       </Paper>
+
+      <Grid container spacing={2}>
+        <Grid item md={6}>
+          <Typography component="h6">
+            Showing Orders: {orderCount} of {totalOrder}
+          </Typography>
+        </Grid>
+        <Grid item md={6} className="flex justify-end">
+          <Button
+            variant="contained"
+            href="/complex/order/0"
+            color="success"
+            className="-mt-2"
+          >
+            New Order
+          </Button>
+        </Grid>
+      </Grid>
     </>
   );
 };

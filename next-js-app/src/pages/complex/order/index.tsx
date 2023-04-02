@@ -47,7 +47,10 @@ const Complex = () => {
           title="Complex Page: Order List"
         />
         <Container component="main" maxWidth="xl" sx={{ px: 0 }}>
-          <OrderSearch orderCount={pagination ? pagination.meta?.total : 0} />
+          <OrderSearch
+            totalOrder={pagination ? pagination.meta?.total : 0}
+            orderCount={orders.length}
+          />
           <Box sx={{ m: 2 }} />
           <OrderList orders={orders} />
         </Container>
