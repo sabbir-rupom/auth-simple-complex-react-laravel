@@ -19,7 +19,7 @@ interface PropsType {
   animation: string;
 }
 
-export default function TransitionsSnackbar({
+export default function ToastMessage({
   type = 'success',
   message = 'Simple toast',
   animation = 'fade',

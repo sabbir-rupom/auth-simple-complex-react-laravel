@@ -1,7 +1,5 @@
-import { convertDate } from '../services/Utility';
-
 export interface OrderProductDTO {
-  id: number | undefined;
+  id?: number | undefined;
   product: number | undefined;
   product_unit: number | undefined;
   product_category: number | undefined;
@@ -36,8 +34,8 @@ export const defaultOrderInput: OrderDTO = {
   buyer: 0,
   customer: 0,
   customer_address: '',
-  order_date: convertDate(new Date()),
-  delivery_date: convertDate(new Date()),
+  order_date: new Date().toString(),
+  delivery_date: new Date().toString(),
   delivery_time: '12:00',
   attachment: null,
   remark: '',

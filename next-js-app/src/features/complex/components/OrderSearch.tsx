@@ -183,7 +183,7 @@ const OrderSearch = ({
               sx={{ py: '0.8rem', mt: '1rem' }}
               startIcon={<SearchIcon />}
             >
-              <span>Save</span>
+              <span>Search</span>
             </LoadingButton>
           </Grid>
         </form>

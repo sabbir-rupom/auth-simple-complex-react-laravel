@@ -21,7 +21,7 @@ class ProductResource extends JsonResource
             'price' => (int) $this->price,
             'stock' => (int) $this->stock,
             'units' => UnitResource::collection($this->productUnits),
-            'catagories' => $this->productCategories->map(function ($category) {
+            'categories' => $this->productCategories->map(function ($category) {
                 return collect($category->toArray())->only('id', 'category_name');
             })
         ];

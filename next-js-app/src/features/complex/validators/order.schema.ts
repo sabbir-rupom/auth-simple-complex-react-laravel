@@ -48,13 +48,16 @@ const orderSchema = object().shape({
     .test(
       'fileType',
       'Only the following formats are accepted: JPG, JPEG, PNG and PDF',
-      value => {
+      (value: any) => {
+        if (value[0]) {
+          value = value[0];
+        }
         return (
           value &&
-          (value[0].type === 'image/jpeg' ||
-            value[0].type === 'image/jpg' ||
-            value[0].type === 'image/png' ||
-            value[0].type === 'application/pdf')
+          (value.type === 'image/jpeg' ||
+            value.type === 'image/jpg' ||
+            value.type === 'image/png' ||
+            value.type === 'application/pdf')
         );
       }
     )
