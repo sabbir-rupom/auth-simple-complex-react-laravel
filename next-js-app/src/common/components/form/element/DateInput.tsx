@@ -1,10 +1,11 @@
+import { FormHelperText } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import {
-  useController,
   UseControllerReturn,
+  useController,
   useFormContext,
 } from 'react-hook-form';
 import { InputProps } from './TextInput';
@@ -30,19 +31,15 @@ export const DateInput = (props: InputProps) => {
         label={props.label}
         value={checkDateValue(controller.field.value)}
         onChange={controller.field.onChange}
-        className={`w-full ${
-          controller.fieldState.error ? `border-red-500` : ``
-        }`}
-        // renderInput={(params: any) => (
-        //   <FormControl fullWidth>
-        //     <TextField
-        //       {...params}
-        //       error={!!controller.fieldState.error}
-        //       helperText={controller.fieldState.error?.message}
-        //     />
-        //   </FormControl>
-        // )}
+        className="w-full"
       />
+      {controller.fieldState.error ? (
+        <>
+          <FormHelperText className="text-red-500 text-xs">
+            {controller.fieldState.error.message}
+          </FormHelperText>
+        </>
+      ) : null}
     </LocalizationProvider>
   );
 };

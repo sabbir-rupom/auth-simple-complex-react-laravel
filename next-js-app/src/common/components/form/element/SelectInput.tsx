@@ -1,4 +1,10 @@
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import {
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
+} from '@mui/material';
 import {
   UseControllerReturn,
   useController,
@@ -30,11 +36,17 @@ export const SelectInput = (props: SelectInputProps) => {
         variant="outlined"
         id={props.name}
         label={props.label}
-        onChange={controller.field.onChange}
+        onChange={(e) => {
+          if (props.onStateChange) {
+            props.onStateChange(e.target.value);
+          }
+          controller.field.onChange(e);
+        }}
         onBlur={controller.field.onBlur}
         name={controller.field.name}
         value={controller.field.value}
         ref={controller.field.ref}
+        error={!!controller.fieldState.error}
       >
         {!controller.field.value ? (
           <MenuItem value={0}>Please Select</MenuItem>
@@ -45,6 +57,11 @@ export const SelectInput = (props: SelectInputProps) => {
           </MenuItem>
         ))}
       </Select>
+      {controller.fieldState.error ? (
+        <FormHelperText className="text-red-500 text-xs">
+          {controller.fieldState.error.message}
+        </FormHelperText>
+      ) : null}
     </FormControl>
   );
 };

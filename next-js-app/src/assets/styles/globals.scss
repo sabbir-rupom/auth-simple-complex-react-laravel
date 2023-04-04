@@ -26,3 +26,13 @@ label.error,
     @apply bg-green-700;
   }
 }
+
+.textarea-control {
+  textarea {
+    @apply block min-h-[auto] w-full rounded bg-transparent py-[0.5rem] px-3 leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0 border-gray-300 border;
+  }
+
+  label {
+    @apply pointer-events-none absolute px-2 top-1 left-3 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.1rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-neutral-200 bg-white;
+  }
+}

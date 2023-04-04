@@ -4,15 +4,31 @@ import { TextInput } from '@/common/components/form/element/TextInput';
 import { useAppDispatch, useAppSelector } from '@/common/redux/store';
 import { makeOptionArray } from '@/common/utils/general';
 import { FormControl, Grid } from '@mui/material';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import CommonApi from '../services/CommonApi';
 import { orderActions } from '../store/order.slice';
 
-const OrderBasicForm = () => {
+const OrderBasicForm = ({ customerChange }: { customerChange: Function }) => {
   const customers = useAppSelector((state) => state.order.customers);
   const buyers = useAppSelector((state) => state.order.buyers);
 
+  const [activeCustomer, setActiveCustomer] = useState(null);
+
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (activeCustomer) {
+      let customerObj: any = customers.filter((obj) => {
+        return obj.id === activeCustomer;
+      });
+
+      customerObj = customerObj[0] ?? null;
+
+      if (customerObj && customerObj.locations) {
+        customerChange(customerObj.locations);
+      }
+    }
+  }, [activeCustomer, customers]);
 
   useEffect(() => {
     async function getCustomers() {
@@ -45,6 +61,7 @@ const OrderBasicForm = () => {
             label="Customer"
             placeholder="Select Customer"
             options={makeOptionArray(customers, 'id', 'name')}
+            onStateChange={setActiveCustomer}
           />
         </FormControl>
       </Grid>

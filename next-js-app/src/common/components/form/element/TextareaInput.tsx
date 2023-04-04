@@ -11,10 +11,10 @@ export interface InputProps {
   label?: string;
   type?: string;
   readonly?: boolean;
-  onStateChange?: Function;
+  className?: string;
 }
 
-export const TextInput = (props: InputProps) => {
+export const TextareaInput = (props: InputProps) => {
   const { control } = useFormContext();
 
   const controller: UseControllerReturn = useController({
@@ -25,20 +25,19 @@ export const TextInput = (props: InputProps) => {
   return (
     <FormControl fullWidth>
       <TextField
-        type={props.type ?? 'text'}
-        variant="outlined"
+        multiline
+        rows={2}
+        // maxRows={4}
+        defaultValue={controller.field.value}
         placeholder={props.placeholder}
-        label={props.label}
         onChange={controller.field.onChange}
         onBlur={controller.field.onBlur}
         name={controller.field.name}
-        value={controller.field.value}
         ref={controller.field.ref}
+        className={props.className}
+        label={props.label}
         error={!!controller.fieldState.error}
         helperText={controller.fieldState.error?.message}
-        InputProps={{
-          readOnly: props.readonly ?? false,
-        }}
       />
     </FormControl>
   );

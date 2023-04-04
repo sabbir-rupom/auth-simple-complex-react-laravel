@@ -1,4 +1,5 @@
-import { FormControl, TextField } from '@mui/material';
+import { FormControl } from '@mui/material';
+import { MuiFileInput } from 'mui-file-input';
 import {
   UseControllerReturn,
   useController,
@@ -11,10 +12,9 @@ export interface InputProps {
   label?: string;
   type?: string;
   readonly?: boolean;
-  onStateChange?: Function;
 }
 
-export const TextInput = (props: InputProps) => {
+export const FileInput = (props: InputProps) => {
   const { control } = useFormContext();
 
   const controller: UseControllerReturn = useController({
@@ -24,21 +24,16 @@ export const TextInput = (props: InputProps) => {
 
   return (
     <FormControl fullWidth>
-      <TextField
-        type={props.type ?? 'text'}
-        variant="outlined"
+      <MuiFileInput
         placeholder={props.placeholder}
         label={props.label}
         onChange={controller.field.onChange}
         onBlur={controller.field.onBlur}
         name={controller.field.name}
         value={controller.field.value}
-        ref={controller.field.ref}
         error={!!controller.fieldState.error}
         helperText={controller.fieldState.error?.message}
-        InputProps={{
-          readOnly: props.readonly ?? false,
-        }}
+        fullWidth
       />
     </FormControl>
   );

@@ -40,7 +40,7 @@ export const AuthApi = {
       form
     );
 
-    console.log('calling Login API');
+    // console.log('calling Login API');
 
     if (result) {
       return data;
@@ -58,7 +58,7 @@ export const AuthApi = {
       form
     );
 
-    console.log('calling Registration API');
+    // console.log('calling Registration API');
 
     if (result) {
       return data;
@@ -72,7 +72,7 @@ export const AuthApi = {
   logout: async function () {
     let { result, message }: ResponseInterface = await callApi('logout', 'get');
 
-    console.log('calling Items API');
+    // console.log('calling Items API');
 
     if (!result) {
       console.log('Error occurred: ' + message);

@@ -8,6 +8,9 @@ const orderProductSchema: any = object().shape({
   unit_price: number(),
 });
 
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+
 const orderSchema = object().shape({
   order_number: string()
     .required('Unique order number is required')
@@ -15,12 +18,16 @@ const orderSchema = object().shape({
       /^[A-Z0-9]*$/,
       'Code must contain only uppercase letters and digits'
     ),
-  buyer: number().min(1, 'Buyer information not selected'),
-  customer: number().min(1, 'Customer information not selected'),
+  buyer: number()
+    .required('Select a Buyer')
+    .min(1, 'Buyer information not selected'),
+  customer: number()
+    .required('Select a customer')
+    .min(1, 'Customer information not selected'),
   customer_address: string().required('Please choose customer address'),
   order_date: date()
     .required('Order date is required')
-    .min(new Date(), 'Date must be current or future'),
+    .min(today, 'Date must be current or future'),
   delivery_date: date()
     .required('Delivery date is required')
     .when('order_date', (orderDate: any, schema) => {
@@ -32,7 +39,8 @@ const orderSchema = object().shape({
           startDate = new Date(orderDate);
         }
 
-        const dayAfter = new Date(startDate.getTime()); // + 86400000
+        const dayAfter = new Date(startDate.getTime());
+        +86400000;
 
         return schema.min(
           dayAfter,
@@ -44,21 +52,23 @@ const orderSchema = object().shape({
     }),
   delivery_time: string().required('Delivery time is required'),
   attachment: mixed<FileList>()
-    .required('Attachment file is required')
+    .notRequired()
     .test(
       'fileType',
       'Only the following formats are accepted: JPG, JPEG, PNG and PDF',
       (value: any) => {
-        if (value[0]) {
+        if (value && value[0]) {
           value = value[0];
+          return (
+            value &&
+            (value.type === 'image/jpeg' ||
+              value.type === 'image/jpg' ||
+              value.type === 'image/png' ||
+              value.type === 'application/pdf')
+          );
+        } else {
+          return true;
         }
-        return (
-          value &&
-          (value.type === 'image/jpeg' ||
-            value.type === 'image/jpg' ||
-            value.type === 'image/png' ||
-            value.type === 'application/pdf')
-        );
       }
     )
     .test('fileSize', 'Only files up to 4MB are permitted', (value: any) => {

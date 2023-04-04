@@ -8,9 +8,17 @@ import { orderActions } from '@/features/complex/store/order.slice';
 import MasterLayout from '@/layouts/MasterLayout';
 import { Box, Container } from '@mui/material';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 const Complex = () => {
+  const router = useRouter();
+
+  const auth = useAppSelector((state) => state.userAuth.isLoggedIn);
+  if (!auth) {
+    router.push('/');
+  }
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
