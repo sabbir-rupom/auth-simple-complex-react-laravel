@@ -64,9 +64,10 @@ const OrderApi = {
 
   // Update order by ID
   update: async function (id: number, order: any) {
+    order['_method'] = 'put';
     const { result, message }: ResponseInterface = await callApi(
       'complex/orders/' + id,
-      'put',
+      'post',
       jsonToFormData(order),
       true
     );

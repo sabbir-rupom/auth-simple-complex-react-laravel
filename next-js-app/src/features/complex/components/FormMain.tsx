@@ -108,6 +108,7 @@ const FormMain = ({ orderId }: { orderId: number }) => {
 
     if (orderId > 0) {
       [result, message] = await OrderApi.update(orderId, form);
+      setLoading(false);
     } else {
       [result, message] = await OrderApi.create(form);
       resetForm();
