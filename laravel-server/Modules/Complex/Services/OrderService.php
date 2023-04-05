@@ -52,16 +52,17 @@ class OrderService
     }
 
     /**
-     * Get order colletion
+     * Get order collection
      *
      * @return Collection
      */
     public function getOrders(int $paginationNumber = 5)
     {
+        $url = url('/storage');
         return $this->orderModel->select([
             'buyers.name as buyer_name', 'customers.name as customer_name', 'order_date', 'delivery_date', 'order_number',
-            DB::raw('sum(order_products.total_price) as total_amount'), 'users.name as created_by', 'attachment',
-            'orders.id'
+            DB::raw('sum(order_products.total_price) as total_amount'), 'users.name as created_by',
+            DB::raw("(CASE WHEN (attachment is not null) THEN concat('$url/',attachment) ELSE null END) as attachment"), 'orders.id'
         ])
             ->join('customers', 'customers.id', '=', 'orders.customer_id')
             ->join('buyers', 'buyers.id', '=', 'orders.buyer_id')
@@ -98,7 +99,7 @@ class OrderService
             $this->orderModel->user_id = $request->user()->id;
             $this->orderModel->remark = $request->remark;
 
-            if($request->hasFile('attachment')) {
+            if ($request->hasFile('attachment')) {
                 $this->saveAttachment($request->attachment);
             }
 
@@ -133,8 +134,9 @@ class OrderService
      * @return void
      * @throws HttpResponseException If order attachment upload failed
      */
-    protected function saveAttachment(UploadedFile $file) {
-        if($this->orderModel->attachment) {
+    protected function saveAttachment(UploadedFile $file)
+    {
+        if ($this->orderModel->attachment) {
             FileUpload::remove($this->orderModel->attachment);
         }
         $fileUpload = FileUpload::instance()->upload($file);

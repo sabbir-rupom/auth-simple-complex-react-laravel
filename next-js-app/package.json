@@ -10,6 +10,7 @@
     "prettier": "prettier --write ."
   },
   "dependencies": {
+    "@ajoelp/json-to-formdata": "^1.5.0",
     "@emotion/cache": "^11.10.5",
     "@emotion/react": "^11.10.6",
     "@emotion/server": "^11.10.0",

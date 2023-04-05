@@ -80,7 +80,7 @@ abstract class FileUploadAbstract implements FileUploadInterface
         return $response;
     }
 
-    public static function remove(string $path)
+    public static function remove(string|null $path)
     {
         return empty($path) ? false :  Storage::delete($path);
     }

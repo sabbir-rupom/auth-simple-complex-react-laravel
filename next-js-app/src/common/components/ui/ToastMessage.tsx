@@ -1,7 +1,9 @@
+import { useAppDispatch } from '@/common/redux/store';
+import { toastActions } from '@/common/redux/toast.slice';
+import { Alert, AlertColor, Snackbar } from '@mui/material';
 import Fade from '@mui/material/Fade';
 import Grow, { GrowProps } from '@mui/material/Grow';
 import Slide, { SlideProps } from '@mui/material/Slide';
-import Snackbar from '@mui/material/Snackbar';
 import { useEffect, useState } from 'react';
 
 function SlideTransition(props: SlideProps) {
@@ -13,22 +15,28 @@ function GrowTransition(props: GrowProps) {
 }
 
 interface PropsType {
-  open: boolean;
-  type: string;
+  type: AlertColor;
   message: string;
-  animation: string;
+  animation?: string;
+  toastOpen: Function;
 }
 
 export default function ToastMessage({
   type = 'success',
   message = 'Simple toast',
   animation = 'fade',
+  toastOpen,
 }: PropsType) {
   const [open, setOpen] = useState<boolean>(true);
   const [transition, setTransition] = useState<any>(Fade);
 
+  const dispatch = useAppDispatch();
+
   const handleClose = () => {
+    toastOpen(false);
     setOpen(false);
+
+    dispatch(toastActions.hideToast());
   };
 
   useEffect(() => {
@@ -45,11 +53,15 @@ export default function ToastMessage({
     <div>
       <Snackbar
         open={open}
+        autoHideDuration={6000}
         onClose={handleClose}
         TransitionComponent={transition}
-        message={message}
         key={animation}
-      />
+      >
+        <Alert onClose={handleClose} severity={type} sx={{ width: '100%' }}>
+          {message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

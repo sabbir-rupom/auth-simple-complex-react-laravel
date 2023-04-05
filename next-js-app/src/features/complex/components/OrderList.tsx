@@ -1,6 +1,8 @@
 import DialogBox from '@/common/components/ui/DialogBox';
 import StyledTableCell from '@/common/components/ui/StyledTableCell';
 import StyledTableRow from '@/common/components/ui/StyledTableRow';
+import { useAppDispatch } from '@/common/redux/store';
+import { toastActions } from '@/common/redux/toast.slice';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import {
@@ -12,11 +14,66 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import OrderApi from '../services/OrderApi';
 import { OrderSummaryDTO } from '../shared/data';
+import { orderActions } from '../store/order.slice';
 
 const OrderList = ({ orders }: { orders: OrderSummaryDTO[] }) => {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const [deleteOrder, setDeleteOrder] = useState<number>(0);
+
+  const openDelete = (id: number) => {
+    setOpenDialog(true);
+    setDeleteOrder(id);
+  };
+
+  const dispatch = useAppDispatch();
+  const { push } = useRouter();
+
+  /**
+   * Redirect to Edit page
+   *
+   * @param id Order ID
+   */
+  const handleEditForm = (id: number) => {
+    push('/complex/order/' + id);
+  };
+
+  /**
+   * Process order delete operation
+   */
+  const handleDelete = async () => {
+    if (deleteOrder > 0) {
+      setOpenDialog(false);
+      const [result, message] = await OrderApi.delete(deleteOrder);
+
+      if (result) {
+        dispatch(
+          toastActions.showToast({
+            type: 'success',
+            message: String(message),
+          })
+        );
+      } else {
+        toastActions.showToast({
+          type: 'error',
+          message: String(message),
+        });
+      }
+
+      if (result) {
+        let [orders, pagination] = await OrderApi.orders({});
+
+        if (orders) {
+          dispatch(orderActions.setOrders(orders));
+          dispatch(orderActions.setOrderPagination(pagination));
+        }
+      }
+    }
+  };
+
   return (
     <>
       <TableContainer component={Paper} sx={{ mt: 3 }}>
@@ -51,7 +108,20 @@ const OrderList = ({ orders }: { orders: OrderSummaryDTO[] }) => {
                   <StyledTableCell align="center">
                     {order.total_amount}
                   </StyledTableCell>
-                  <StyledTableCell align="center"></StyledTableCell>
+                  <StyledTableCell align="center">
+                    {order.attachment ? (
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        href={order.attachment}
+                        target="_blank"
+                      >
+                        Download
+                      </Button>
+                    ) : (
+                      'n/a'
+                    )}
+                  </StyledTableCell>
                   <StyledTableCell align="right">
                     <Button
                       type="button"
@@ -59,6 +129,7 @@ const OrderList = ({ orders }: { orders: OrderSummaryDTO[] }) => {
                       variant="outlined"
                       startIcon={<EditIcon />}
                       sx={{ mr: 1 }}
+                      onClick={() => handleEditForm(order.id)}
                     >
                       Edit
                     </Button>
@@ -68,6 +139,7 @@ const OrderList = ({ orders }: { orders: OrderSummaryDTO[] }) => {
                       variant="outlined"
                       color="error"
                       startIcon={<DeleteIcon />}
+                      onClick={() => openDelete(order.id)}
                     >
                       Delete
                     </Button>
@@ -81,9 +153,9 @@ const OrderList = ({ orders }: { orders: OrderSummaryDTO[] }) => {
       <DialogBox
         open={openDialog}
         closeDialog={() => setOpenDialog(false)}
-        dialogHandler={null}
+        dialogHandler={handleDelete}
         remove={true}
-        title="Are you sure you want to delete this Item?"
+        title="Are you sure you want to delete this Order?"
       />
     </>
   );

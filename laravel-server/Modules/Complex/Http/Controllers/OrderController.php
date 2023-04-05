@@ -107,7 +107,9 @@ class OrderController extends Controller
     public function destroy(Order $order)
     {
         $order->orderProducts()->delete();
-        FileUpload::remove($order->attachment);
+        if ($order->attachment) {
+            FileUpload::remove($order->attachment);
+        }
         $order->delete();
 
         return $this->success()->message('Order information deleted successfully')->response();

@@ -52,6 +52,12 @@ const FormOrderProductEntry = ({
     setQuantity(product.quantity ?? 1);
   }, [products]);
 
+  useEffect(() => {
+    if (product.id && product.id > 0) {
+      handleOrderProductEntry(Number(product.id));
+    }
+  }, [product]);
+
   const handlePrice = (quantity: number) => {
     setValue(`order_products[${index}].quantity`, quantity);
 
@@ -63,7 +69,7 @@ const FormOrderProductEntry = ({
       return obj.id === productId;
     });
 
-    if (productObj) {
+    if (productObj && productObj[0]) {
       setProductCategory(productObj[0].categories);
       setProductUnit(productObj[0].units);
 
@@ -172,7 +178,13 @@ const FormOrderProductEntry = ({
           {basePrice && quantity ? basePrice * quantity : 0}
         </div>
       </Grid>
-      <Grid item xs={12} md={12} lg={1} className="text-center lg:text-right">
+      <Grid
+        item
+        xs={12}
+        md={12}
+        lg={1}
+        className="text-center lg:text-right pb-5 lg:pb-0 mb-3 lg:mb-0"
+      >
         <Button
           color="error"
           variant="outlined"

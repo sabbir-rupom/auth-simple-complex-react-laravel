@@ -1,11 +1,11 @@
 import { array, date, mixed, number, object, string } from 'yup';
 
 const orderProductSchema: any = object().shape({
-  product: number(),
-  product_unit: number(),
-  product_category: number().optional(),
-  quantity: number().min(1),
-  unit_price: number(),
+  product: number().label('Product').required().min(1),
+  product_unit: number().label('Product Unit').required().min(1),
+  product_category: number().nullable().label('Product Category'),
+  quantity: number().min(1, 'Product Quantity'),
+  unit_price: number().label('Unit Price').min(0),
 });
 
 const today = new Date();
@@ -25,9 +25,8 @@ const orderSchema = object().shape({
     .required('Select a customer')
     .min(1, 'Customer information not selected'),
   customer_address: string().required('Please choose customer address'),
-  order_date: date()
-    .required('Order date is required')
-    .min(today, 'Date must be current or future'),
+  order_date: date().required('Order date is required'),
+  // .min(today, 'Date must be current or future'),
   delivery_date: date()
     .required('Delivery date is required')
     .when('order_date', (orderDate: any, schema) => {
@@ -80,9 +79,8 @@ const orderSchema = object().shape({
 
   order_products: array()
     .of(orderProductSchema)
-    .compact(v => !v.checked)
-    .min(1, 'At least one product is required')
-    .required(),
+    // .compact(v => !v.checked)
+    .min(1, 'At least one product is required'),
 });
 
 export default orderSchema;

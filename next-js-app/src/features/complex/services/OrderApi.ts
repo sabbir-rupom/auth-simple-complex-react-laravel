@@ -1,4 +1,5 @@
 import { callApi, ResponseInterface } from '@/common/services/Axios';
+import jsonToFormData from '@ajoelp/json-to-formdata';
 
 const OrderApi = {
   // Get order list from server
@@ -46,12 +47,7 @@ const OrderApi = {
       'get'
     );
 
-    if (data) {
-      return data;
-    } else {
-      console.log('Error occurred: ' + message);
-    }
-    return null;
+    return [data, message];
   },
 
   // Create new order
@@ -59,14 +55,11 @@ const OrderApi = {
     const { result, message }: ResponseInterface = await callApi(
       'complex/orders',
       'post',
-      order
+      jsonToFormData(order),
+      true
     );
 
-    if (!result) {
-      console.log(message);
-    }
-
-    return result;
+    return [result, message];
   },
 
   // Update order by ID
@@ -74,14 +67,11 @@ const OrderApi = {
     const { result, message }: ResponseInterface = await callApi(
       'complex/orders/' + id,
       'put',
-      order
+      jsonToFormData(order),
+      true
     );
 
-    if (!result) {
-      console.log(message);
-    }
-
-    return result;
+    return [result, message];
   },
 
   // Delete order by ID
@@ -91,13 +81,13 @@ const OrderApi = {
       'delete'
     );
 
-    if (result) {
-      console.log('Success: ' + message);
-    } else {
-      console.log('Error occurred: ' + message);
-    }
+    // if (result) {
+    //   console.log('Success: ' + message);
+    // } else {
+    //   console.log('Error occurred: ' + message);
+    // }
 
-    return result;
+    return [result, message];
   },
 };
 

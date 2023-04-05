@@ -16,3 +16,12 @@ export const makeOptionArray = (
   }
   return options;
 };
+
+// export const getFormData = (object: any) =>
+//   Object.keys(object).reduce((formData, key) => {
+//     if (Array.isArray(object[key])) {
+//       object[key] = JSON.stringify(object[key]);
+//     }
+//     formData.append(key, object[key]);
+//     return formData;
+//   }, new FormData());

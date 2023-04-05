@@ -1,67 +1,131 @@
 import { FileInput } from '@/common/components/form/element/FileInput';
 import { TextareaInput } from '@/common/components/form/element/TextareaInput';
-import { useAppSelector } from '@/common/redux/store';
+import { useAppDispatch, useAppSelector } from '@/common/redux/store';
+import { toastActions } from '@/common/redux/toast.slice';
 import { yupResolver } from '@hookform/resolvers/yup';
 import SaveIcon from '@mui/icons-material/Save';
 import { LoadingButton } from '@mui/lab';
 import { Button, Grid } from '@mui/material';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import {
   FormProvider,
   UseFormProps,
   UseFormReturn,
   useForm,
 } from 'react-hook-form';
-import { OrderDTO, defaultOrderInput } from '../shared/data';
+import OrderApi from '../services/OrderApi';
+import { convertDate } from '../services/Utility';
+import { CustomerDTO, OrderDTO, defaultOrderInput } from '../shared/data';
 import orderSchema from '../validators/order.schema';
 import FormDeliveryAddress from './FormDeliveryAddress';
 import FormOrderProducts from './FormOrderProducts';
 import OrderBasicForm from './OrderBasicForm';
 
 const FormMain = ({ orderId }: { orderId: number }) => {
-  const defaultValues = useAppSelector((state) => state.order.orderFormInput);
+  const dispatch = useAppDispatch();
+  const { push } = useRouter();
+
+  const [activeCustomer, setActiveCustomer] = useState<number>(0);
+
+  const form: UseFormReturn<OrderDTO, UseFormProps> = useForm<OrderDTO>({
+    resolver: yupResolver(orderSchema),
+    defaultValues: defaultOrderInput,
+  });
+
+  useEffect(() => {
+    const fetchOrder = async (id: number) => {
+      const [data, message]: any = await OrderApi.get(id);
+      if (data) {
+        setActiveCustomer(data.customer);
+        form.reset(data);
+      } else {
+        dispatch(
+          toastActions.showToast({
+            type: 'error',
+            message: String(message),
+          })
+        );
+        push('/complex/order/0');
+      }
+    };
+
+    if (orderId > 0) {
+      fetchOrder(orderId);
+    }
+  }, []);
+
   const [loading, setLoading] = useState<boolean>(false);
 
   const [customerLocations, setCustomerLocations] = useState([[]]);
 
-  const form: UseFormReturn<OrderDTO, UseFormProps> = useForm<OrderDTO>({
-    resolver: yupResolver(orderSchema),
-    defaultValues,
-  });
+  const customers = useAppSelector((state) => state.order.customers);
 
   const resetForm = () => {
     form.reset(defaultOrderInput);
+    setLoading(false);
+    if (orderId > 0) {
+      push('/complex/order/0');
+    }
   };
 
-  const handleCustomerChange = (addressList: []) => {
-    setCustomerLocations(addressList);
+  const handleCustomerChange = (
+    customerId: number,
+    customers: CustomerDTO[]
+  ) => {
+    let customerObj: any = customers.filter((obj: any) => {
+      return obj.id === customerId;
+    });
+
+    customerObj = customerObj[0] ?? null;
+
+    if (customerObj && customerObj.locations) {
+      setCustomerLocations(customerObj.locations);
+    }
   };
 
+  useEffect(() => {
+    if (activeCustomer > 0) {
+      handleCustomerChange(activeCustomer, customers);
+    }
+  }, [activeCustomer, customers]);
+
+  /**
+   * Handle order form submission
+   *
+   * @param form Order form-data
+   */
   // const orderFormSubmit: SubmitHandler<OrderDTO> = async (inputs: OrderDTO) => {
-  // setLoading(true);
+  const orderFormSubmit = async (form: OrderDTO) => {
+    setLoading(true);
+    // console.log(form);
 
-  // console.log(inputs);
+    let result: any = false,
+      message: any = '';
 
-  // let result: boolean = false;
-  // if (orderId > 0) {
-  //   result = await OrderApi.update(orderId, inputs);
-  // } else {
-  //   result = await OrderApi.create(inputs);
-  // }
+    form.order_date = convertDate(new Date(form.order_date));
+    form.delivery_date = convertDate(new Date(form.delivery_date));
 
-  // if (result) {
-  //   console.log('success');
-  // }
-  // };
+    if (orderId > 0) {
+      [result, message] = await OrderApi.update(orderId, form);
+    } else {
+      [result, message] = await OrderApi.create(form);
+      resetForm();
+    }
 
-  // const { fields, append, remove } = useFieldArray({
-  //   name: 'order_products',
-  //   control,
-  //   keyName: 'orderProductId',
-  // });
-
-  const orderFormSubmit = (form: OrderDTO) => {
-    console.log(form);
+    if (result) {
+      dispatch(
+        toastActions.showToast({
+          type: 'success',
+          message: message,
+        })
+      );
+    } else {
+      toastActions.showToast({
+        type: 'error',
+        message: message,
+      });
+    }
   };
 
   return (

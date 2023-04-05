@@ -18,15 +18,7 @@ const OrderBasicForm = ({ customerChange }: { customerChange: Function }) => {
 
   useEffect(() => {
     if (activeCustomer) {
-      let customerObj: any = customers.filter((obj) => {
-        return obj.id === activeCustomer;
-      });
-
-      customerObj = customerObj[0] ?? null;
-
-      if (customerObj && customerObj.locations) {
-        customerChange(customerObj.locations);
-      }
+      customerChange(activeCustomer, customers);
     }
   }, [activeCustomer, customers]);
 

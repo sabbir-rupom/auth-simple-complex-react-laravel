@@ -11,13 +11,15 @@ export interface ResponseInterface {
 export const callApi = async (
   route: string,
   method: string = 'get',
-  data: object = {}
+  data: object = {},
+  hasFile: boolean = false
 ) => {
   let api = axios.create({
     baseURL: BASE_URL,
     headers: {
       Authorization: `Bearer ${getUserToken()}`,
       Accept: 'application/json',
+      'Content-Type': hasFile ? 'multipart/form-data' : 'application/json',
       // 'X-Requested-With': 'XMLHttpRequest',
     },
   });

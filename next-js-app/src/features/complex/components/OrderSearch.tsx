@@ -27,7 +27,6 @@ const OrderSearch = ({
   totalOrder: number;
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [formData, setFormData] = useState<FilterDTO>({});
 
   const customers: CustomerDTO[] = useAppSelector((state) => {
     return state.order.customers;
@@ -63,28 +62,42 @@ const OrderSearch = ({
   const filterParams: FilterDTO = useAppSelector<FilterDTO>(
     (state: any) => state.order.filterParams
   );
-  useEffect(() => setFormData(filterParams), [filterParams]);
 
   const { handleSubmit, reset, control } = useForm<FilterDTO>();
 
   /**
    * Set form with initial values
    */
-  useEffect(() => {
+  const resetForm = async () => {
     reset(filterParams);
-  }, [filterParams, reset]);
 
+    await fetchData(filterParams);
+  };
+
+  /**
+   * Handle form submission
+   *
+   * @param inputs
+   */
   const filterFormSubmit: SubmitHandler<FilterDTO> = async (
     inputs: FilterDTO
   ) => {
     setLoading(true);
+
+    await fetchData(inputs);
+
+    setLoading(false);
+  };
+
+  const fetchData = async (inputs: FilterDTO) => {
     let [orders, pagination, result] = await OrderApi.orders(inputs);
 
     if (result) {
       dispatch(orderActions.setOrders(orders));
       dispatch(orderActions.setOrderPagination(pagination));
     }
-    setLoading(false);
+
+    return;
   };
 
   return (
@@ -172,19 +185,32 @@ const OrderSearch = ({
               />
             </Grid>
           </Grid>
-          <Grid item xs={12} alignItems="center">
-            <LoadingButton
-              variant="outlined"
-              color="primary"
-              fullWidth
-              type="submit"
-              loading={loading}
-              loadingPosition="start"
-              sx={{ py: '0.8rem', mt: '1rem' }}
-              startIcon={<SearchIcon />}
-            >
-              <span>Search</span>
-            </LoadingButton>
+
+          <Grid container>
+            <Grid item xs={12} className="flex justify-center">
+              <LoadingButton
+                variant="outlined"
+                color="primary"
+                type="submit"
+                loading={loading}
+                fullWidth
+                loadingPosition="start"
+                sx={{ py: '0.8rem', mt: '1rem', mr: '1rem' }}
+                startIcon={<SearchIcon />}
+              >
+                <span>Search</span>
+              </LoadingButton>
+              <Button
+                type="button"
+                onClick={resetForm}
+                variant="outlined"
+                fullWidth
+                sx={{ py: '0.8rem', mt: '1rem' }}
+                color="error"
+              >
+                Reset
+              </Button>
+            </Grid>
           </Grid>
         </form>
       </Paper>

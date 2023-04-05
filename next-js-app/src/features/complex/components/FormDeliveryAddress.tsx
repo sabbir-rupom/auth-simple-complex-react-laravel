@@ -34,8 +34,8 @@ const FormDeliveryAddress = ({ locations }: any) => {
   return (
     <>
       <Grid container spacing={2} className="mt-3">
-        <Grid item xs={10}>
-          <FormControl fullWidth className="mb-3">
+        <Grid item xs={12} md={10}>
+          <FormControl fullWidth className="mb-0 lg:mb-3">
             <TextInput
               name="customer_address"
               label="Delivery Address*"
@@ -44,10 +44,10 @@ const FormDeliveryAddress = ({ locations }: any) => {
             />
           </FormControl>
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={12} md={2}>
           <div className="text-center">
             <Button
-              className="bg-blue-500 hover:bg-blue-300 text-white w-full p-4"
+              className="bg-blue-500 hover:bg-blue-300 text-white w-full p-2 lg:p-4"
               onClick={handleClickOpen}
             >
               Select
