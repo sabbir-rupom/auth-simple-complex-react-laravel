@@ -42,7 +42,7 @@ php artisan storage:link
 
 # run database migration with seeders
 php artisan migrate --seed
-php artisan module:seed Complex
+php artisan module:seed
 
 # run server locally
 php artisan serve
@@ -51,9 +51,20 @@ php artisan serve
 
 - The server should run at `http://localhost:8000/`. The API url base path will be: `http://localhost:8000/api`
 
-**React Application**
+**React-NextJS Application**
 
-- (not finished)
+- Move to `--project-root--/next-js-app/` directory
+- Create/Update `.env.local` file to set `NEXT_PUBLIC_SERVER_URL`
+- Run following commands
+```#!/bin/sh
+
+# install next-js app with npm
+npm install
+
+# run development server
+npm run dev
+
+```
 
 
 
