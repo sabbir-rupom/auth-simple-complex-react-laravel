@@ -34,9 +34,6 @@ const FormOrderProductEntry = ({
     formState: { errors },
   } = useFormContext();
 
-  // console.clear();
-  // console.log(errors);
-
   const [productArray, setProductArray] = useState<object[]>([]);
   const [productCategory, setProductCategory] = useState<object[]>([]);
   const [productUnit, setProductUnit] = useState<object[]>([]);
@@ -45,16 +42,17 @@ const FormOrderProductEntry = ({
 
   useEffect(() => {
     setProductArray(makeOptionArray(products, 'id', 'name'));
-    setValue(`order_products[${index}].unit_price`, product.unit_price);
-    setValue(`order_products[${index}].quantity`, product.quantity);
-
-    setBasePrice(product.unit_price ?? 0);
-    setQuantity(product.quantity ?? 1);
   }, [products]);
 
   useEffect(() => {
-    if (product.id && product.id > 0) {
-      handleOrderProductEntry(Number(product.id));
+    if (product.product && product.product > 0) {
+      handleOrderProductEntry(Number(product.product));
+
+      setValue(`order_products[${index}].unit_price`, product.unit_price);
+      setValue(`order_products[${index}].quantity`, product.quantity);
+
+      setBasePrice(product.unit_price ?? 0);
+      setQuantity(product.quantity ?? 1);
     }
   }, [product]);
 

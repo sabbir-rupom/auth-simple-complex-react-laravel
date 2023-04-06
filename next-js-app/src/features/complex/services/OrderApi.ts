@@ -90,6 +90,16 @@ const OrderApi = {
 
     return [result, message];
   },
+
+  // Delete order product by Order Product ID
+  deleteOrderProduct: async function (id: number) {
+    let { result, message }: ResponseInterface = await callApi(
+      'complex/orders/products/' + id,
+      'delete'
+    );
+
+    return [result, message];
+  },
 };
 
 export default OrderApi;

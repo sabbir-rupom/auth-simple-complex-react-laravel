@@ -12,6 +12,8 @@ import CommonApi from '../services/CommonApi';
 import { OrderDTO, defaultOrderProduct } from '../shared/data';
 import { orderActions } from '../store/order.slice';
 import FormOrderProductEntry from './FormOrderProductEntry';
+import OrderApi from '../services/OrderApi';
+import { toastActions } from '@/common/redux/toast.slice';
 
 const FormOrderProducts = () => {
   const form = useFormContext<OrderDTO>();
@@ -25,12 +27,27 @@ const FormOrderProducts = () => {
     keyName: 'orderProductId',
   });
 
-  const removeProduct = (index: number) => {
+  const dispatch = useAppDispatch();
+
+  const removeProduct = async (index: number) => {
     if (orderProductsField.fields.length === 1) {
       return;
     }
 
     orderProductsField.remove(index);
+
+    let productId = form.getValues(`order_products.${index}.id`);
+    if (productId && productId > 0) {
+      const [result, message] = await OrderApi.deleteOrderProduct(productId);
+      if (!result) {
+        dispatch(
+          toastActions.showToast({
+            type: 'error',
+            message: String(message),
+          })
+        );
+      }
+    }
   };
 
   const addNewProduct = () => {
@@ -41,8 +58,6 @@ const FormOrderProducts = () => {
     delete data.orderProductId;
     return data;
   };
-
-  const dispatch = useAppDispatch();
 
   // Prepare products array: START
   const products = useAppSelector((state) => state.order.products);
