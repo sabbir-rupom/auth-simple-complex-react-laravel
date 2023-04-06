@@ -1,12 +1,15 @@
 import Breadcrumb from '@/common/components/templates/Breadcrumb';
 import { useAppSelector } from '@/common/redux/store';
 import FormMain from '@/features/complex/components/FormMain';
+import OrderApi from '@/features/complex/services/OrderApi';
+import { defaultOrderInput } from '@/features/complex/shared/data';
 import MasterLayout from '@/layouts/MasterLayout';
 import { Container } from '@mui/material';
+import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-const OrderForm = () => {
+const OrderForm = ({id}:{id: number}) => {
   const router = useRouter();
 
   const auth = useAppSelector((state) => state.userAuth.isLoggedIn);
@@ -14,7 +17,6 @@ const OrderForm = () => {
     router.push('/');
   }
 
-  const { id }: any = router.query;
   return (
     <>
       <Head>
@@ -38,6 +40,23 @@ const OrderForm = () => {
 };
 
 export default OrderForm;
+
+export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
+
+  return {
+      paths: [], //indicates that no page needs be created at build time
+      fallback: 'blocking' //indicates the type of fallback
+  }
+}
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  let id = context.params?.id;
+  return {
+    props: {
+      id,
+    }, // will be passed to the page component as props
+  };
+};
 
 // export const getServerSideProps: GetServerSideProps = async (context) => {
 //   // console.log(context.params?.id)  //If doesn't work use context.query.id
