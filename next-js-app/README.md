@@ -3,6 +3,7 @@ This is a [Next.js](https://nextjs.org/) practice project covering:
 - Next JS 13
 - TypeScript
 - Material UI Components [Source](https://mui.com/material-ui/)
+- Tailwind CSS
 - ESLint Configuration
 - Features
   - Authentication
@@ -11,9 +12,14 @@ This is a [Next.js](https://nextjs.org/) practice project covering:
 
 ## Getting Started
 
-Follow the commands:
+- Create/Update `.env.local` file to set `NEXT_PUBLIC_SERVER_URL`
+- Follow the commands:
 
 ```bash
+# install next-js app with npm
+npm install
+
+# run development server
 npm run dev
 ```
 
@@ -27,4 +33,6 @@ Following website resource have been studied for this project
 - [Material UI](https://mui.com/material-ui/getting-started/overview/)
 - [MUI Install Tutorial-1](https://www.geeksforgeeks.org/how-to-use-material-ui-with-next-js/)
 - [MUI Install Tutorial-2](https://blog.logrocket.com/getting-started-with-mui-and-next-js)
-- [Next JS Project Architecture](https://dev.to/alexeagleson/how-to-build-scalable-architecture-for-your-nextjs-project-2pb7)
+- [Tailwind Install Guide](https://tailwindcss.com/docs/guides/nextjs)
+- [React Hook Form](https://react-hook-form.com/get-started/)
+- [React Redux Toolkit](https://redux-toolkit.js.org/tutorials/typescript)
