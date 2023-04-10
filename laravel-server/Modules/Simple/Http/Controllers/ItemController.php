@@ -61,7 +61,7 @@ class ItemController extends Controller
             'status' => boolval($request->status),
         ]);
 
-        return $this->success()->message('Item stored successfully')->response($item);
+        return $this->success()->message('Item stored successfully')->response($item->toArray());
     }
 
     /**
