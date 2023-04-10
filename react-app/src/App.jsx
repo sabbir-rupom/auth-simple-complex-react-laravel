@@ -1,4 +1,4 @@
-import './assets/styles/Global.scss'
+import './assets/styles/global.scss';
 
 function App () {
   return (
@@ -7,7 +7,7 @@ function App () {
         <span>Working</span>
       </h2>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
