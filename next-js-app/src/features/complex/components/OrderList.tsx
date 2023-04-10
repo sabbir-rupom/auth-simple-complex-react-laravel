@@ -7,7 +7,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import {
   Button,
+  Pagination,
   Paper,
+  Stack,
   Table,
   TableBody,
   TableContainer,
@@ -15,12 +17,18 @@ import {
   TableRow,
 } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import OrderApi from '../services/OrderApi';
 import { OrderSummaryDTO } from '../shared/data';
 import { orderActions } from '../store/order.slice';
 
-const OrderList = ({ orders }: { orders: OrderSummaryDTO[] }) => {
+const OrderList = ({
+  orders,
+  pagination,
+}: {
+  orders: OrderSummaryDTO[];
+  pagination: any;
+}) => {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [deleteOrder, setDeleteOrder] = useState<number>(0);
 
@@ -70,6 +78,20 @@ const OrderList = ({ orders }: { orders: OrderSummaryDTO[] }) => {
           dispatch(orderActions.setOrders(orders));
           dispatch(orderActions.setOrderPagination(pagination));
         }
+      }
+    }
+  };
+
+  const handlePageChange = async (
+    event: ChangeEvent<unknown>,
+    value: number
+  ) => {
+    if (pagination.meta.current_page !== value) {
+      let [orders, pagination] = await OrderApi.orders({ page: value });
+
+      if (orders) {
+        dispatch(orderActions.setOrders(orders));
+        dispatch(orderActions.setOrderPagination(pagination));
       }
     }
   };
@@ -149,6 +171,21 @@ const OrderList = ({ orders }: { orders: OrderSummaryDTO[] }) => {
           </TableBody>
         </Table>
       </TableContainer>
+
+      {orders && (
+        <Stack spacing={2} alignItems="center" sx={{ my: 4 }}>
+          <Pagination
+            count={
+              pagination?.meta?.total
+                ? Math.ceil(pagination.meta.total / pagination.meta.per_page)
+                : 1
+            }
+            page={pagination?.meta?.current_page ?? 1}
+            onChange={handlePageChange}
+            color="primary"
+          />
+        </Stack>
+      )}
 
       <DialogBox
         open={openDialog}

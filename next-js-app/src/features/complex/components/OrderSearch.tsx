@@ -19,13 +19,7 @@ import OrderApi from '../services/OrderApi';
 import { BuyerDTO, CustomerDTO, FilterDTO } from '../shared/data';
 import { orderActions } from '../store/order.slice';
 
-const OrderSearch = ({
-  orderCount = 0,
-  totalOrder = 0,
-}: {
-  orderCount: number;
-  totalOrder: number;
-}) => {
+const OrderSearch = ({ meta }: { meta: any }) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const customers: CustomerDTO[] = useAppSelector((state) => {
@@ -218,7 +212,12 @@ const OrderSearch = ({
       <Grid container spacing={2}>
         <Grid item md={6}>
           <Typography component="h6">
-            Showing Orders: {orderCount} of {totalOrder}
+            Showing{' '}
+            {meta && (
+              <span>
+                {meta.from} to {meta.to} of {meta.total} entries
+              </span>
+            )}
           </Typography>
         </Grid>
         <Grid item md={6} className="flex justify-end">
