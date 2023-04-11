@@ -4,7 +4,7 @@ import 'jspdf-autotable';
 import itemDTO from '../shared/data';
 
 // define a generatePDF function that accepts a tickets argument
-const simpleReportPdf = (rows: any, getHead: Function) => {
+const simpleReportPdf = (rows: itemDTO[], getHead: Function) => {
   // initialize jsPDF
   const doc = new jsPDF();
 

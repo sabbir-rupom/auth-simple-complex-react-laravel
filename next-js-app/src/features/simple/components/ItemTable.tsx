@@ -17,6 +17,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import ItemApi from '../services/ItemApi';
+import simpleReportCSV from '../services/ReportExcel';
 import simpleReportPdf from '../services/ReportPdf';
 
 const ItemTable = () => {
@@ -153,13 +154,24 @@ const ItemTable = () => {
       >
         <Button
           type="button"
+          color="secondary"
+          variant="outlined"
+          onClick={() => {
+            simpleReportCSV(tableData, getHead);
+          }}
+          sx={{ mr: 2 }}
+        >
+          Generate Excel
+        </Button>
+        <Button
+          type="button"
           color="primary"
           variant="outlined"
           onClick={() => {
             simpleReportPdf(tableData, getHead);
           }}
         >
-          Generate Report
+          Generate PDF
         </Button>
       </Box>
 
