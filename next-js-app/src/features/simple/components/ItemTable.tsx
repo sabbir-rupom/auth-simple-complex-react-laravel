@@ -8,6 +8,7 @@ import StyledTableCell from '@/common/components/ui/StyledTableCell';
 import StyledTableRow from '@/common/components/ui/StyledTableRow';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -16,6 +17,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import ItemApi from '../services/ItemApi';
+import simpleReportPdf from '../services/ReportPdf';
 
 const ItemTable = () => {
   const dispatch = useAppDispatch();
@@ -142,6 +144,24 @@ const ItemTable = () => {
           </TableBody>
         </Table>
       </TableContainer>
+
+      <Box
+        display="flex"
+        justifyContent="right"
+        alignItems="center"
+        sx={{ mt: 4 }}
+      >
+        <Button
+          type="button"
+          color="primary"
+          variant="outlined"
+          onClick={() => {
+            simpleReportPdf(tableData, getHead);
+          }}
+        >
+          Generate Report
+        </Button>
+      </Box>
 
       <DialogBox
         open={openDialog}

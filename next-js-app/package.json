@@ -24,6 +24,8 @@
     "@types/react-redux": "^7.1.25",
     "axios": "^1.3.4",
     "dayjs": "^1.11.7",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.5.28",
     "mui-file-input": "^2.0.0",
     "next": "13.2.4",
     "react": "18.2.0",

@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 trait ResponseJSON
 {
     /**
-     * Undocumented variable
+     * Variable with formatted response array as default
      *
      * @var array
      */
