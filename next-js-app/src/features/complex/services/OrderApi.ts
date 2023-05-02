@@ -65,14 +65,14 @@ const OrderApi = {
   // Update order by ID
   update: async function (id: number, order: any) {
     order['_method'] = 'put';
-    const { result, message }: ResponseInterface = await callApi(
+    const { result, message, data }: ResponseInterface = await callApi(
       'complex/orders/' + id,
       'post',
       jsonToFormData(order),
       true
     );
 
-    return [result, message];
+    return [result, message, data];
   },
 
   // Delete order by ID

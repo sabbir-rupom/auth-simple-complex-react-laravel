@@ -6,8 +6,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import SaveIcon from '@mui/icons-material/Save';
 import { LoadingButton } from '@mui/lab';
 import { Button, Grid } from '@mui/material';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+
 import {
   FormProvider,
   UseFormProps,
@@ -17,7 +19,10 @@ import {
 import OrderApi from '../services/OrderApi';
 import { convertDate } from '../services/Utility';
 import { CustomerDTO, OrderDTO, defaultOrderInput } from '../shared/data';
-import orderSchema from '../validators/order.schema';
+import {
+  orderCreateSchema,
+  orderUpdateSchema,
+} from '../validators/order.schema';
 import FormDeliveryAddress from './FormDeliveryAddress';
 import FormOrderProducts from './FormOrderProducts';
 import OrderBasicForm from './OrderBasicForm';
@@ -28,16 +33,26 @@ const FormMain = ({ orderId }: { orderId: number }) => {
 
   const [activeCustomer, setActiveCustomer] = useState<number>(0);
 
+  const schemaLogic = orderId > 0 ? orderUpdateSchema : orderCreateSchema;
+
+  console.log(schemaLogic);
+
   const form: UseFormReturn<OrderDTO, UseFormProps> = useForm<OrderDTO>({
-    resolver: yupResolver(orderSchema),
+    resolver: yupResolver(schemaLogic),
     defaultValues: defaultOrderInput,
   });
+
+  const [attachmentUrl, setAttachmentUrl] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchOrder = async (id: number) => {
       const [data, message]: any = await OrderApi.get(id);
       if (data) {
         setActiveCustomer(data.customer);
+        if (data.attachment) {
+          setAttachmentUrl(data.attachment);
+          data.attachment = null;
+        }
         form.reset(data);
       } else {
         dispatch(
@@ -101,14 +116,18 @@ const FormMain = ({ orderId }: { orderId: number }) => {
     // console.log(form);
 
     let result: any = false,
-      message: any = '';
+      message: any = '',
+      data: any = {};
 
     form.order_date = convertDate(new Date(form.order_date));
     form.delivery_date = convertDate(new Date(form.delivery_date));
 
     if (orderId > 0) {
-      [result, message] = await OrderApi.update(orderId, form);
+      [result, message, data] = await OrderApi.update(orderId, form);
       setLoading(false);
+      if (result) {
+        setAttachmentUrl(data.attachment);
+      }
     } else {
       [result, message] = await OrderApi.create(form);
       resetForm();
@@ -156,6 +175,13 @@ const FormMain = ({ orderId }: { orderId: number }) => {
                 label="Attachment"
                 placeholder="Insert file attachment"
               />
+              {attachmentUrl && (
+                <>
+                  <div className="block mt-2 text-blue-500 underline underline-offset-4">
+                    <Link href={attachmentUrl}>Show Attachment</Link>
+                  </div>
+                </>
+              )}
             </Grid>
             <Grid item xs={12} md={12} lg={8} className="mb-3">
               <TextareaInput name="remark" label="Remark" placeholder="Enter" />

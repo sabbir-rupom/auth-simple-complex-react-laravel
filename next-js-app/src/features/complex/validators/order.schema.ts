@@ -11,7 +11,7 @@ const orderProductSchema: any = object().shape({
 const today = new Date();
 today.setHours(0, 0, 0, 0);
 
-const orderSchema = object().shape({
+let createLogic = {
   order_number: string()
     .required('Unique order number is required')
     .matches(
@@ -51,7 +51,7 @@ const orderSchema = object().shape({
     }),
   delivery_time: string().required('Delivery time is required'),
   attachment: mixed<FileList>()
-    .notRequired()
+    .nullable()
     .test(
       'fileType',
       'Only the following formats are accepted: JPG, JPEG, PNG and PDF',
@@ -81,6 +81,37 @@ const orderSchema = object().shape({
     .of(orderProductSchema)
     // .compact(v => !v.checked)
     .min(1, 'At least one product is required'),
-});
+};
 
-export default orderSchema;
+export const orderCreateSchema = object().shape(createLogic);
+
+let updateLogic = createLogic;
+updateLogic.attachment = mixed<FileList>()
+  .notRequired()
+  .test(
+    'fileType',
+    'Only the following formats are accepted: JPG, JPEG, PNG and PDF',
+    (value: any) => {
+      if (!value.length) {
+        return true;
+      } else {
+        value = value[0];
+        return (
+          value &&
+          (value.type === 'image/jpeg' ||
+            value.type === 'image/jpg' ||
+            value.type === 'image/png' ||
+            value.type === 'application/pdf')
+        );
+      }
+    }
+  )
+  .test('fileSize', 'Only files up to 4MB are permitted', (value: any) => {
+    if (!value.length) return true;
+
+    return (
+      !value || //Check if `files` is defined
+      (value && value.size <= 4_000_000)
+    ); // 4MB
+  });
+export const orderUpdateSchema = object().shape(updateLogic);
