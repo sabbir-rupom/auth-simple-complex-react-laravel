@@ -16,6 +16,8 @@ This is a practice project with a goal to achieve a Full-Stack Web Application h
   - **Laravel**
     - PHP v8.1 or above
     - MySQL 5.7 or above
+  - **Next JS** (old structure)
+    - Node JS 16.8+
   - **React**
     - (not finished)
 
