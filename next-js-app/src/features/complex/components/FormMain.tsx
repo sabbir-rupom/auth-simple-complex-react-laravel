@@ -35,8 +35,6 @@ const FormMain = ({ orderId }: { orderId: number }) => {
 
   const schemaLogic = orderId > 0 ? orderUpdateSchema : orderCreateSchema;
 
-  console.log(schemaLogic);
-
   const form: UseFormReturn<OrderDTO, UseFormProps> = useForm<OrderDTO>({
     resolver: yupResolver(schemaLogic),
     defaultValues: defaultOrderInput,

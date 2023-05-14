@@ -12,11 +12,11 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { OrderProductDTO, ProductDTO } from '../shared/data';
+import { ProductDTO } from '../shared/data';
 
 type FormOrderProductProps = {
   products: ProductDTO[];
-  product: OrderProductDTO;
+  product: any;
   index: number;
   onRemove: (index: number) => void;
   disableRemoveButton: boolean;
@@ -80,7 +80,7 @@ const FormOrderProductEntry = ({
   };
 
   return (
-    <Grid container direction="row" key={index}>
+    <Grid container direction="row">
       <Grid item lg={2} md={6} xs={12}>
         <FormControl fullWidth className="pr-0 md:pr-2">
           <Controller

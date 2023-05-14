@@ -1,5 +1,5 @@
 export interface OrderProductDTO {
-  id?: number | undefined;
+  id?: any;
   product: number | undefined;
   product_unit: number | undefined;
   product_category: number | undefined;

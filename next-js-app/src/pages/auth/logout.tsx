@@ -11,15 +11,13 @@ const Logout: NextPage = () => {
 
   useEffect(() => {
     async function processLogout() {
+      dispatch(authActions.logout());
+
       const result: boolean = await AuthApi.logout();
-
-      if (result) {
-        dispatch(authActions.logout());
-
-        router.push('/');
-      } else {
+      if (!result) {
         console.log('Logout process failed');
       }
+      router.push('/');
     }
 
     processLogout();

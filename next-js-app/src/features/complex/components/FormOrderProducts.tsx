@@ -1,4 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/common/redux/store';
+import { toastActions } from '@/common/redux/toast.slice';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { Button, FormHelperText } from '@mui/material';
 import { useEffect } from 'react';
@@ -9,22 +10,19 @@ import {
   useFormContext,
 } from 'react-hook-form';
 import CommonApi from '../services/CommonApi';
+import OrderApi from '../services/OrderApi';
 import { OrderDTO, defaultOrderProduct } from '../shared/data';
 import { orderActions } from '../store/order.slice';
 import FormOrderProductEntry from './FormOrderProductEntry';
-import OrderApi from '../services/OrderApi';
-import { toastActions } from '@/common/redux/toast.slice';
 
 const FormOrderProducts = () => {
   const form = useFormContext<OrderDTO>();
   const orderProductsField: UseFieldArrayReturn<
     OrderDTO,
-    FieldArrayPath<any>,
-    'orderProductId'
-  > = useFieldArray<OrderDTO, FieldArrayPath<any>, 'orderProductId'>({
+    FieldArrayPath<any>
+  > = useFieldArray<OrderDTO, FieldArrayPath<any>>({
     control: form.control,
     name: 'order_products',
-    keyName: 'orderProductId',
   });
 
   const dispatch = useAppDispatch();
@@ -33,8 +31,6 @@ const FormOrderProducts = () => {
     if (orderProductsField.fields.length === 1) {
       return;
     }
-
-    orderProductsField.remove(index);
 
     let productId = form.getValues(`order_products.${index}.id`);
     if (productId && productId > 0) {
@@ -48,15 +44,12 @@ const FormOrderProducts = () => {
         );
       }
     }
+
+    orderProductsField.remove(index);
   };
 
   const addNewProduct = () => {
     orderProductsField.append(defaultOrderProduct);
-  };
-
-  const prepareProductObj = (data: any) => {
-    delete data.orderProductId;
-    return data;
   };
 
   // Prepare products array: START
@@ -81,14 +74,15 @@ const FormOrderProducts = () => {
       </legend>
 
       {orderProductsField.fields.map((field, index) => (
-        <FormOrderProductEntry
-          product={prepareProductObj(field)}
-          products={products}
-          key={index}
-          index={index}
-          onRemove={removeProduct}
-          disableRemoveButton={orderProductsField.fields.length === 1}
-        />
+        <div key={field.id}>
+          <FormOrderProductEntry
+            product={field}
+            products={products}
+            index={index}
+            onRemove={removeProduct}
+            disableRemoveButton={orderProductsField.fields.length === 1}
+          />
+        </div>
       ))}
 
       {form.formState.errors && form.formState.errors.order_products ? (
