@@ -15,9 +15,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{asc-url}}/simple/heads",
+							"raw": "{{url}}/simple/heads",
 							"host": [
-								"{{asc-url}}"
+								"{{url}}"
 							],
 							"path": [
 								"simple",
@@ -33,9 +33,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{asc-url}}/simple/items?term=",
+							"raw": "{{url}}/simple/items?term=",
 							"host": [
-								"{{asc-url}}"
+								"{{url}}"
 							],
 							"path": [
 								"simple",
@@ -87,9 +87,9 @@
 							]
 						},
 						"url": {
-							"raw": "{{asc-url}}/simple/items",
+							"raw": "{{url}}/simple/items",
 							"host": [
-								"{{asc-url}}"
+								"{{url}}"
 							],
 							"path": [
 								"simple",
@@ -105,9 +105,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{asc-url}}/simple/items/{item_id}",
+							"raw": "{{url}}/simple/items/{item_id}",
 							"host": [
-								"{{asc-url}}"
+								"{{url}}"
 							],
 							"path": [
 								"simple",
@@ -153,9 +153,9 @@
 							]
 						},
 						"url": {
-							"raw": "{{asc-url}}/simple/items/{item_id}",
+							"raw": "{{url}}/simple/items/{item_id}",
 							"host": [
-								"{{asc-url}}"
+								"{{url}}"
 							],
 							"path": [
 								"simple",
@@ -172,9 +172,9 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{asc-url}}/simple/items/{item_id}",
+							"raw": "{{url}}/simple/items/{item_id}",
 							"host": [
-								"{{asc-url}}"
+								"{{url}}"
 							],
 							"path": [
 								"simple",
@@ -225,9 +225,9 @@
 							]
 						},
 						"url": {
-							"raw": "{{asc-url}}/register",
+							"raw": "{{url}}/register",
 							"host": [
-								"{{asc-url}}"
+								"{{url}}"
 							],
 							"path": [
 								"register"
@@ -259,9 +259,9 @@
 							]
 						},
 						"url": {
-							"raw": "{{asc-url}}/login",
+							"raw": "{{url}}/login",
 							"host": [
-								"{{asc-url}}"
+								"{{url}}"
 							],
 							"path": [
 								"login"
@@ -286,9 +286,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{asc-url}}/logout",
+							"raw": "{{url}}/logout",
 							"host": [
-								"{{asc-url}}"
+								"{{url}}"
 							],
 							"path": [
 								"logout"
@@ -318,9 +318,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{asc-url}}/user/profile",
+							"raw": "{{url}}/user/profile",
 							"host": [
-								"{{asc-url}}"
+								"{{url}}"
 							],
 							"path": [
 								"user",
@@ -369,9 +369,9 @@
 							]
 						},
 						"url": {
-							"raw": "{{asc-url}}/user/profile/save",
+							"raw": "{{url}}/user/profile/save",
 							"host": [
-								"{{asc-url}}"
+								"{{url}}"
 							],
 							"path": [
 								"user",
@@ -406,9 +406,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{asc-url}}/complex/customers",
+									"raw": "{{url}}/complex/customers",
 									"host": [
-										"{{asc-url}}"
+										"{{url}}"
 									],
 									"path": [
 										"complex",
@@ -443,9 +443,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{asc-url}}/complex/customers",
+									"raw": "{{url}}/complex/customers",
 									"host": [
-										"{{asc-url}}"
+										"{{url}}"
 									],
 									"path": [
 										"complex",
@@ -471,9 +471,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{asc-url}}/complex/customers/{customer_id}",
+									"raw": "{{url}}/complex/customers/{customer_id}",
 									"host": [
-										"{{asc-url}}"
+										"{{url}}"
 									],
 									"path": [
 										"complex",
@@ -509,9 +509,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{asc-url}}/complex/customers/{customer_id}",
+									"raw": "{{url}}/complex/customers/{customer_id}",
 									"host": [
-										"{{asc-url}}"
+										"{{url}}"
 									],
 									"path": [
 										"complex",
@@ -542,9 +542,9 @@
 									"formdata": []
 								},
 								"url": {
-									"raw": "{{asc-url}}/complex/customers/{customer_id}",
+									"raw": "{{url}}/complex/customers/{customer_id}",
 									"host": [
-										"{{asc-url}}"
+										"{{url}}"
 									],
 									"path": [
 										"complex",
@@ -571,9 +571,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{asc-url}}/complex/customers/{customer_id}/address",
+									"raw": "{{url}}/complex/customers/{customer_id}/address",
 									"host": [
-										"{{asc-url}}"
+										"{{url}}"
 									],
 									"path": [
 										"complex",
@@ -598,7 +598,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "1|vNLj41N8BktUfnxw5tKnPv9I2Id6TwdHF0RXVWjF",
+											"value": "18|2VRWl1Ynz4lvwkSrK9JgFZKZkaG9offzJr1WT2aV",
 											"type": "string"
 										}
 									]
@@ -606,9 +606,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{asc-url}}/complex/orders/?order_number=&customer=&buyer=&start_date=2022-12-30&end_date=2023-12-30&page=1&paginate_count=5",
+									"raw": "{{url}}/complex/orders/?order_number=&customer=&buyer=&start_date=2022-12-30&end_date=2023-12-30&page=1&paginate_count=5",
 									"host": [
-										"{{asc-url}}"
+										"{{url}}"
 									],
 									"path": [
 										"complex",
@@ -663,7 +663,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "1|vNLj41N8BktUfnxw5tKnPv9I2Id6TwdHF0RXVWjF",
+											"value": "18|2VRWl1Ynz4lvwkSrK9JgFZKZkaG9offzJr1WT2aV",
 											"type": "string"
 										}
 									]
@@ -671,9 +671,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{asc-url}}/complex/orders/{order_id}",
+									"raw": "{{url}}/complex/orders/{order_id}",
 									"host": [
-										"{{asc-url}}"
+										"{{url}}"
 									],
 									"path": [
 										"complex",
@@ -692,7 +692,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "1|vNLj41N8BktUfnxw5tKnPv9I2Id6TwdHF0RXVWjF",
+											"value": "18|2VRWl1Ynz4lvwkSrK9JgFZKZkaG9offzJr1WT2aV",
 											"type": "string"
 										}
 									]
@@ -700,18 +700,84 @@
 								"method": "POST",
 								"header": [],
 								"body": {
-									"mode": "raw",
-									"raw": "{\r\n   \"order_number\":\"MAR61310\",\r\n   \"buyer\":2,\r\n   \"customer\":3,\r\n   \"customer_address\":\"77254 Carmel Harbors\\nNew Ronny, LA 53092-5975\",\r\n   \"order_date\":\"2023-03-06\",\r\n   \"delivery_date\":\"2023-03-13\",\r\n   \"delivery_time\":\"17:00\",\r\n   \"attachment\":null,\r\n   \"remark\":\"Test Order 1\",\r\n   \"order_products\":[\r\n      {\r\n         \"product\":1,\r\n         \"product_unit\":4,\r\n         \"product_category\":1,\r\n         \"quantity\":3,\r\n         \"unit_price\":100\r\n      },\r\n      {\r\n         \"product\":3,\r\n         \"product_unit\":4,\r\n         \"product_category\":6,\r\n         \"quantity\":5,\r\n         \"unit_price\":420\r\n      }\r\n   ]\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "order_number",
+											"value": "BSJW678",
+											"type": "text"
+										},
+										{
+											"key": "buyer",
+											"value": "2",
+											"type": "text"
+										},
+										{
+											"key": "customer",
+											"value": "3",
+											"type": "text"
+										},
+										{
+											"key": "customer_address",
+											"value": "77254 Carmel Harbors\\nNew Ronny, LA 53092-5975",
+											"type": "text"
+										},
+										{
+											"key": "order_date",
+											"value": "2023-03-06",
+											"type": "text"
+										},
+										{
+											"key": "delivery_date",
+											"value": "2023-03-13",
+											"type": "text"
+										},
+										{
+											"key": "delivery_time",
+											"value": "17:00",
+											"type": "text"
+										},
+										{
+											"key": "attachment",
+											"type": "file",
+											"src": "/C:/wamp64/www/sabbir/auth-simple-complex-react-laravel/laravel-react.png"
+										},
+										{
+											"key": "remark",
+											"value": "Test Order 1236",
+											"type": "text"
+										},
+										{
+											"key": "order_products[0][product]",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "order_products[0][product_unit]",
+											"value": "4",
+											"type": "text"
+										},
+										{
+											"key": "order_products[0][product_category]",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "order_products[0][quantity]",
+											"value": "3",
+											"type": "text"
+										},
+										{
+											"key": "order_products[0][unit_price]",
+											"value": "100",
+											"type": "text"
 										}
-									}
+									]
 								},
 								"url": {
-									"raw": "{{asc-url}}/complex/orders",
+									"raw": "{{url}}/complex/orders",
 									"host": [
-										"{{asc-url}}"
+										"{{url}}"
 									],
 									"path": [
 										"complex",
@@ -746,9 +812,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{asc-url}}/complex/orders/{order_id}",
+									"raw": "{{url}}/complex/orders/{order_id}",
 									"host": [
-										"{{asc-url}}"
+										"{{url}}"
 									],
 									"path": [
 										"complex",
@@ -784,9 +850,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{asc-url}}/complex/orders/{id}",
+									"raw": "{{url}}/complex/orders/{id}",
 									"host": [
-										"{{asc-url}}"
+										"{{url}}"
 									],
 									"path": [
 										"complex",
@@ -822,9 +888,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{asc-url}}/complex/orders/products/{order_product_id}",
+									"raw": "{{url}}/complex/orders/products/{order_product_id}",
 									"host": [
-										"{{asc-url}}"
+										"{{url}}"
 									],
 									"path": [
 										"complex",
@@ -861,9 +927,9 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "{{asc-url}}/complex/products",
+							"raw": "{{url}}/complex/products",
 							"host": [
-								"{{asc-url}}"
+								"{{url}}"
 							],
 							"path": [
 								"complex",
@@ -889,9 +955,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{asc-url}}/complex/buyers",
+							"raw": "{{url}}/complex/buyers",
 							"host": [
-								"{{asc-url}}"
+								"{{url}}"
 							],
 							"path": [
 								"complex",
