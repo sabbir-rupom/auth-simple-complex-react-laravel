@@ -34,6 +34,8 @@ const FormOrderProducts = () => {
 
     let productId = form.getValues(`order_products.${index}.id`);
     if (productId && productId > 0) {
+      console.clear();
+      console.log(productId);
       const [result, message] = await OrderApi.deleteOrderProduct(productId);
       if (!result) {
         dispatch(
@@ -74,15 +76,14 @@ const FormOrderProducts = () => {
       </legend>
 
       {orderProductsField.fields.map((field, index) => (
-        <div key={field.id}>
-          <FormOrderProductEntry
-            product={field}
-            products={products}
-            index={index}
-            onRemove={removeProduct}
-            disableRemoveButton={orderProductsField.fields.length === 1}
-          />
-        </div>
+        <FormOrderProductEntry
+          product={field}
+          products={products}
+          key={field.id}
+          index={index}
+          onRemove={removeProduct}
+          disableRemoveButton={orderProductsField.fields.length === 1}
+        />
       ))}
 
       {form.formState.errors && form.formState.errors.order_products ? (
