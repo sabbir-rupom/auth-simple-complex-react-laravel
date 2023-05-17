@@ -1,15 +1,8 @@
-"use client";
-
 import React from "react";
-import { ThemeProvider } from "@mui/material";
-import { CacheProvider, EmotionCache } from "@emotion/react";
 import "@/assets/styles/global.scss";
 
 import FontRoboto from "@/config/font";
-import createEmotionCache from "@/config/createEmotionCache";
-import theme from "@/config/theme";
-
-const clientSideEmotionCache = createEmotionCache();
+import BaseProvider from "@/components/BaseProvider";
 
 export const metadata = {
   title: "Create Next App",
@@ -18,18 +11,16 @@ export const metadata = {
 
 export default function RootLayout({
   children,
-  emotionCache = clientSideEmotionCache,
+  session
 }: {
   children: React.ReactNode;
-  emotionCache?: EmotionCache;
+  session: any
 }) {
   return (
     <html lang="en">
-      <CacheProvider value={emotionCache}>
-        <ThemeProvider theme={theme}>
-          <body className={FontRoboto.className}>{children}</body>
-        </ThemeProvider>
-      </CacheProvider>
+      <BaseProvider session={session} >
+        <body className={FontRoboto.className}>{children}</body>
+      </BaseProvider>
     </html>
   );
 }
