@@ -88,6 +88,7 @@ const OrderSearch = ({ meta }: { meta: any }) => {
 
     if (result) {
       dispatch(orderActions.setOrders(orders));
+      dispatch(orderActions.setFilterForm(inputs));
       dispatch(orderActions.setOrderPagination(pagination));
     }
 

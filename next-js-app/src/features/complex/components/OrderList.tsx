@@ -1,7 +1,7 @@
 import DialogBox from '@/common/components/ui/DialogBox';
 import StyledTableCell from '@/common/components/ui/StyledTableCell';
 import StyledTableRow from '@/common/components/ui/StyledTableRow';
-import { useAppDispatch } from '@/common/redux/store';
+import { useAppDispatch, useAppSelector } from '@/common/redux/store';
 import { toastActions } from '@/common/redux/toast.slice';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -19,7 +19,7 @@ import {
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, useState } from 'react';
 import OrderApi from '../services/OrderApi';
-import { OrderSummaryDTO } from '../shared/data';
+import { FilterDTO, OrderSummaryDTO } from '../shared/data';
 import { orderActions } from '../store/order.slice';
 
 const OrderList = ({
@@ -48,6 +48,10 @@ const OrderList = ({
   const handleEditForm = (id: number) => {
     push('/complex/order/' + id);
   };
+
+  const filterParams: any = useAppSelector<FilterDTO>(
+    (state: any) => state.order.filterParams
+  );
 
   /**
    * Process order delete operation
@@ -87,7 +91,12 @@ const OrderList = ({
     value: number
   ) => {
     if (pagination.meta.current_page !== value) {
-      let [orders, pagination] = await OrderApi.orders({ page: value });
+      let params = {
+        ...filterParams,
+        page: value,
+      };
+      params.page = value;
+      let [orders, pagination] = await OrderApi.orders(params);
 
       if (orders) {
         dispatch(orderActions.setOrders(orders));

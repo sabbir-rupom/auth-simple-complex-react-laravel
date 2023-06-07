@@ -13,6 +13,7 @@ use Modules\Complex\Entities\Order;
 use Illuminate\Support\Str;
 use Modules\Complex\Entities\OrderProduct;
 use Modules\Complex\Entities\Product;
+use Illuminate\Support\Facades\Input;
 
 class OrderService
 {
@@ -70,7 +71,8 @@ class OrderService
             ->leftJoin('users', 'users.id', '=', 'orders.user_id')
             ->groupBy('orders.id')
             ->latest('orders.id')
-            ->paginate($paginationNumber);
+            ->paginate($paginationNumber)
+            ->appends(request()->input()) ;
     }
 
     /**
