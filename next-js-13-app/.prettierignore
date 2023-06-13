@@ -1,0 +1,10 @@
+.npm
+.yarn
+.next
+.vscode
+node_modules
+build
+coverage
+dist
+package-lock.json
+yarn-lock.json

@@ -1,0 +1,32 @@
+.flex-button-container {
+  @apply tw-w-full tw-flex tw-justify-center tw-mt-5 tw-mb-3;
+
+  .p-button {
+    @apply tw-grow tw-mr-2;
+
+    &:last-child {
+      @apply tw-mr-0 tw-ml-2;
+    }
+  }
+}
+
+.action-button-container {
+  @apply tw-w-full tw-flex tw-justify-center;
+
+  .p-button {
+    font-size: 10px !important;
+    height: auto !important;
+    width: auto !important;
+    padding: 0.4rem 0.5rem !important;
+
+    .pi {
+      font-size: 0.75rem;
+    }
+
+    @apply tw-mr-2;
+
+    &:last-child {
+      @apply tw-mr-0 tw-ml-2;
+    }
+  }
+}
