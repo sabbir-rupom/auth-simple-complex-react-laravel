@@ -17,7 +17,7 @@ type loginFormInputs = {
 };
 
 const LoginForm: React.FC<{}> = () => {
-  const [loading, setLoading] = useState<boolean>(false);
+  const [isLoading, setLoading] = useState<boolean>(false);
 
   const {
     handleSubmit,
@@ -73,7 +73,7 @@ const LoginForm: React.FC<{}> = () => {
             </label>
             <InputText
               placeholder="Enter email address"
-              type='email'
+              type="email"
               required
               {...rest}
               value={value}
@@ -130,7 +130,11 @@ const LoginForm: React.FC<{}> = () => {
         )}
       />
 
-      <Button type="submit" label="Sign In" icon="pi pi-sign-in" />
+      <Button
+        type="submit"
+        label="Sign In"
+        icon={`${isLoading ? 'pi pi-spin pi-spinner' : 'pi pi-sign-in'}`}
+      />
     </form>
   );
 };

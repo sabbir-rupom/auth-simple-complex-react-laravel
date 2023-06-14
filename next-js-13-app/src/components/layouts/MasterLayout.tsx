@@ -22,8 +22,9 @@ const MasterLayout = ({ children }: Props) => {
         <PrimaryNavbar user={session?.user} />
       </header>
       <main className="layout-wrapper">{children}</main>
-      <footer>
+      <footer className='mt-4 py-4 tw-border-t tw-bg-slate-100'>
         <ToastMessage />
+        <p className="tw-text-center">Sabbir Hossain © Copyright 2023</p>
       </footer>
     </>
   );

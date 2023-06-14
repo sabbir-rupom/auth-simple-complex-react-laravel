@@ -15,11 +15,11 @@ import { Checkbox } from 'primereact/checkbox';
 import { Fieldset } from 'primereact/fieldset';
 import { toastActions } from '@/redux/features/toast.slice';
 
-type Props = {heads: object[]};
+type Props = { heads: object[] };
 
-const ItemForm = ({heads}: Props) => {
+const ItemForm = ({ heads }: Props) => {
   const itemInput = useAppSelector((state) => state.item.formInput);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [isLoading, setLoading] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
 
@@ -54,18 +54,20 @@ const ItemForm = ({heads}: Props) => {
     let result = await ItemApi.save(inputs);
 
     if (result) {
-      toastActions.showToast({
-        type: 'success',
-        summary: 'Successful',
-        message: 'Item is saved successfully',
-      });
+      dispatch(
+        toastActions.showToast({
+          type: 'success',
+          summary: 'Successful',
+          message: 'Item is saved successfully',
+        }),
+      );
 
       let items: any = await ItemApi.getAll();
 
       if (items) {
         dispatch(itemActions.setItemList(items));
       }
-    } 
+    }
   };
 
   return (
@@ -179,7 +181,12 @@ const ItemForm = ({heads}: Props) => {
             />
           </div>
           <div className="flex-button-container">
-            <Button type="submit" label="Submit" />
+            <Button
+              type="submit"
+              label="Submit"
+              icon={`${isLoading ? 'pi pi-spin pi-spinner' : 'pi pi-upload'}`}
+              disabled={isLoading}
+            />
             <Button
               type="button"
               label="Reset"

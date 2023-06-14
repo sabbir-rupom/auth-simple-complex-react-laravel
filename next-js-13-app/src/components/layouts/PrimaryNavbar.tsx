@@ -27,7 +27,7 @@ const PrimaryNavbar = ({ user }: { user?: any }) => {
           </li>
           {user && (
             <li className="nav-item">
-              <Link href={`/simple`}>Complex</Link>
+              <Link href={`/complex`}>Complex</Link>
             </li>
           )}
           

@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/navigation';
@@ -9,6 +9,7 @@ import registrationSchema from '../validators/registration.schema';
 import { toastActions } from '@/redux/features/toast.slice';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
+import { useAppDispatch } from '@/redux/hook';
 
 type regFormInputs = {
   name: string;
@@ -18,9 +19,10 @@ type regFormInputs = {
 };
 
 const RegistrationForm: React.FC<{}> = () => {
-  const [loading, setLoading] = useState<boolean>(false);
+  const [isLoading, setLoading] = useState<boolean>(false);
 
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const {
     handleSubmit,
@@ -39,19 +41,23 @@ const RegistrationForm: React.FC<{}> = () => {
     let data: any = await AuthApi.registration(form);
 
     if (data && data.token) {
-      toastActions.showToast({
-        type: 'success',
-        summary: 'Successful',
-        message: 'Registration successful! Please login',
-      });
+      dispatch(
+        toastActions.showToast({
+          type: 'success',
+          summary: 'Successful',
+          message: 'Registration successful! Please login',
+        }),
+      );
 
       setTimeout(() => router.push('/login'), 2000);
     } else {
-      toastActions.showToast({
-        type: 'error',
-        summary: 'Failure',
-        message: 'Registration failed!',
-      });
+      dispatch(
+        toastActions.showToast({
+          type: 'error',
+          summary: 'Failure',
+          message: 'Registration failed!',
+        }),
+      );
     }
   };
 
@@ -190,7 +196,11 @@ const RegistrationForm: React.FC<{}> = () => {
         )}
       />
 
-      <Button type="submit" label="Register" />
+      <Button
+        type="submit"
+        label="Register"
+        icon={`${isLoading ? 'pi pi-spin pi-spinner' : 'pi pi-user-plus'}`}
+      />
     </form>
   );
 };

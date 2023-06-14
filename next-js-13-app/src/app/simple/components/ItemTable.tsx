@@ -24,7 +24,7 @@ const ItemTable = ({ heads }: Props) => {
   }, [dispatch]);
 
   const [itemArray, setItemArray] = useState<any>([]);
-  const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const [isLoading, setLoading] = useState<boolean>(false);
   const [deleteItem, setDeleteItem] = useState<number>(0);
 
   const items = useAppSelector((state) => state.item.items);
@@ -64,7 +64,7 @@ const ItemTable = ({ heads }: Props) => {
   const handleEditForm = async (id: number) => {
     const item: any = await ItemApi.get(id);
 
-    if (item) {
+    if (item && !isLoading) {
       dispatch(
         itemActions.setItemForm({
           name: item.name,
@@ -78,7 +78,6 @@ const ItemTable = ({ heads }: Props) => {
   };
 
   const openDelete = (id: number) => {
-    setOpenDialog(true);
     setDeleteItem(id);
 
     confirmDialog({
@@ -92,17 +91,20 @@ const ItemTable = ({ heads }: Props) => {
 
   const handleDelete = async () => {
     if (deleteItem > 0) {
-      setOpenDialog(false);
+      setLoading(false);
       const result: boolean = await ItemApi.delete(deleteItem);
 
       if (result) {
-        toastActions.showToast({
-          type: 'success',
-          summary: 'Successful',
-          message: 'Item has been deleted',
-        });
+        dispatch(
+          toastActions.showToast({
+            type: 'success',
+            summary: 'Successful',
+            message: 'Item has been deleted',
+          }),
+        );
 
         setItemArray(itemArray.filter((data: any) => data.id !== deleteItem));
+        setLoading(false);
       }
     }
   };
@@ -113,7 +115,7 @@ const ItemTable = ({ heads }: Props) => {
         <Button
           type="button"
           severity="info"
-          icon="pi pi-cog"
+          icon="pi pi-pencil"
           rounded
           aria-label="Edit"
           style={{
@@ -126,7 +128,7 @@ const ItemTable = ({ heads }: Props) => {
           aria-label="Delete"
           rounded
           severity="danger"
-          icon="pi pi-times"
+          icon={isLoading ? 'pi pi-spin pi-spinner' : 'pi pi-times'}
           onClick={(e) => openDelete(item.id)}
         />
       </div>
