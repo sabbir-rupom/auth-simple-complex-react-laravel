@@ -12,7 +12,7 @@ import {
 } from 'react-hook-form';
 import CommonApi from '../services/CommonApi';
 import OrderApi from '../services/OrderApi';
-import { BuyerDTO, CustomerDTO, FilterDTO } from '../shared/data';
+import { BuyerDTO, CustomerDTO, FilterDTO, defaultFilterParams } from '../shared/data';
 import {
   fetchBuyers,
   fetchCustomers,
@@ -62,9 +62,9 @@ const OrderSearch = () => {
    * Set form with initial values
    */
   const resetForm = async () => {
-    form.reset(filterParams);
+    form.reset(defaultFilterParams);
 
-    await fetchData(filterParams);
+    await fetchData({});
   };
 
   /**
@@ -123,21 +123,39 @@ const OrderSearch = () => {
                 placeholder="Enter Text ..."
               />
 
-              <DateInput
-                name="order_date"
+              <DateRangePicker
+                startValue={filterParams.start_date}
+                endValue={filterParams.end_date}
+                control={form.control}
+                startName="start_date"
+                endName="end_date"
+              />
+              {/* <DateInput
+                name="start_date"
                 label="Order Date"
                 placeholder="Set order date"
-              />
+              /> */}
             </div>
 
             <div className="tw-flex tw-justify-center">
-              <Button
-                type="submit"
-                label="Search"
-                icon={`mx-auto ${
-                  isLoading ? 'pi pi-spin pi-spinner' : 'pi pi-search pr-2'
-                }`}
-              />
+              <div>
+                <Button
+                  type="submit"
+                  label="Search"
+                  icon={`pr-2 ${
+                    isLoading ? 'pi pi-spin pi-spinner' : 'pi pi-search'
+                  }`}
+                />
+              </div>
+              <div className='tw-ml-2'>
+                <Button
+                  severity="warning"
+                  type="button"
+                  label="Reset"
+                  icon={`pr-2 pi pi-refresh`}
+                  onClick={resetForm}
+                />
+              </div>
             </div>
           </form>
         </FormProvider>

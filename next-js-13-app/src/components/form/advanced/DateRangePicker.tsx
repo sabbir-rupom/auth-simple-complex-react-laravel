@@ -1,10 +1,7 @@
-import { Container } from '@mui/material';
-import Box from '@mui/material/Box';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useEffect, useState } from 'react';
-import { Controller } from 'react-hook-form';
+import { Calendar } from 'primereact/calendar';
+import { Controller, useFormContext } from 'react-hook-form';
+import { parseDateObject } from '@/services/Utility';
 
 interface RangePickerProps {
   startValue?: null | string;
@@ -12,86 +9,62 @@ interface RangePickerProps {
   startName: string;
   endName: string;
   control: any;
+  label?: null | string;
 }
 
 const DateRangePicker = ({
   startValue = null,
   endValue = null,
+  label = 'Date Range',
   startName = 'start_date',
   endName = 'end_date',
   control,
 }: RangePickerProps) => {
-  const [startDateInput, setStartDateInput] = useState<any>(null);
-  const [endDateInput, setEndDateInput] = useState<any>(null);
+  const [dates, setDates] = useState<any>(null);
+
+  const { setValue, getValues } = useFormContext();
 
   useEffect(() => {
-    if (startDateInput && endDateInput && startDateInput > endDateInput) {
-      console.log('do date range validation');
+    if (startValue && endValue) {
+      setDates([new Date(String(startValue)), new Date(String(endValue))]);
+    } else {
+      setDates(null);
     }
-  }, [startDateInput, endDateInput]);
+    
+  }, [startValue, endValue]);
+  
+  // const formValue = getValues(startName)
+  
+  // useEffect(() => {
+  //   if(startValue !== formValue && formValue == null) {
+  //     setDates(null);
+  //   }
+  // },[formValue]);
+
+  const prepareDateRange = (e: any) => {
+    if(e.value && e.value[0] && e.value[1]) {
+      const start: any = parseDateObject(e.value[0]);
+      const end: any = parseDateObject(e.value[1]);
+  
+      setValue(startName, `${start.year}/${start.month}/${start.day}`);
+      setValue(endName, `${end.year}/${end.month}/${end.day}`);
+    }
+
+    setDates(e.value);
+  };
+
+  // console.clear()
+  // console.log(inputDateRange)
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        '& > :not(style)': { px: 0 },
-      }}
-    >
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Container className="flex">
-          <Controller
-            control={control}
-            name={startName}
-            defaultValue={startValue}
-            render={({ field: { onChange, value, ...rest } }) => (
-              <DatePicker
-                className="flex-grow"
-                label="Start Date"
-                {...rest}
-                onChange={(e: any) => {
-                  let dt = new Date(e);
-                  dt.setDate(dt.getDate() + 1);
-                  let [year, month, day] = dt
-                    .toISOString()
-                    .substring(0, 10)
-                    .split('-')
-                    .map((x) => parseInt(x, 10));
-                  let newDate = `${year}-${month}-${day}`;
-                  setStartDateInput(new Date(newDate));
-                  onChange(newDate);
-                }}
-              />
-            )}
-          />
-          <div className="p-3">-</div>
-          <Controller
-            control={control}
-            name={endName}
-            defaultValue={endValue}
-            render={({ field: { onChange, value, ...rest } }) => (
-              <DatePicker
-                className="flex-grow"
-                label="End Date"
-                {...rest}
-                onChange={(e: any) => {
-                  let dt = new Date(e);
-                  dt.setDate(dt.getDate() + 1);
-                  let [year, month, day] = dt
-                    .toISOString()
-                    .substring(0, 10)
-                    .split('-')
-                    .map((x) => parseInt(x, 10));
-                  let newDate = `${year}-${month}-${day}`;
-                  setEndDateInput(new Date(newDate));
-                  onChange(newDate);
-                }}
-              />
-            )}
-          />
-        </Container>
-      </LocalizationProvider>
-    </Box>
+    <div className="tw-w-full tw-flex tw-flex-col tw-mb-3">
+      <label className="tw-font-bold pb-1">{label}</label>
+      <Calendar
+        value={dates}
+        onChange={prepareDateRange}
+        selectionMode="range"
+      />
+    </div>
   );
 };
 

@@ -5,6 +5,7 @@ import {
 } from 'react-hook-form';
 import { Calendar } from 'primereact/calendar';
 import { InputProps } from './TextInput';
+import { parseDateObject } from '@/services/Utility';
 
 export const DateInput = (props: InputProps) => {
   const { control } = useFormContext();
@@ -14,11 +15,21 @@ export const DateInput = (props: InputProps) => {
     control,
   });
 
-  const checkDateValue = (value: any) => {
-    if (typeof value === 'string') {
+  const checkInputDate = (value: any) => {
+    if (value && typeof value === 'string') {
       return new Date(value);
     }
     return value;
+  };
+
+  const prepareInputDate = (event: any) => {
+    let value = event.value;
+
+    if (value) {
+      const { year, month, day }: any = parseDateObject(value);
+      value = year + '-' + month + '-' + day;
+    }
+    controller.field.onChange(value);
   };
 
   return (
@@ -31,12 +42,11 @@ export const DateInput = (props: InputProps) => {
         {props.label}
       </label>
       <Calendar
-        value={controller.field.value}
-        onChange={controller.field.onChange}
+        value={checkInputDate(controller.field.value)}
+        onChange={prepareInputDate}
         dateFormat="yy-mm-dd"
         className={`${controller.fieldState.error ? `p-invalid` : ''}`}
         showIcon
-        panelClassName="tw-w-2"
       />
       <small className="p-error mb-3">
         {controller.fieldState.error?.message ?? ''}
