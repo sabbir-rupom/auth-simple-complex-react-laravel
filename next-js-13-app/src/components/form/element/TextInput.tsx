@@ -34,12 +34,19 @@ export const TextInput = (props: InputProps) => {
       <InputText
         placeholder={props.placeholder}
         type={props.type ?? 'text'}
-        onChange={controller.field.onChange}
+        onChange={(e) => {
+          if (props.onStateChange) {
+            props.onStateChange(e.target.value);
+          }
+          controller.field.onChange(e);
+        }}
+        // onChange={controller.field.onChange}
         onBlur={controller.field.onBlur}
         name={controller.field.name}
         value={controller.field.value}
         ref={controller.field.ref}
         className={`${controller.fieldState.error ? `p-invalid` : ''}`}
+        readOnly={props.readonly}
       />
       <small className="p-error">
         {controller.fieldState.error?.message ?? ''}

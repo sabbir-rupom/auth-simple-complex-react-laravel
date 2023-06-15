@@ -92,7 +92,7 @@ updateLogic.attachment = mixed<FileList>()
     'fileType',
     'Only the following formats are accepted: JPG, JPEG, PNG and PDF',
     (value: any) => {
-      if (!value.length) {
+      if (!value) {
         return true;
       } else {
         value = value[0];
@@ -107,7 +107,7 @@ updateLogic.attachment = mixed<FileList>()
     }
   )
   .test('fileSize', 'Only files up to 4MB are permitted', (value: any) => {
-    if (!value.length) return true;
+    if (!value) return true;
 
     return (
       !value || //Check if `files` is defined

@@ -1,18 +1,12 @@
-import { SelectInput } from '@/common/components/form/element/SelectInput';
-import { TextInput } from '@/common/components/form/element/TextInput';
-import { makeOptionArray } from '@/common/utils/general';
-import {
-  Button,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from '@mui/material';
+import { SelectInput } from '@/components/form/element/SelectInput';
+import { TextInput } from '@/components/form/element/TextInput';
+import { makeOptionArray } from '@/services/Utility';
+
 import { useEffect, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { ProductDTO } from '../shared/data';
+import { Dropdown } from 'primereact/dropdown';
+import { Button } from 'primereact/button';
 
 type FormOrderProductProps = {
   products: ProductDTO[];
@@ -80,120 +74,116 @@ const FormOrderProductEntry = ({
   };
 
   return (
-    <Grid container direction="row">
-      <Grid item lg={2} md={6} xs={12}>
-        <FormControl fullWidth className="pr-0 md:pr-2">
-          <Controller
-            control={control}
-            name={`order_products[${index}].product`}
-            render={({ field: { onChange, ...rest } }) => (
-              <FormControl fullWidth className="mb-3">
-                <InputLabel>Product</InputLabel>
-                <Select
-                  {...rest}
-                  label="Product"
-                  onChange={(e: any) => {
-                    handleOrderProductEntry(e.target.value);
-                    onChange(e.target.value);
-                  }}
-                  error={!!errors[`errors['order_products[${index}].product']`]}
-                >
-                  <MenuItem value="0">
-                    <em
-                      className={
-                        errors[`errors['order_products[${index}].product']`]
-                          ? `text-red-600`
-                          : ''
-                      }
-                    >
-                      Select Product
-                    </em>
-                  </MenuItem>
+    <div className="tw-grid tw-grid-cols-12 tw-gap-3">
+      <div className="tw-pr-0 md:tw-pr-2 tw-col-span-12 md:tw-col-span-6 lg:tw-col-span-2">
+        <Controller
+          name={`order_products[${index}].product`}
+          control={control}
+          render={({ field: { onChange, ...rest }, fieldState }) => (
+            <>
+              <label
+                className={
+                  'tw-font-bold tw-mb-3' + (fieldState.error ? `p-error` : '')
+                }
+              >
+                Product
+              </label>
+              <Dropdown
+                optionLabel="title"
+                optionValue="value"
+                placeholder="Select Product"
+                options={productArray}
+                onChange={(e: any) => {
+                  handleOrderProductEntry(e.target.value);
+                  onChange(e.target.value);
+                }}
+                {...rest}
+                className={`tw-w-full ${fieldState.error ? `p-invalid` : ''}`}
+              />
+              <small className="p-error mb-3">
+                {fieldState.error?.message ?? ''}
+              </small>
+            </>
+          )}
+        />
+      </div>
 
-                  {productArray &&
-                    productArray.map(({ value, title }: any) => (
-                      <MenuItem key={value} value={value}>
-                        {title}
-                      </MenuItem>
-                    ))}
-                </Select>
-              </FormControl>
-            )}
-          />
-        </FormControl>
-      </Grid>
-      <Grid item lg={2} md={6} xs={12}>
-        <FormControl fullWidth className="pr-0 md:pr-2 mb-3">
-          <SelectInput
-            name={`order_products[${index}].product_category`}
-            label="Product Category"
-            placeholder="Select Category"
-            options={makeOptionArray(productCategory, 'id', 'category_name')}
-          />
-        </FormControl>
-      </Grid>
-      <Grid item lg={2} md={6} xs={12}>
-        <FormControl fullWidth className="pr-0 md:pr-2 mb-3">
-          <SelectInput
-            name={`order_products[${index}].product_unit`}
-            label="Product Unit"
-            placeholder="Select Unit"
-            options={makeOptionArray(productUnit, 'id', 'name')}
-          />
-        </FormControl>
-      </Grid>
-      <Grid item xs={12} md={6} lg={2} className="pr-0 md:pr-2 mb-3">
+      <div className="tw-pr-0 md:tw-pr-2 tw-col-span-12 md:tw-col-span-6 lg:tw-col-span-2">
+        <SelectInput
+          name={`order_products[${index}].product_category`}
+          label="Product Category"
+          placeholder="Select Category"
+          options={makeOptionArray(productCategory, 'id', 'category_name')}
+        />
+      </div>
+
+      <div className="tw-pr-0 md:tw-pr-2 tw-col-span-12 md:tw-col-span-6 lg:tw-col-span-2">
+        <SelectInput
+          name={`order_products[${index}].product_unit`}
+          label="Product Unit"
+          placeholder="Select Unit"
+          options={makeOptionArray(productUnit, 'id', 'name')}
+        />
+      </div>
+
+      <div className="tw-col-span-12 md:tw-col-span-6 lg:tw-col-span-2">
         <TextInput
           name={`order_products[${index}].unit_price`}
           label="Unit Price*"
           readonly={true}
         />
-      </Grid>
-      <Grid item xs={12} md={6} lg={1} className="pr-0 md:pr-2 mb-3">
-        <Controller
+      </div>
+
+      <div className="tw-col-span-12 md:tw-col-span-6 lg:tw-col-span-1">
+        <TextInput
           name={`order_products[${index}].quantity`}
-          control={control}
-          render={({ field: { onChange, ...rest } }) => (
-            <TextField
-              onChange={(e: any) => {
-                handlePrice(e.target.value);
-                onChange(e);
-              }}
-              {...rest}
-              fullWidth
-              type="number"
-              label="Quantity*"
-              InputProps={{
-                inputMode: 'numeric',
-              }}
-              error={!!errors[`errors['order_products[${index}].quantity']`]}
-            />
-          )}
+          label="Quantity*"
+          type="number"
+          onStateChange={(value: any) => handlePrice(value)}
         />
-      </Grid>
-      <Grid item xs={12} md={6} lg={2} className="pr-0 md:pr-2 mb-3">
-        <div className="border border-c px-3 py-[0.95rem] rounded">
+      </div>
+
+      <div className="tw-col-span-12 md:tw-col-span-6 lg:tw-col-span-2">
+        <label className='tw-font-bold'>Total Price</label>
+        <div className="tw-border tw-border-c tw-px-3 tw-py-[0.95rem] tw-rounded">
           {basePrice && quantity ? basePrice * quantity : 0}
         </div>
-      </Grid>
-      <Grid
-        item
-        xs={12}
-        md={12}
-        lg={1}
-        className="text-center lg:text-right pb-5 lg:pb-0 mb-3 lg:mb-0"
-      >
+      </div>
+
+      <div className="tw-col-span-12 md:tw-col-span-6 lg:tw-col-span-1 tw-pt-6">
         <Button
-          color="error"
-          variant="outlined"
+          severity="danger"
           disabled={disableRemoveButton}
           onClick={() => onRemove(index)}
-          className="w-full lg:w-auto"
+          className="tw-w-full lg:tw-w-auto"
         >
           Remove
         </Button>
-      </Grid>
-    </Grid>
+      </div>
+    </div>
+    // <Grid container direction="row">
+    //   <Grid item lg={2} md={6} xs={12}>
+    //   </Grid>
+    //   <Grid item lg={2} md={6} xs={12}>
+    //   </Grid>
+    //   <Grid item lg={2} md={6} xs={12}>
+    //   </Grid>
+    //   <Grid item xs={12} md={6} lg={2} className="pr-0 md:pr-2 mb-3">
+    //   </Grid>
+    //   <Grid item xs={12} md={6} lg={1} className="pr-0 md:pr-2 mb-3">
+    //   </Grid>
+    //   <Grid item xs={12} md={6} lg={2} className="pr-0 md:pr-2 mb-3">
+    //   </Grid>
+    //   <Grid
+    //     item
+    //     xs={12}
+    //     md={12}
+    //     lg={1}
+    //     className="text-center lg:text-right pb-5 lg:pb-0 mb-3 lg:mb-0"
+    //   >
+
+    //   </Grid>
+    // </Grid>
   );
 };
 

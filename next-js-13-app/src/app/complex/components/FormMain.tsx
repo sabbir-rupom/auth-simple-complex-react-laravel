@@ -167,9 +167,7 @@ const FormMain = ({ orderId }: { orderId: number }) => {
 
           <OrderBasicForm customerChange={handleCustomerChange} />
           <FormDeliveryAddress locations={customerLocations} />
-          {/*
-
-          <FormOrderProducts /> */}
+          <FormOrderProducts /> 
 
           <div className="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-4">
             <div className="tw-mb-3">
