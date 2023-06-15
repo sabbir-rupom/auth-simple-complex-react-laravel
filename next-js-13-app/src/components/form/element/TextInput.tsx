@@ -41,7 +41,7 @@ export const TextInput = (props: InputProps) => {
         ref={controller.field.ref}
         className={`${controller.fieldState.error ? `p-invalid` : ''}`}
       />
-      <small className="p-error mb-3">
+      <small className="p-error">
         {controller.fieldState.error?.message ?? ''}
       </small>
     </div>

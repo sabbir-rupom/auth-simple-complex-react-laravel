@@ -41,7 +41,7 @@ export const TextareaInput = (props: InputProps) => {
         rows={5}
         className={`tw-w-full ${controller.fieldState.error ? `p-invalid` : ''}`}
       />
-      <small className="p-error mb-3">
+      <small className="p-error">
         {controller.fieldState.error?.message ?? ''}
       </small>
     </div>

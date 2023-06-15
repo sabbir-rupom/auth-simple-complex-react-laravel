@@ -12,7 +12,12 @@ import {
 } from 'react-hook-form';
 import CommonApi from '../services/CommonApi';
 import OrderApi from '../services/OrderApi';
-import { BuyerDTO, CustomerDTO, FilterDTO, defaultFilterParams } from '../shared/data';
+import {
+  BuyerDTO,
+  CustomerDTO,
+  FilterDTO,
+  defaultFilterParams,
+} from '../shared/data';
 import {
   fetchBuyers,
   fetchCustomers,
@@ -24,6 +29,7 @@ import { makeOptionArray } from '@/services/Utility';
 import { TextInput } from '@/components/form/element/TextInput';
 import { DateInput } from '@/components/form/element/DateInput';
 import { Button } from 'primereact/button';
+import Link from 'next/link';
 
 const OrderSearch = () => {
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -97,9 +103,17 @@ const OrderSearch = () => {
   return (
     <>
       <div className="card tw-border tw-p-4 tw-rounded-md mb-3">
-        <h3 className="text-2xl font-semibold w-full text-center mb-5">
-          Filter Order(s)
-        </h3>
+        <div className="tw-flex tw-justify-between mb-5">
+          <h3 className="text-2xl font-semibold">Filter Order(s)</h3>
+          <Link
+            href={`/complex/order/0`}
+            className="tw-bg-green-600 tw-rounded-lg tw-py-3 tw-px-5 tw-text-white"
+          >
+            <i className="pi pi-plus tw-mr-2"></i>
+
+            Add New
+          </Link>
+        </div>
 
         <FormProvider {...form}>
           <form
@@ -147,7 +161,7 @@ const OrderSearch = () => {
                   }`}
                 />
               </div>
-              <div className='tw-ml-2'>
+              <div className="tw-ml-2">
                 <Button
                   severity="warning"
                   type="button"

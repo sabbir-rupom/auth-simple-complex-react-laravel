@@ -48,7 +48,7 @@ export const DateInput = (props: InputProps) => {
         className={`${controller.fieldState.error ? `p-invalid` : ''}`}
         showIcon
       />
-      <small className="p-error mb-3">
+      <small className="p-error">
         {controller.fieldState.error?.message ?? ''}
       </small>
     </div>

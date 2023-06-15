@@ -1,103 +1,85 @@
-import { TextInput } from '@/common/components/form/element/TextInput';
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  FormControl,
-  FormLabel,
-  Grid,
-  Radio,
-  RadioGroup,
-} from '@mui/material';
+import { TextInput } from '@/components/form/element/TextInput';
+import { Button } from 'primereact/button';
+import { Dialog } from 'primereact/dialog';
+import { RadioButton } from 'primereact/radiobutton';
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 const FormDeliveryAddress = ({ locations }: any) => {
   const [address, setAddress] = useState<string>('');
-  const [open, setOpen] = useState<boolean>(false);
+  const [visible, setVisible] = useState<boolean>(false);
 
   const { setValue } = useFormContext();
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
   useEffect(() => {
     setValue('customer_address', '');
   }, [locations]);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const footerContent = (
+    <div>
+      <Button
+        type="button"
+        severity="danger"
+        label="No"
+        icon="pi pi-times"
+        onClick={() => setVisible(false)}
+        className="p-button-text"
+      />
+      <Button
+        type="button"
+        label="OK"
+        icon="pi pi-check"
+        onClick={() => {
+          setValue('customer_address', address);
+          setVisible(false);
+        }}
+        autoFocus
+      />
+    </div>
+  );
+
   return (
     <>
-      <Grid container spacing={2} className="mt-3">
-        <Grid item xs={12} md={10}>
-          <FormControl fullWidth className="mb-0 lg:mb-3">
-            <TextInput
-              name="customer_address"
-              label="Delivery Address*"
-              placeholder="Set address"
-              readonly
-            />
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} md={2}>
-          <div className="text-center">
+      <div className="tw-flex">
+        <div className="tw-grow">
+          <TextInput
+            name="customer_address"
+            label="Delivery Address*"
+            placeholder="Set address"
+            readonly
+          />
+        </div>
+        {locations.length > 0 && (
+          <div className="tw-ml-2 tw-mt-7">
             <Button
-              className="bg-blue-500 hover:bg-blue-300 text-white w-full p-2 lg:p-4"
-              onClick={handleClickOpen}
+              type="button"
+              severity="secondary"
+              onClick={() => setVisible(true)}
             >
               Select
             </Button>
           </div>
-        </Grid>
-      </Grid>
+        )}
+      </div>
       <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        header="Select Delivery Address"
+        visible={visible}
+        style={{ width: '50vw' }}
+        onHide={() => setVisible(false)}
+        footer={footerContent}
       >
-        <DialogTitle>{'Select Delivery Address'}</DialogTitle>
-        <DialogContent>
-          <RadioGroup
-            defaultValue="female"
-            name="controlled-radio-buttons-group"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            sx={{ my: 1 }}
-          >
-            {locations &&
-              locations.map((text: string, index: any) => (
-                <FormControl
-                  key={index}
-                  sx={{ p: 2, flexDirection: 'row', gap: 2 }}
-                >
-                  <Radio
-                    value={text}
-                    onChange={(e) => setAddress(e.target.value)}
-                  />
-                  <FormLabel className="mt-2">{text}</FormLabel>
-                </FormControl>
-              ))}
-          </RadioGroup>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={() => {
-              setValue('customer_address', address);
-              handleClose();
-            }}
-            autoFocus
-            variant="outlined"
-            className="mr-3 mb-3"
-          >
-            Select Address
-          </Button>
-        </DialogActions>
+        {locations &&
+          locations.map((text: string, key: number) => (
+            <div key={key} className="tw-flex tw-items-center tw-mb-3">
+              <RadioButton
+                name="radio_input"
+                value={text}
+                onChange={(e: any) => setAddress(e.value)}
+                checked={address === text}
+              />
+              <label className="tw-ml-2">{text}</label>
+            </div>
+          ))}
       </Dialog>
     </>
   );

@@ -1,84 +1,27 @@
-import Breadcrumb from '@/common/components/templates/Breadcrumb';
-import { useAppSelector } from '@/common/redux/store';
-import FormMain from '@/features/complex/components/FormMain';
-import OrderApi from '@/features/complex/services/OrderApi';
-import { defaultOrderInput } from '@/features/complex/shared/data';
-import MasterLayout from '@/layouts/MasterLayout';
-import { Container } from '@mui/material';
-import { GetStaticPaths, GetStaticProps } from 'next';
-import Head from 'next/head';
-import { useRouter } from 'next/router';
+import PageBreadcrumb from '@/components/ui/PageBreadcrumb';
+import { Metadata } from 'next';
+import FormMain from '../../components/FormMain';
 
-const OrderForm = ({id}:{id: number}) => {
-  const router = useRouter();
+export const metadata: Metadata = {
+  title: 'Order List | Complex Page',
+};
 
-  const auth = useAppSelector((state) => state.userAuth.isLoggedIn);
-  if (!auth) {
-    router.push('/');
-  }
+const OrderForm = ({params}:any) => {
+  const id: number = Number(params.id ?? 0);
 
   return (
     <>
-      <Head>
-        <title>{id > 0 ? `Edit Order` : `New Order`}</title>
-      </Head>
+      <PageBreadcrumb
+        title="Order Form"
+        items={[{ label: 'Complex' }, { label: 'Orders' }, { label: 'Create' }]}
+        icon={{ icon: 'pi pi-home', url: '/' }}
+      />
 
-      <MasterLayout>
-        <Breadcrumb
-          parent="Complex"
-          bread1="Orders"
-          breadLink1={`/complex/order`}
-          bread2={id > 0 ? `Edit Order` : `New Order`}
-          title="Complex Page: Order Form"
-        />
-        <Container component="main" maxWidth="xl" sx={{ px: 0 }}>
-          <FormMain orderId={id} />
-        </Container>
-      </MasterLayout>
+      <div className="tw-container mx-auto">
+        <FormMain orderId={id} />
+      </div>
     </>
   );
 };
 
 export default OrderForm;
-
-export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
-
-  return {
-      paths: [], //indicates that no page needs be created at build time
-      fallback: 'blocking' //indicates the type of fallback
-  }
-}
-
-export const getStaticProps: GetStaticProps = async (context) => {
-  let id = context.params?.id;
-  return {
-    props: {
-      id,
-    }, // will be passed to the page component as props
-  };
-};
-
-// export const getServerSideProps: GetServerSideProps = async (context) => {
-//   // console.log(context.params?.id)  //If doesn't work use context.query.id
-
-//   let id = context.params?.id,
-//     order = defaultOrderInput,
-//     notFound = false;
-
-//   if (Number(id) > 0) {
-//     const [data, message]: any = await OrderApi.get(Number(id));
-//     if (data) {
-//       order = data;
-//     } else {
-//       notFound = true;
-//     }
-//   }
-
-//   return {
-//     props: {
-//       order,
-//       notFound,
-//       id,
-//     }, // will be passed to the page component as props
-//   };
-// };

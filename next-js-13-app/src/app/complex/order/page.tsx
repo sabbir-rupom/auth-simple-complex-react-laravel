@@ -8,28 +8,6 @@ export const metadata: Metadata = {
 };
 
 const Complex = () => {
-
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     let [orders, pagination] = await OrderApi.orders({});
-
-  //     if (orders) {
-  //       dispatch(orderActions.setOrders(orders));
-  //       dispatch(orderActions.setOrderPagination(pagination));
-  //     }
-  //   }
-
-  //   fetchData();
-  // }, []);
-
-  // const orders: OrderSummaryDTO[] = useAppSelector<OrderSummaryDTO[]>(
-  //   (state: any) => state.order.orders
-  // );
-
-  // const pagination: any = useAppSelector<any>(
-  //   (state: any) => state.order.orderPagination
-  // );
-
   return (
     <>
       <PageBreadcrumb
@@ -37,11 +15,11 @@ const Complex = () => {
         items={[{ label: 'Complex' }, { label: 'Orders' }]}
         icon={{ icon: 'pi pi-home', url: '/' }}
       />
-        <div className='tw-container mx-auto'>
-          <OrderSearch />
-          <div className='tw-my-5'></div>
-          <OrderList />
-        </div>
+      <div className='tw-container mx-auto'>
+        <OrderSearch />
+        <div className='tw-my-5'></div>
+        <OrderList />
+      </div>
     </>
   );
 };

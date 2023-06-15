@@ -63,6 +63,7 @@ const DateRangePicker = ({
         value={dates}
         onChange={prepareDateRange}
         selectionMode="range"
+        showIcon
       />
     </div>
   );

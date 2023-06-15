@@ -5,9 +5,12 @@ This is a [Next.js](https://nextjs.org/) project for Simple page, Authentication
 First, run the development server:
 
 ```bash
-npm install primereact
-npm i -D sass 
-npm install --save-dev eslint prettier eslint-config-next eslint-plugin-prettier eslint-config-prettier
+npx create-next-app@latest
+npm i --save-dev eslint prettier eslint-config-next eslint-plugin-prettier eslint-config-prettier
+npm i primereact primeicons
+npm i -D tailwindcss postcss autoprefixer
+npm i -D sass @ajoelp/json-to-formdata
+npm i @reduxjs/toolkit react-redux next-redux-wrapper
 npm run dev
 ```
 

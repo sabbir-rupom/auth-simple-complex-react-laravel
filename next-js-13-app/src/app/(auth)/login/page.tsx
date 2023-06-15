@@ -8,8 +8,8 @@ export const metadata: Metadata = {
 
 const Login: NextPage = () => {
   return (
-    <section className="tw-container mx-auto tw-mt-10">
-      <div className="tw-flex tw-flex-col tw-items-center tw-justify-center tw-border tw-rounded tw-max-w-md p-4 tw-mx-auto">
+    <section className="page-content">
+      <div className="auth-container">
         <h1 className="tw-font-bold my-3 tw-text-2xl">Sign in</h1>
 
         <LoginForm />

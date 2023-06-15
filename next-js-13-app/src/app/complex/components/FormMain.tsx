@@ -1,11 +1,10 @@
-import { FileInput } from '@/common/components/form/element/FileInput';
-import { TextareaInput } from '@/common/components/form/element/TextareaInput';
-import { useAppDispatch, useAppSelector } from '@/common/redux/store';
-import { toastActions } from '@/common/redux/toast.slice';
+'use client';
+
+import { FileInput } from '@/components/form/element/FileInput';
+import { TextareaInput } from '@/components/form/element/TextareaInput';
+import { useAppDispatch, useAppSelector } from '@/redux/hook';
+import { toastActions } from '@/redux/features/toast.slice';
 import { yupResolver } from '@hookform/resolvers/yup';
-import SaveIcon from '@mui/icons-material/Save';
-import { LoadingButton } from '@mui/lab';
-import { Button, Grid } from '@mui/material';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -26,6 +25,7 @@ import {
 import FormDeliveryAddress from './FormDeliveryAddress';
 import FormOrderProducts from './FormOrderProducts';
 import OrderBasicForm from './OrderBasicForm';
+import { Button } from 'primereact/button';
 
 const FormMain = ({ orderId }: { orderId: number }) => {
   const dispatch = useAppDispatch();
@@ -54,10 +54,13 @@ const FormMain = ({ orderId }: { orderId: number }) => {
         form.reset(data);
       } else {
         dispatch(
-          toastActions.showToast({
-            type: 'error',
-            message: String(message),
-          })
+          dispatch(
+            toastActions.showToast({
+              type: 'error',
+              summary: 'API Error',
+              message: String(message),
+            }),
+          ),
         );
         push('/complex/order/0');
       }
@@ -68,9 +71,9 @@ const FormMain = ({ orderId }: { orderId: number }) => {
     }
   }, []);
 
-  const [loading, setLoading] = useState<boolean>(false);
+  const [isLoading, setLoading] = useState<boolean>(false);
 
-  const [customerLocations, setCustomerLocations] = useState([[]]);
+  const [customerLocations, setCustomerLocations] = useState<any>([]);
 
   const customers = useAppSelector((state) => state.order.customers);
 
@@ -84,7 +87,7 @@ const FormMain = ({ orderId }: { orderId: number }) => {
 
   const handleCustomerChange = (
     customerId: number,
-    customers: CustomerDTO[]
+    customers: CustomerDTO[],
   ) => {
     let customerObj: any = customers.filter((obj: any) => {
       return obj.id === customerId;
@@ -135,14 +138,18 @@ const FormMain = ({ orderId }: { orderId: number }) => {
       dispatch(
         toastActions.showToast({
           type: 'success',
+          summary: 'Success',
           message: message,
-        })
+        }),
       );
     } else {
-      toastActions.showToast({
-        type: 'error',
-        message: message,
-      });
+      dispatch(
+        toastActions.showToast({
+          type: 'error',
+          summary: 'Error',
+          message: message,
+        }),
+      );
     }
   };
 
@@ -154,20 +161,18 @@ const FormMain = ({ orderId }: { orderId: number }) => {
           noValidate
           autoComplete="off"
         >
-          {/* <input type="hidden" name="id" value={orderId} /> */}
-
           <div className="text-xl font-bold text-center mb-7">
             {orderId > 0 ? 'Edit Order' : 'Add New Order'}
           </div>
 
           <OrderBasicForm customerChange={handleCustomerChange} />
-
           <FormDeliveryAddress locations={customerLocations} />
+          {/*
 
-          <FormOrderProducts />
+          <FormOrderProducts /> */}
 
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={6} lg={4}>
+          <div className="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-4">
+            <div className="tw-mb-3">
               <FileInput
                 name="attachment"
                 label="Attachment"
@@ -180,38 +185,32 @@ const FormMain = ({ orderId }: { orderId: number }) => {
                   </div>
                 </>
               )}
-            </Grid>
-            <Grid item xs={12} md={12} lg={8} className="mb-3">
+            </div>
+            <div className="tw-mb-3">
               <TextareaInput name="remark" label="Remark" placeholder="Enter" />
-            </Grid>
-          </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <LoadingButton
-                variant="outlined"
-                color="primary"
-                fullWidth
-                type="submit"
-                loading={loading}
-                loadingPosition="start"
-                sx={{ py: '0.8rem', mt: '1rem' }}
-                startIcon={<SaveIcon />}
-              >
-                <span>Save</span>
-              </LoadingButton>
-            </Grid>
-            <Grid item xs={6}>
-              <Button
-                variant="outlined"
-                color="error"
-                fullWidth
-                sx={{ py: '0.8rem', mt: '1rem' }}
-                onClick={() => resetForm()}
-              >
-                Reset
-              </Button>
-            </Grid>
-          </Grid>
+            </div>
+            <div className="tw-mb-3 tw-col-span-3">
+              <div className="flex-button-container tw-w-full md:tw-w-1/2 md:tw-mx-auto">
+                <Button
+                  type="submit"
+                  label="Submit"
+                  severity="success"
+                  icon={`${
+                    isLoading ? 'pi pi-spin pi-spinner' : 'pi pi-upload'
+                  }`}
+                  disabled={isLoading}
+                />
+
+                <Button
+                  type="button"
+                  label="Reset"
+                  severity="danger"
+                  icon="pi pi-refresh"
+                  onClick={() => resetForm()}
+                />
+              </div>
+            </div>
+          </div>
         </form>
       </FormProvider>
     </>

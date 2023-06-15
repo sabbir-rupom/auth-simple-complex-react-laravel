@@ -49,7 +49,7 @@ export const SelectInput = (props: SelectInputProps) => {
         options={props.options}
         className={`${controller.fieldState.error ? `p-invalid` : ''}`}
       />
-      <small className="p-error mb-3">
+      <small className="p-error">
         {controller.fieldState.error?.message ?? ''}
       </small>
     </div>

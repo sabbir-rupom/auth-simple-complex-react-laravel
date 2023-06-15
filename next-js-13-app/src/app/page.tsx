@@ -30,8 +30,8 @@ export default function Home() {
   ];
 
   return (
-    <main>
-      <h2 style={{ padding: 10, textAlign: 'center' }}>Welcome</h2>
+    <section className='page-content'>
+      <h2 style={{ padding: 10, textAlign: 'center', fontWeight: 'bold', fontSize: '24px' }}>Welcome</h2>
 
       <h4 style={{ textAlign: 'center' }}>
         (Auth + Simple + Complex) practice project
@@ -45,6 +45,6 @@ export default function Home() {
             <Dropdown value={selectedCity} onChange={(e) => setSelectedCity(e.value)} options={cities} optionLabel="name" 
                 placeholder="Select a City" className="w-full md:w-14rem" />
         </div>
-    </main>
+    </section>
   );
 }

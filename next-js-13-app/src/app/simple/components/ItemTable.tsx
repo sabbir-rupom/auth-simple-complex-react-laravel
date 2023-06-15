@@ -39,11 +39,11 @@ const ItemTable = ({ heads }: Props) => {
         head: getHead(item.head),
         code: item.code,
         status: item.status ? (
-          <small className="tw-bg-green-500 p-2 tw-rounded-2xl tw-text-white">
+          <small className="tw-bg-green-500 p-2 tw-rounded-2xl tw-text-white tw-inline-block">
             Active
           </small>
         ) : (
-          <small className="tw-bg-red-500 p-2 tw-rounded-2xl tw-text-white">
+          <small className="tw-bg-red-500 p-2 tw-rounded-2xl tw-text-white tw-inline-block">
             In-active
           </small>
         ),

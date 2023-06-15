@@ -1,12 +1,11 @@
-import { DateInput } from '@/common/components/form/element/DateInput';
-import { SelectInput } from '@/common/components/form/element/SelectInput';
-import { TextInput } from '@/common/components/form/element/TextInput';
-import { useAppDispatch, useAppSelector } from '@/common/redux/store';
-import { makeOptionArray } from '@/common/utils/general';
-import { FormControl, Grid } from '@mui/material';
+import { DateInput } from '@/components/form/element/DateInput';
+import { SelectInput } from '@/components/form/element/SelectInput';
+import { TextInput } from '@/components/form/element/TextInput';
+import { useAppDispatch, useAppSelector } from '@/redux/hook';
+import { makeOptionArray } from '@/services/Utility';
 import { useEffect, useState } from 'react';
 import CommonApi from '../services/CommonApi';
-import { orderActions } from '../../../redux/features/order.slice';
+import { orderActions } from '@/redux/features/order.slice';
 
 const OrderBasicForm = ({ customerChange }: { customerChange: Function }) => {
   const customers = useAppSelector((state) => state.order.customers);
@@ -45,63 +44,45 @@ const OrderBasicForm = ({ customerChange }: { customerChange: Function }) => {
   }, [customers, buyers]);
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12} md={6} lg={4} className="mb-3">
-        <FormControl fullWidth>
-          <SelectInput
-            name="customer"
-            label="Customer"
-            placeholder="Select Customer"
-            options={makeOptionArray(customers, 'id', 'name')}
-            onStateChange={setActiveCustomer}
-          />
-        </FormControl>
-      </Grid>
+    <div className="tw-grid tw-grid-cols-3 tw-gap-4 max-md:tw-grid-cols-2 max-sm:tw-col-1">
+      <SelectInput
+        name="customer"
+        label="Select Customer"
+        options={makeOptionArray(customers, 'id', 'name')}
+        onStateChange={setActiveCustomer}
+      />
 
-      <Grid item xs={12} md={6} lg={4} className="mb-3">
-        <FormControl fullWidth>
-          <SelectInput
-            name="buyer"
-            label="Buyer"
-            placeholder="Select Buyer"
-            options={makeOptionArray(buyers, 'id', 'name')}
-          />
-        </FormControl>
-      </Grid>
+      <SelectInput
+        name="buyer"
+        label="Select Buyer"
+        options={makeOptionArray(buyers, 'id', 'name')}
+      />
 
-      <Grid item xs={12} md={6} lg={4} className="mb-3">
-        <TextInput
-          name="order_number"
-          label="Order Number*"
-          placeholder="Enter"
-        />
-      </Grid>
+      <TextInput
+        name="order_number"
+        label="Order Number"
+        placeholder="Enter Text ..."
+      />
 
-      <Grid item xs={12} md={6} lg={4} className="mb-3">
-        <DateInput
-          name="order_date"
-          label="Order Date*"
-          placeholder="Set order date"
-        />
-      </Grid>
+      <DateInput
+        name="order_date"
+        label="Order Date*"
+        placeholder="Set order date"
+      />
 
-      <Grid item xs={12} md={6} lg={4} className="mb-3">
-        <DateInput
-          name="delivery_date"
-          label="Delivery Date*"
-          placeholder="Set delivery date"
-        />
-      </Grid>
+      <DateInput
+        name="delivery_date"
+        label="Delivery Date*"
+        placeholder="Set delivery date"
+      />
 
-      <Grid item xs={12} md={6} lg={4} className="mb-3">
-        <TextInput
-          type="time"
-          name="delivery_time"
-          label="Delivery Time*"
-          placeholder="Enter"
-        />
-      </Grid>
-    </Grid>
+      <TextInput
+        type="time"
+        name="delivery_time"
+        label="Delivery Time*"
+        placeholder="Enter"
+      />
+    </div>
   );
 };
 
