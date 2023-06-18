@@ -1,7 +1,7 @@
-import React from "react";
-
-const AuthLayout = (props: any) => {
-  return <div>{props.children}</div>;
-};
-
-export default AuthLayout;
+export default function AuthLayout({
+  children, // will be a page or nested layout
+}: {
+  children: React.ReactNode;
+}) {
+  return <>{children}</>;
+}

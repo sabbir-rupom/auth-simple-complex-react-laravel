@@ -90,10 +90,12 @@ const FormOrderProducts = () => {
 
         <Button
           type="button"
+          severity='success'
           className="mt-4 w-full lg:w-auto"
           onClick={addNewProduct}
           icon="pi pi-plus-circle"
           label="Add Product"
+          size='small'
         />
       </Fieldset>
     </div>
