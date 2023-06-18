@@ -1,6 +1,8 @@
 import axios from "axios";
 import { API_URL } from "@/config/constants";
 import { getUserToken } from "@/app/(auth)/services/AuthService";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export interface ResponseInterface {
   data: object | null;
@@ -13,11 +15,13 @@ export const callApi = async (
   method: string = "get",
   data: object = {},
   hasFile: boolean = false,
+  authToken?: null
 ) => {
-  let api = axios.create({
+  const session = await getServerSession(authOptions);
+  const api = axios.create({
     baseURL: API_URL,
     headers: {
-      Authorization: `Bearer ${getUserToken()}`,
+      Authorization: `Bearer ${session?.user.token ?? authToken ?? getUserToken()}`,
       Accept: "application/json",
       "Content-Type": hasFile ? "multipart/form-data" : "application/json",
       // 'X-Requested-With': 'XMLHttpRequest',
