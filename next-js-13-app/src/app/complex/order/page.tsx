@@ -12,10 +12,10 @@ const Complex = () => {
     <>
       <PageBreadcrumb
         title="Order List"
-        items={[{ label: 'Complex' }, { label: 'Orders' }]}
+        items={[{ label: 'Complex', url: '/complex' }, { label: 'Order', url: '/complex/order' }]}
         icon={{ icon: 'pi pi-home', url: '/' }}
       />
-      <div className='tw-container mx-auto'>
+      <div className='tw-container mx-auto tw-px-6'>
         <OrderSearch />
         <div className='tw-my-5'></div>
         <OrderList />

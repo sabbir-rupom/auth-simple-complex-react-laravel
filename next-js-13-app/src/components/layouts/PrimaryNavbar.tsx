@@ -20,7 +20,7 @@ const PrimaryNavbar = ({ user }: { user?: any }) => {
       <div className="tw-px-3 tw-flex md:tw-flex-none tw-align-middle tw-justify-center md:tw-hidden ">
         Menu Toggle
       </div>
-      <div className="tw-px-3 tw-flex tw-flex-1 tw-align-middle tw-justify-end">
+      <div className="tw-flex tw-flex-1 tw-align-middle tw-justify-end">
         <ul className="navbar">
           <li className="nav-item">
             <Link href={`/simple`}>Simple</Link>

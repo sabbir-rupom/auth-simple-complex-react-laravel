@@ -20,7 +20,7 @@ export default function PageBreadcrumb({ items, icon = false, title }: Props) {
   return (
     <>
       <div className="tw-flex tw-justify-between tw-w-full tw-my-4 tw-container tw-mx-auto px-2">
-        <div className="tw-font-bold tw-text-xl tw-mt-2">{title}</div>
+        <div className="tw-font-bold tw-text-xl tw-mt-2 tw-ml-3">{title}</div>
         <div className="tw-pe-2 md:tw-pe-4">
           <BreadCrumb model={items} home={icon} />
         </div>
