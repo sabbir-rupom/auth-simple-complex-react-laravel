@@ -13,7 +13,7 @@ const OrderForm = ({params}:any) => {
     <>
       <PageBreadcrumb
         title="Order Form"
-        items={[{ label: 'Complex' }, { label: 'Orders' }, { label: 'Create' }]}
+        items={[{ label: 'Complex' }, { label: 'Orders' }, { label: `${id > 0 ? 'Edit' : 'Create'}` }]}
         icon={{ icon: 'pi pi-home', url: '/' }}
       />
 

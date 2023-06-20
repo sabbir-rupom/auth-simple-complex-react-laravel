@@ -1,8 +1,9 @@
-import axios from "axios";
-import { API_URL } from "@/config/constants";
-import { getUserToken } from "@/app/(auth)/services/AuthService";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import axios from 'axios';
+import { API_URL } from '@/config/constants';
+import { getUserToken } from '@/app/(auth)/services/AuthService';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { getSession } from 'next-auth/react';
 
 export interface ResponseInterface {
   data: object | null;
@@ -12,18 +13,20 @@ export interface ResponseInterface {
 
 export const callApi = async (
   route: string,
-  method: string = "get",
+  method: string = 'get',
   data: object = {},
   hasFile: boolean = false,
-  authToken?: null
+  authToken?: null,
 ) => {
-  const session = await getServerSession(authOptions);
+  const session = await getSession();
   const api = axios.create({
     baseURL: API_URL,
     headers: {
-      Authorization: `Bearer ${session?.user.token ?? authToken ?? getUserToken()}`,
-      Accept: "application/json",
-      "Content-Type": hasFile ? "multipart/form-data" : "application/json",
+      Authorization: `Bearer ${
+        authToken ?? session?.user.token ?? getUserToken()
+      }`,
+      Accept: 'application/json',
+      'Content-Type': hasFile ? 'multipart/form-data' : 'application/json',
       // 'X-Requested-With': 'XMLHttpRequest',
     },
   });
@@ -31,11 +34,11 @@ export const callApi = async (
   let response = null;
 
   try {
-    if (method.toLowerCase() === "get") {
+    if (method.toLowerCase() === 'get') {
       response = await api.get(route, data);
-    } else if (method.toLowerCase() === "put") {
+    } else if (method.toLowerCase() === 'put') {
       response = await api.put(route, data);
-    } else if (method.toLowerCase() === "delete") {
+    } else if (method.toLowerCase() === 'delete') {
       response = await api.delete(route, data);
     } else {
       response = await api.post(route, data);
@@ -56,14 +59,14 @@ export const axiosData = (response: any): ResponseInterface => {
     } else {
       return {
         data: null,
-        message: resData.message ?? "Response error",
+        message: resData.message ?? 'Response error',
         result: false,
       };
     }
   } else {
     return {
       data: null,
-      message: "Response error",
+      message: 'Response error',
       result: false,
     };
   }
