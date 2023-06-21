@@ -52,7 +52,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({
         separatorIcon={
           breadcrumbItems.length > 0 ? "pi pi-chevron-right" : "pi pi-home"
         }
-        className={className ? className : "tw-max-w-min tw-ml-auto"}
+        className={className ? className : "max-w-min ml-auto"}
         {...rest}
       />
       {slug && (

@@ -44,7 +44,7 @@ const OrderBasicForm = ({ customerChange }: { customerChange: Function }) => {
   }, [customers, buyers]);
 
   return (
-    <div className="tw-grid tw-grid-cols-3 tw-gap-4 max-md:tw-grid-cols-2 max-sm:tw-col-1">
+    <div className="grid grid-cols-3 gap-4 max-md:grid-cols-2 max-sm:col-1">
       <SelectInput
         name="customer"
         label="Select Customer"

@@ -76,7 +76,7 @@ const RegistrationForm: React.FC<{}> = () => {
       noValidate
       autoComplete="off"
       onSubmit={handleSubmit(regFormSubmit)}
-      className="tw-mt-1 tw-w-full tw-flex tw-flex-col"
+      className="mt-1 w-full flex flex-col"
     >
       <Controller
         defaultValue={''}
@@ -85,9 +85,7 @@ const RegistrationForm: React.FC<{}> = () => {
         render={({ field: { onChange, value, ...rest } }) => (
           <>
             <label
-              className={
-                'tw-font-bold pb-1' + (errors['name'] ? `p-error` : '')
-              }
+              className={'font-bold pb-1' + (errors['name'] ? `p-error` : '')}
             >
               Full Name
             </label>
@@ -113,9 +111,7 @@ const RegistrationForm: React.FC<{}> = () => {
         render={({ field: { onChange, value, ...rest } }) => (
           <>
             <label
-              className={
-                'tw-font-bold pb-1' + (errors['email'] ? `p-error` : '')
-              }
+              className={'font-bold pb-1' + (errors['email'] ? `p-error` : '')}
             >
               User Email
             </label>
@@ -143,7 +139,7 @@ const RegistrationForm: React.FC<{}> = () => {
           <>
             <label
               className={
-                'tw-font-bold pb-1' + (errors['password'] ? `p-error` : '')
+                'font-bold pb-1' + (errors['password'] ? `p-error` : '')
               }
             >
               Password
@@ -172,8 +168,7 @@ const RegistrationForm: React.FC<{}> = () => {
           <>
             <label
               className={
-                'tw-font-bold pb-1' +
-                (errors['confirm_password'] ? `p-error` : '')
+                'font-bold pb-1' + (errors['confirm_password'] ? `p-error` : '')
               }
             >
               Confirm Password
@@ -197,6 +192,7 @@ const RegistrationForm: React.FC<{}> = () => {
       />
 
       <Button
+        severity="info"
         type="submit"
         label="Register"
         icon={`${isLoading ? 'pi pi-spin pi-spinner' : 'pi pi-user-plus'}`}

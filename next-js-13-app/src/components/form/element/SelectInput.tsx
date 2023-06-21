@@ -24,10 +24,10 @@ export const SelectInput = (props: SelectInputProps) => {
   });
 
   return (
-    <div className="tw-w-full tw-flex tw-flex-col tw-mb-3">
+    <div className="w-full flex flex-col mb-3">
       <label
         className={
-          'tw-font-bold pb-1' + (controller.fieldState.error ? `p-error` : '')
+          'font-bold pb-1' + (controller.fieldState.error ? `p-error` : '')
         }
       >
         {props.label}

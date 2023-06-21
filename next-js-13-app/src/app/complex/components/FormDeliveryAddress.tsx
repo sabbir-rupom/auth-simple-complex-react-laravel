@@ -40,8 +40,8 @@ const FormDeliveryAddress = ({ locations }: any) => {
 
   return (
     <>
-      <div className="tw-flex">
-        <div className="tw-grow">
+      <div className="flex">
+        <div className="grow">
           <TextInput
             name="customer_address"
             label="Delivery Address*"
@@ -50,7 +50,7 @@ const FormDeliveryAddress = ({ locations }: any) => {
           />
         </div>
         {locations.length > 0 && (
-          <div className="tw-ml-2 tw-mt-7">
+          <div className="ml-2 mt-7">
             <Button
               type="button"
               severity="secondary"
@@ -70,14 +70,14 @@ const FormDeliveryAddress = ({ locations }: any) => {
       >
         {locations &&
           locations.map((text: string, key: number) => (
-            <div key={key} className="tw-flex tw-items-center tw-mb-3">
+            <div key={key} className="flex items-center mb-3">
               <RadioButton
                 name="radio_input"
                 value={text}
                 onChange={(e: any) => setAddress(e.value)}
                 checked={address === text}
               />
-              <label className="tw-ml-2">{text}</label>
+              <label className="ml-2">{text}</label>
             </div>
           ))}
       </Dialog>

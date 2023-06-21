@@ -23,10 +23,10 @@ export const TextareaInput = (props: InputProps) => {
   });
 
   return (
-    <div className="tw-w-full tw-flex tw-flex-col tw-mb-3">
+    <div className="w-full flex flex-col mb-3">
       <label
         className={
-          'tw-font-bold pb-1' + (controller.fieldState.error ? `p-error` : '')
+          'font-bold pb-1' + (controller.fieldState.error ? `p-error` : '')
         }
       >
         {props.label}
@@ -39,7 +39,7 @@ export const TextareaInput = (props: InputProps) => {
         onChange={controller.field.onChange}
         onBlur={controller.field.onBlur}
         rows={5}
-        className={`tw-w-full ${controller.fieldState.error ? `p-invalid` : ''}`}
+        className={`w-full ${controller.fieldState.error ? `p-invalid` : ''}`}
       />
       <small className="p-error">
         {controller.fieldState.error?.message ?? ''}

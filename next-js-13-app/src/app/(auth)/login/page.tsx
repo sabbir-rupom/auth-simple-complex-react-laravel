@@ -10,15 +10,15 @@ const Login: NextPage = () => {
   return (
     <section className="page-content">
       <div className="auth-container">
-        <h1 className="tw-font-bold my-3 tw-text-2xl">Sign in</h1>
+        <h1 className="font-bold my-3 text-2xl">Sign in</h1>
 
         <LoginForm />
 
-        <div className="my-5 tw-text-center">
+        <div className="my-5 text-center">
           Don't have an account?
           <Link
             href="/register"
-            className="text-primary tw-no-underline hover:tw-underline"
+            className="text-primary no-underline hover:underline"
           >
             {' Sign Up'}
           </Link>

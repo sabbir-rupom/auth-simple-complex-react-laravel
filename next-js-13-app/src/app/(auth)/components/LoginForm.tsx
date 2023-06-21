@@ -56,7 +56,7 @@ const LoginForm: React.FC<{}> = () => {
       noValidate
       autoComplete="off"
       onSubmit={handleSubmit(loginFormSubmit)}
-      className="tw-mt-1 tw-w-full tw-flex tw-flex-col"
+      className="mt-1 w-full flex flex-col"
     >
       <Controller
         defaultValue={''}
@@ -66,7 +66,7 @@ const LoginForm: React.FC<{}> = () => {
           <>
             <label
               className={
-                'tw-font-bold pb-1' + (errors['email'] ? `p-error` : '')
+                'font-bold pb-1' + (errors['email'] ? `p-error` : '')
               }
             >
               User Email
@@ -95,7 +95,7 @@ const LoginForm: React.FC<{}> = () => {
           <>
             <label
               className={
-                'tw-font-bold pb-1' + (errors['password'] ? `p-error` : '')
+                'font-bold pb-1' + (errors['password'] ? `p-error` : '')
               }
             >
               Password
@@ -131,6 +131,7 @@ const LoginForm: React.FC<{}> = () => {
       />
 
       <Button
+        severity='info'
         type="submit"
         label="Sign In"
         icon={`${isLoading ? 'pi pi-spin pi-spinner' : 'pi pi-sign-in'}`}

@@ -15,7 +15,7 @@ export const CheckboxInput = (props: InputProps) => {
   });
 
   return (
-    <div className="tw-flex tw-items-center tw-mb-3">
+    <div className="flex items-center mb-3">
       <Checkbox
         ref={controller.field.ref}
         name={controller.field.name}

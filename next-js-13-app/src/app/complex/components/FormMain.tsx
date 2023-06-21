@@ -167,10 +167,10 @@ const FormMain = ({ orderId }: { orderId: number }) => {
 
           <OrderBasicForm customerChange={handleCustomerChange} />
           <FormDeliveryAddress locations={customerLocations} />
-          <FormOrderProducts /> 
+          <FormOrderProducts />
 
-          <div className="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-4">
-            <div className="tw-mb-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="mb-3">
               <FileInput
                 name="attachment"
                 label="Attachment"
@@ -184,22 +184,24 @@ const FormMain = ({ orderId }: { orderId: number }) => {
                 </>
               )}
             </div>
-            <div className="tw-mb-3">
+            <div className="mb-3">
               <TextareaInput name="remark" label="Remark" placeholder="Enter" />
             </div>
-            <div className="tw-mb-3 tw-col-span-3">
-              <div className="flex-button-container tw-w-full md:tw-w-1/2 md:tw-mx-auto">
+            <div className="mb-3 col-span-3">
+              <div className="flex-button-container w-full md:w-1/2 md:mx-auto">
                 <Button
+                severity="info"
+                size="large"
                   type="submit"
                   label="Submit"
-                  severity="success"
                   icon={`${
                     isLoading ? 'pi pi-spin pi-spinner' : 'pi pi-upload'
                   }`}
                   disabled={isLoading}
-                />
+                  />
 
                 <Button
+                  size="large"
                   type="button"
                   label="Reset"
                   severity="danger"

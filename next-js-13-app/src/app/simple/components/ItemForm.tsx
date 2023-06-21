@@ -77,10 +77,10 @@ const ItemForm = ({ heads }: Props) => {
           noValidate
           autoComplete="off"
           onSubmit={handleSubmit(itemFormSubmit)}
-          className="tw-mt-1"
+          className="mt-1"
         >
           <input type="hidden" name="id" value={itemInput.id} />
-          <div className="tw-flex tw-flex-col">
+          <div className="flex flex-col">
             <Controller
               name="name"
               control={control}
@@ -89,7 +89,7 @@ const ItemForm = ({ heads }: Props) => {
                 <>
                   <label
                     className={
-                      'tw-font-bold pb-1' + (errors['name'] ? `p-error` : '')
+                      'font-bold pb-1' + (errors['name'] ? `p-error` : '')
                     }
                   >
                     Item name
@@ -117,7 +117,7 @@ const ItemForm = ({ heads }: Props) => {
                 <>
                   <label
                     className={
-                      'tw-font-bold pb-1' + (errors['code'] ? `p-error` : '')
+                      'font-bold pb-1' + (errors['code'] ? `p-error` : '')
                     }
                   >
                     Item Code
@@ -144,7 +144,7 @@ const ItemForm = ({ heads }: Props) => {
                 <>
                   <label
                     className={
-                      'tw-font-bold pb-1' + (errors['code'] ? `p-error` : '')
+                      'font-bold pb-1' + (errors['code'] ? `p-error` : '')
                     }
                   >
                     Item Head
@@ -182,6 +182,7 @@ const ItemForm = ({ heads }: Props) => {
           </div>
           <div className="flex-button-container">
             <Button
+              severity="info"
               type="submit"
               label="Submit"
               icon={`${isLoading ? 'pi pi-spin pi-spinner' : 'pi pi-upload'}`}
@@ -191,7 +192,7 @@ const ItemForm = ({ heads }: Props) => {
               type="button"
               label="Reset"
               severity="danger"
-              className="tw-ml-4"
+              className="ml-4"
               onClick={() => reset(defaultItemInput)}
             />
           </div>

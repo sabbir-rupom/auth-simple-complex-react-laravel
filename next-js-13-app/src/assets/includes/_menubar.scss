@@ -1,7 +1,7 @@
 header {
   nav {
     .logo {
-      @apply tw-flex tw-align-middle tw-justify-center;
+      @apply flex align-middle justify-center;
     }
     .navbar {
       list-style-type: none;

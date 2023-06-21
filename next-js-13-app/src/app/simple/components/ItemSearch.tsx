@@ -27,7 +27,7 @@ const ItemSearch = () => {
   const items: any = useSelector<object[]>((state: any) => state.item.items);
 
   return (
-    <div className="justify-between md:flex tw-mb-3">
+    <div className="justify-between md:flex mb-3">
       <div className="mt-3 w-full md:w-1/2">
         Showing All Items ({items.length})
       </div>
@@ -36,7 +36,7 @@ const ItemSearch = () => {
           ref={searchField}
           onKeyUp={handleSearch}
           placeholder="Search item ..."
-          className='tw-w-full'
+          className='w-full'
         />
       </div>
     </div>

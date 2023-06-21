@@ -8,19 +8,19 @@ import { Button } from 'primereact/button';
 const PrimaryNavbar = ({ user }: { user?: any }) => {
   const { push } = useRouter();
   return (
-    <nav className="tw-container tw-flex mx-auto">
+    <nav className="container flex mx-auto">
       <div className="logo">
         <Link
-          className="tw-px-3 tw-text-4xl tw-font-bold tw-no-underline tw-text-white"
+          className="px-3 text-4xl font-bold no-underline text-white"
           href="/"
         >
           Logo
         </Link>
       </div>
-      <div className="tw-px-3 tw-flex md:tw-flex-none tw-align-middle tw-justify-center md:tw-hidden ">
+      <div className="px-3 flex md:flex-none align-middle justify-center md:hidden ">
         Menu Toggle
       </div>
-      <div className="tw-flex tw-flex-1 tw-align-middle tw-justify-end">
+      <div className="flex flex-1 align-middle justify-end">
         <ul className="navbar">
           <li className="nav-item">
             <Link href={`/simple`}>Simple</Link>

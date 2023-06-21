@@ -1,5 +1,5 @@
-import '@/assets/global.scss';
 import '@/assets/primereact.scss';
+import '@/assets/global.scss';
 import BaseProvider from '@/components/BaseProvider';
 import MasterLayout from '@/components/layouts/MasterLayout';
 import FontRoboto from '@/config/font';

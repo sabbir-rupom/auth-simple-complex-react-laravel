@@ -38,7 +38,7 @@ export default function Home() {
       </h4>
 
       <div className="p-5 text-center">
-        <Button type="button" label="Show Toast" onClick={handleToast} />
+        <Button severity='help' type="button" label="Show Toast" onClick={handleToast} />
       </div>
 
       <div className="card flex justify-content-center">

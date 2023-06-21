@@ -19,11 +19,11 @@ const Simple = async () => {
         items={[{ label: 'Simple' }]}
         icon={{ icon: 'pi pi-home', url: '/' }}
       />
-      <div className="tw-container mx-auto">
-        <div className="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-4">
+      <div className="container mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <ItemForm heads={heads} />
 
-          <div className="card tw-border tw-p-4 tw-rounded-md">
+          <div className="card border p-4 rounded-md">
             <ItemSearch />
             <ItemTable heads={heads} />
           </div>

@@ -69,7 +69,7 @@ const FormOrderProducts = () => {
   // Prepare products array: END
 
   return (
-    <div className="card tw-my-5">
+    <div className="card my-5">
       <Fieldset legend="Order Products">
         {orderProductsField.fields.map((field, index) => (
           <FormOrderProductEntry
@@ -83,7 +83,7 @@ const FormOrderProducts = () => {
         ))}
 
         {form.formState.errors && form.formState.errors.order_products ? (
-          <small className="tw-text-red-500 tw-text-xs">
+          <small className="text-red-500 text-xs">
             {form.formState.errors.order_products.message}
           </small>
         ) : null}
@@ -91,7 +91,7 @@ const FormOrderProducts = () => {
         <Button
           type="button"
           severity='success'
-          className="mt-4 w-full lg:w-auto"
+          className="w-full lg:w-auto"
           onClick={addNewProduct}
           icon="pi pi-plus-circle"
           label="Add Product"

@@ -5,5 +5,9 @@ body, html {
 }
 
 .p-fieldset-legend {
-  @apply tw-ms-4
+  @apply ms-4
+}
+
+button, [type='button'] {
+  @apply bg-blue-600;
 }

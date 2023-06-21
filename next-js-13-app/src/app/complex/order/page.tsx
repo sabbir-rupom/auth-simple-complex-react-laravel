@@ -15,9 +15,9 @@ const Complex = () => {
         items={[{ label: 'Complex', url: '/complex' }, { label: 'Order', url: '/complex/order' }]}
         icon={{ icon: 'pi pi-home', url: '/' }}
       />
-      <div className='tw-container mx-auto tw-px-6'>
+      <div className='container mx-auto px-6'>
         <OrderSearch />
-        <div className='tw-my-5'></div>
+        <div className='my-5'></div>
         <OrderList />
       </div>
     </>

@@ -19,9 +19,9 @@ export default function PageBreadcrumb({ items, icon = false, title }: Props) {
 
   return (
     <>
-      <div className="tw-flex tw-justify-between tw-w-full tw-my-4 tw-container tw-mx-auto px-2">
-        <div className="tw-font-bold tw-text-xl tw-mt-2 tw-ml-3">{title}</div>
-        <div className="tw-pe-2 md:tw-pe-4">
+      <div className="flex justify-between w-full my-4 container mx-auto px-2">
+        <div className="font-bold text-xl mt-2 ml-3">{title}</div>
+        <div className="pe-2 md:pe-4">
           <BreadCrumb model={items} home={icon} />
         </div>
       </div>

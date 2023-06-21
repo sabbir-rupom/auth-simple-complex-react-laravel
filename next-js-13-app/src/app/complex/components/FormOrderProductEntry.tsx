@@ -74,8 +74,8 @@ const FormOrderProductEntry = ({
   };
 
   return (
-    <div className="tw-grid tw-grid-cols-12 tw-gap-3">
-      <div className="tw-pr-0 md:tw-pr-2 tw-col-span-12 md:tw-col-span-6 lg:tw-col-span-2">
+    <div className="grid grid-cols-12 gap-3 mb-3">
+      <div className="pr-0 md:pr-2 col-span-12 md:col-span-6 lg:col-span-2">
         <Controller
           name={`order_products[${index}].product`}
           control={control}
@@ -83,7 +83,7 @@ const FormOrderProductEntry = ({
             <>
               <label
                 className={
-                  'tw-font-bold tw-mb-3' + (fieldState.error ? `p-error` : '')
+                  'font-bold mb-3' + (fieldState.error ? `p-error` : '')
                 }
               >
                 Product
@@ -98,7 +98,7 @@ const FormOrderProductEntry = ({
                   onChange(e.target.value);
                 }}
                 {...rest}
-                className={`tw-w-full ${fieldState.error ? `p-invalid` : ''}`}
+                className={`w-full ${fieldState.error ? `p-invalid` : ''}`}
               />
               <small className="p-error mb-3">
                 {fieldState.error?.message ?? ''}
@@ -108,7 +108,7 @@ const FormOrderProductEntry = ({
         />
       </div>
 
-      <div className="tw-pr-0 md:tw-pr-2 tw-col-span-12 md:tw-col-span-6 lg:tw-col-span-2">
+      <div className="pr-0 md:pr-2 col-span-12 md:col-span-6 lg:col-span-2">
         <SelectInput
           name={`order_products[${index}].product_category`}
           label="Product Category"
@@ -117,7 +117,7 @@ const FormOrderProductEntry = ({
         />
       </div>
 
-      <div className="tw-pr-0 md:tw-pr-2 tw-col-span-12 md:tw-col-span-6 lg:tw-col-span-2">
+      <div className="pr-0 md:pr-2 col-span-12 md:col-span-6 lg:col-span-2">
         <SelectInput
           name={`order_products[${index}].product_unit`}
           label="Product Unit"
@@ -126,7 +126,7 @@ const FormOrderProductEntry = ({
         />
       </div>
 
-      <div className="tw-col-span-12 md:tw-col-span-6 lg:tw-col-span-2">
+      <div className="col-span-12 md:col-span-6 lg:col-span-2">
         <TextInput
           name={`order_products[${index}].unit_price`}
           label="Unit Price*"
@@ -134,7 +134,7 @@ const FormOrderProductEntry = ({
         />
       </div>
 
-      <div className="tw-col-span-12 md:tw-col-span-6 lg:tw-col-span-1">
+      <div className="col-span-12 md:col-span-6 lg:col-span-1">
         <TextInput
           name={`order_products[${index}].quantity`}
           label="Quantity*"
@@ -143,47 +143,23 @@ const FormOrderProductEntry = ({
         />
       </div>
 
-      <div className="tw-col-span-12 md:tw-col-span-6 lg:tw-col-span-2">
-        <label className='tw-font-bold'>Total Price</label>
-        <div className="tw-border tw-border-c tw-px-3 tw-py-[0.95rem] tw-rounded">
+      <div className="col-span-12 md:col-span-6 lg:col-span-2">
+        <label className='font-bold'>Total Price</label>
+        <div className="border border-c px-3 py-[0.95rem] rounded">
           {basePrice && quantity ? basePrice * quantity : 0}
         </div>
       </div>
 
-      <div className="tw-col-span-12 md:tw-col-span-6 lg:tw-col-span-1 tw-pt-6">
+      <div className="col-span-12 md:col-span-6 lg:col-span-1 pt-4">
         <Button
           severity="danger"
           disabled={disableRemoveButton}
           onClick={() => onRemove(index)}
-          className="tw-w-full lg:tw-w-auto"
-        >
-          Remove
-        </Button>
+          className="w-full lg:w-auto"
+          label='Remove'
+        />
       </div>
     </div>
-    // <Grid container direction="row">
-    //   <Grid item lg={2} md={6} xs={12}>
-    //   </Grid>
-    //   <Grid item lg={2} md={6} xs={12}>
-    //   </Grid>
-    //   <Grid item lg={2} md={6} xs={12}>
-    //   </Grid>
-    //   <Grid item xs={12} md={6} lg={2} className="pr-0 md:pr-2 mb-3">
-    //   </Grid>
-    //   <Grid item xs={12} md={6} lg={1} className="pr-0 md:pr-2 mb-3">
-    //   </Grid>
-    //   <Grid item xs={12} md={6} lg={2} className="pr-0 md:pr-2 mb-3">
-    //   </Grid>
-    //   <Grid
-    //     item
-    //     xs={12}
-    //     md={12}
-    //     lg={1}
-    //     className="text-center lg:text-right pb-5 lg:pb-0 mb-3 lg:mb-0"
-    //   >
-
-    //   </Grid>
-    // </Grid>
   );
 };
 

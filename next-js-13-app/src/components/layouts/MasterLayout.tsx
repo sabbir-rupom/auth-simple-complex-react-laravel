@@ -18,13 +18,13 @@ const MasterLayout = ({ children }: Props) => {
 
   return (
     <>
-      <header className="tw-bg-blue-600 tw-p-3">
+      <header className="bg-blue-600 p-3">
         <PrimaryNavbar user={session?.user} />
       </header>
       <main className="layout-wrapper">{children}</main>
-      <footer className='mt-4 py-4 tw-border-t tw-bg-slate-100'>
+      <footer className='mt-4 py-4 border-t bg-slate-100'>
         <ToastMessage />
-        <p className="tw-text-center">Sabbir Hossain © Copyright 2023</p>
+        <p className="text-center">Sabbir Hossain © Copyright 2023</p>
       </footer>
     </>
   );

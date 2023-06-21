@@ -102,15 +102,14 @@ const OrderSearch = () => {
 
   return (
     <>
-      <div className="card tw-border tw-p-4 tw-rounded-md mb-3">
-        <div className="tw-flex tw-justify-between mb-5">
+      <div className="card border p-4 rounded-md mb-3">
+        <div className="flex justify-between mb-5">
           <h3 className="text-2xl font-semibold">Filter Order(s)</h3>
           <Link
             href={`/complex/order/0`}
-            className="tw-bg-green-600 tw-rounded-lg tw-py-3 tw-px-5 tw-text-white"
+            className="bg-green-600 rounded-lg py-3 px-5 text-white"
           >
-            <i className="pi pi-plus tw-mr-2"></i>
-
+            <i className="pi pi-plus mr-2"></i>
             Add New
           </Link>
         </div>
@@ -120,7 +119,7 @@ const OrderSearch = () => {
             autoComplete="off"
             onSubmit={form.handleSubmit(filterFormSubmit)}
           >
-            <div className="tw-grid tw-grid-cols-4 tw-gap-4 max-md:tw-grid-cols-2 max-sm:tw-col-1">
+            <div className="grid grid-cols-4 gap-4 max-md:grid-cols-2 max-sm:col-1">
               <SelectInput
                 name="customer"
                 label="Select Customer"
@@ -151,9 +150,10 @@ const OrderSearch = () => {
               /> */}
             </div>
 
-            <div className="tw-flex tw-justify-center">
+            <div className="flex justify-center">
               <div>
                 <Button
+                  severity="help"
                   type="submit"
                   label="Search"
                   icon={`pr-2 ${
@@ -161,7 +161,7 @@ const OrderSearch = () => {
                   }`}
                 />
               </div>
-              <div className="tw-ml-2">
+              <div className="ml-2">
                 <Button
                   severity="warning"
                   type="button"

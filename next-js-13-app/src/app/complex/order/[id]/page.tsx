@@ -17,7 +17,7 @@ const OrderForm = ({params}:any) => {
         icon={{ icon: 'pi pi-home', url: '/' }}
       />
 
-      <div className="tw-container mx-auto">
+      <div className="container mx-auto">
         <FormMain orderId={id} />
       </div>
     </>
