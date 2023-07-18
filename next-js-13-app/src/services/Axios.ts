@@ -1,8 +1,6 @@
 import axios from 'axios';
 import { API_URL } from '@/config/constants';
 import { getUserToken } from '@/app/(auth)/services/AuthService';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { getSession } from 'next-auth/react';
 
 export interface ResponseInterface {
@@ -35,7 +33,9 @@ export const callApi = async (
 
   try {
     if (method.toLowerCase() === 'get') {
-      response = await api.get(route, data);
+      response = await api.get(route, {
+        params: data,
+      });
     } else if (method.toLowerCase() === 'put') {
       response = await api.put(route, data);
     } else if (method.toLowerCase() === 'delete') {
