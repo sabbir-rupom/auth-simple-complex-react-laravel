@@ -17,8 +17,9 @@ use Illuminate\Support\Facades\Input;
 
 class OrderService
 {
-    function __construct(public $orderModel = new Order(), public array $errors = [])
+    function __construct(public $orderModel = null, public array $errors = [])
     {
+        $this->orderModel = $orderModel ?? new Order();
     }
 
     /**
