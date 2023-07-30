@@ -22,7 +22,9 @@ class LoginController extends Controller
     {
         $this->requestValidate($request);
 
-        if (!Auth::attempt($request->only(['email', 'password']))) {
+        $rememberMe = $request->has('remember_me') ? isTrue($request->remember_me) : false;
+
+        if (!Auth::attempt($request->only(['email', 'password']), $rememberMe)) {
             throw new HttpResponseException(
                 response()->json([
                     'result' => false,
